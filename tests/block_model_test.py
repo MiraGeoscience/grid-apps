@@ -35,8 +35,8 @@ def test_get_block_model(tmp_path: Path):
     assert (obj.origin["z"] + obj.z_cell_delimiters).max() == top
     assert obj.origin["x"] < -pads[0]
     assert obj.origin["y"] < -pads[2]
-    assert obj.u_cell_delimiters.max() >= locs[:, 0].max() + pads[1] + pads[0]
-    assert obj.v_cell_delimiters.max() >= locs[:, 1].max() + pads[3] + pads[2]
+    assert obj.u_cell_delimiters.max() >= locs[:, 0].max() + pads[1] + pads[0]  # type: ignore
+    assert obj.v_cell_delimiters.max() >= locs[:, 1].max() + pads[3] + pads[2]  # type: ignore
 
     # padding in the down direction should create locs at least as deep as the top
     # minus the sum of depth_core, h[2], and bottom padding.

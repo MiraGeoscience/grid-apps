@@ -31,7 +31,10 @@ def get_locations(workspace: Workspace, entity: UUID | Entity):
     locations = None
 
     if isinstance(entity, UUID):
-        entity = workspace.get_entity(entity)[0]
+        entity = workspace.get_entity(entity)[0]  # type: ignore
+    if not isinstance(entity, Entity):
+        raise ValueError("Entity must be a UUID or an Entity object")
+
     if hasattr(entity, "centroids"):
         locations = entity.centroids
     elif hasattr(entity, "vertices"):
@@ -41,4 +44,3 @@ def get_locations(workspace: Workspace, entity: UUID | Entity):
         locations = get_locations(workspace, entity.parent)
 
     return locations
-

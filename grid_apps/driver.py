@@ -8,13 +8,13 @@
 
 from __future__ import annotations
 
+import logging
 import sys
 
-import logging
 import numpy as np
 from discretize.utils import mesh_utils
-from geoapps_utils.driver.driver import BaseDriver
 from geoapps_utils.driver.data import BaseData
+from geoapps_utils.driver.driver import BaseDriver
 from geoh5py.objects import BlockModel, ObjectBase
 from geoh5py.shared.utils import fetch_active_workspace
 from geoh5py.ui_json import InputFile
@@ -22,6 +22,7 @@ from geoh5py.workspace import Workspace
 from scipy.spatial import cKDTree
 
 from grid_apps.utils import get_locations
+
 
 logger = logging.getLogger(__name__)
 
@@ -41,6 +42,7 @@ class BlockModelParams(BaseData):
     :param bottom_padding: Bottom padding.
     :param expansion_fact: Expansion factor for padding cells.
     """
+
     objects: ObjectBase
     new_grid: str
     cell_size_x: float
@@ -60,7 +62,6 @@ class BlockModelDriver(BaseDriver):
     _parameter_class = BlockModelParams
 
     def __init__(self, parameters: BlockModelParams | InputFile):
-
         if isinstance(parameters, InputFile):
             parameters = self._parameter_class.build(parameters)
 
@@ -115,11 +116,16 @@ class BlockModelDriver(BaseDriver):
         :return pad_sum: Top padding.
         """
         pad_sum = 0.0
+
+        if obj.z_cell_delimiters is None:
+            raise ValueError("Block model has no z_cell_delimiters.")
+
         for h in np.abs(np.diff(obj.z_cell_delimiters)):
             if h != core_z_cell_size:
                 pad_sum += h
             else:
-                return pad_sum
+                break
+        return pad_sum
 
     @staticmethod
     def get_block_model(
@@ -225,6 +231,9 @@ class BlockModelDriver(BaseDriver):
 
             # Try to recenter on nearest
             # Find nearest cells
+            if object_out.centroids is None:
+                raise ValueError("Block model has no centroids.")
+
             rad, ind = tree.query(object_out.centroids)
             ind_nn = np.argmin(rad)
 

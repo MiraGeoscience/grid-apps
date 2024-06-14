@@ -1,7 +1,7 @@
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 #  Copyright (c) 2022-2024 Mira Geoscience Ltd.                                '
 #                                                                              '
-#  This file is part of my-app package.                                        '
+#  This file is part of grid-apps package.                                        '
 #                                                                              '
 #  All rights reserved.                                                        '
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -13,7 +13,7 @@ from pathlib import Path
 
 import tomli as toml
 
-import my_app
+import grid_apps
 
 
 def get_version():
@@ -26,7 +26,7 @@ def get_version():
 
 
 def test_version_is_consistent():
-    assert my_app.__version__ == get_version()
+    assert grid_apps.__version__ == get_version()
 
 
 def test_version_is_semver():
@@ -36,4 +36,4 @@ def test_version_is_semver():
         r"(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?"
         r"(?:\+(?P<buildmetadata>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$"
     )
-    assert re.search(semver_re, my_app.__version__) is not None
+    assert re.search(semver_re, grid_apps.__version__) is not None

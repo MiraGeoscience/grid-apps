@@ -25,7 +25,7 @@ if "%1" == "-e" (
   shift
 )
 
-"%MIRA_CMD_RUNNER_DIR%\MambaEnvRunner.exe" --name my-app --install "%curdir%environments\py-3.10-win-64.conda.lock.yml" ^
+"%MIRA_CMD_RUNNER_DIR%\MambaEnvRunner.exe" --name grid-apps --install "%curdir%environments\py-3.10-win-64.conda.lock.yml" ^
   --run "pip install !EXTRA_PIP_INSTALL_OPTIONS! ." %1 %2 %3 %4 %5 %6 %7 %8 %9
 
 pause

@@ -1,42 +1,42 @@
 |coverage| |maintainability| |precommit_ci| |docs| |style| |version| |status| |pyversions|
 
 
-.. |docs| image:: https://readthedocs.org/projects/my-app/badge/
+.. |docs| image:: https://readthedocs.org/projects/grid-apps/badge/
     :alt: Documentation Status
-    :target: https://my-app.readthedocs.io/en/latest/?badge=latest
+    :target: https://grid-apps.readthedocs.io/en/latest/?badge=latest
 
-.. |coverage| image:: https://codecov.io/gh/MiraGeoscience/my-app/branch/develop/graph/badge.svg
+.. |coverage| image:: https://codecov.io/gh/MiraGeoscience/grid-apps/branch/develop/graph/badge.svg
     :alt: Code coverage
-    :target: https://codecov.io/gh/MiraGeoscience/my-app
+    :target: https://codecov.io/gh/MiraGeoscience/grid-apps
 
 .. |style| image:: https://img.shields.io/badge/code%20style-black-000000.svg
     :alt: Coding style
     :target: https://github.com/pf/black
 
-.. |version| image:: https://img.shields.io/pypi/v/my-app.svg
+.. |version| image:: https://img.shields.io/pypi/v/grid-apps.svg
     :alt: version on PyPI
-    :target: https://pypi.python.org/pypi/my-app/
+    :target: https://pypi.python.org/pypi/grid-apps/
 
-.. |status| image:: https://img.shields.io/pypi/status/my-app.svg
+.. |status| image:: https://img.shields.io/pypi/status/grid-apps.svg
     :alt: version status on PyPI
-    :target: https://pypi.python.org/pypi/my-app/
+    :target: https://pypi.python.org/pypi/grid-apps/
 
-.. |pyversions| image:: https://img.shields.io/pypi/pyversions/my-app.svg
+.. |pyversions| image:: https://img.shields.io/pypi/pyversions/grid-apps.svg
     :alt: Python versions
-    :target: https://pypi.python.org/pypi/my-app/
+    :target: https://pypi.python.org/pypi/grid-apps/
 
-.. |precommit_ci| image:: https://results.pre-commit.ci/badge/github/MiraGeoscience/my-app/develop.svg
+.. |precommit_ci| image:: https://results.pre-commit.ci/badge/github/MiraGeoscience/grid-apps/develop.svg
     :alt: pre-commit.ci status
-    :target: https://results.pre-commit.ci/latest/github/MiraGeoscience/my-app/develop
+    :target: https://results.pre-commit.ci/latest/github/MiraGeoscience/grid-apps/develop
 
 .. |maintainability| image:: https://api.codeclimate.com/v1/badges/_token_/maintainability
-   :target: https://codeclimate.com/github/MiraGeoscience/my-app/maintainability
+   :target: https://codeclimate.com/github/MiraGeoscience/grid-apps/maintainability
    :alt: Maintainability
 
 
-my-app: # TODO: SHORT DESCRIPTION
+grid-apps: # TODO: SHORT DESCRIPTION
 =========================================================================
-The **my-app** library # TODO: PACKAGE DESCRIPTION
+The **grid-apps** library # TODO: PACKAGE DESCRIPTION
 
 .. contents:: Table of Contents
    :local:
@@ -44,17 +44,17 @@ The **my-app** library # TODO: PACKAGE DESCRIPTION
 
 Documentation
 ^^^^^^^^^^^^^
-`Online documentation <https://my-app.readthedocs.io/en/latest/>`_
+`Online documentation <https://grid-apps.readthedocs.io/en/latest/>`_
 
 
 Installation
 ^^^^^^^^^^^^
-**my-app** is currently written for Python 3.10 or higher.
+**grid-apps** is currently written for Python 3.10 or higher.
 
 Install Conda
 -------------
 
-To install **my-app**, you need to install **Conda** first.
+To install **grid-apps**, you need to install **Conda** first.
 
 We recommend to install **Conda** using `miniforge`_.
 
@@ -63,7 +63,7 @@ We recommend to install **Conda** using `miniforge`_.
 Quick installation
 -------------------
 
-To install (or re-install) a conda environment to run **my-app**, simply execute the **install.bat** file.
+To install (or re-install) a conda environment to run **grid-apps**, simply execute the **install.bat** file.
 
 To install in editable mode, so that changes in the source code are immediately reflected in the
 running application, execute with the ``-e`` option: ``install.bat -e``.
@@ -105,19 +105,19 @@ files from a conda prompt::
 From PyPI
 ~~~~~~~~~
 
-To install the **my-app** package published on PyPI::
+To install the **grid-apps** package published on PyPI::
 
-    $ pip install --no-deps -U my-app
+    $ pip install --no-deps -U grid-apps
 
 From a Git tag or branch
 ~~~~~~~~~~~~~~~~~~~~~~~~
 If the revision of the package is not on PyPI yet, you can install it from a Git tag::
 
-    $ pip install --no-deps -U --force-reinstall https://github.com/MiraGeoscience/my-app/archive/refs/tags/TAG.zip
+    $ pip install --no-deps -U --force-reinstall https://github.com/MiraGeoscience/grid-apps/archive/refs/tags/TAG.zip
 
 Or to install the latest changes available on a given Git branch::
 
-    $ pip install --no-deps -U --force-reinstall https://github.com/MiraGeoscience/my-app/archive/refs/heads/BRANCH.zip
+    $ pip install --no-deps -U --force-reinstall https://github.com/MiraGeoscience/grid-apps/archive/refs/heads/BRANCH.zip
 
 .. note::
 
@@ -133,7 +133,7 @@ Or to install the latest changes available on a given Git branch::
 
 From a local copy of the sources
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-If you have a git clone of the package sources locally, you can install **my-app** from the
+If you have a git clone of the package sources locally, you can install **grid-apps** from the
 local copy of the sources. At the root of the sources, you will find a ``pyproject.toml`` file.
 
 Change directory to the root of the sources::
@@ -160,7 +160,7 @@ License
 
 Third Party Software
 ^^^^^^^^^^^^^^^^^^^^
-The my-app Software may provide links to third party libraries or code (collectively “Third Party Software”)
+The grid-apps Software may provide links to third party libraries or code (collectively “Third Party Software”)
 to implement various functions. Third Party Software does not comprise part of the Software.
 The use of Third Party Software is governed by the terms of such software license(s).
 Third Party Software notices and/or additional terms and conditions are located in the

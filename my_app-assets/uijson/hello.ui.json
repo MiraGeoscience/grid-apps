@@ -1,0 +1,11 @@
+{
+    "title": "my-app Hello World",
+    "conda_environment": "my_app",
+    "run_command": "my_app.commands.hello",
+    "name": {
+        "main": true,
+        "label": "Name",
+        "value": "World",
+        "tooltip": "Name to say hello to"
+    }
+}

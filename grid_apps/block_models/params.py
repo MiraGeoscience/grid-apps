@@ -6,12 +6,15 @@
 #  All rights reserved.                                                        '
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
+from __future__ import annotations
+
 from pathlib import Path
 from typing import ClassVar
-from pydantic import BaseModel, ConfigDict
-from geoh5py.objects import Points, CellObject
-from geoh5py.objects.grid_object import ObjectBase, GridObject
+
 from geoapps_utils.driver.data import BaseData
+from geoh5py.objects import CellObject, Points
+from geoh5py.objects.grid_object import GridObject
+from pydantic import BaseModel, ConfigDict
 
 from grid_apps import assets_path
 
@@ -39,7 +42,7 @@ class BlockModelCreationParameters(BaseModel):
     :param depth_core: Depth of core mesh below locs.
     :param horizontal_padding: Horizontal padding.
     :param bottom_padding: Bottom padding.
-    :param expansion_fact: Expansion factor for padding cells.
+    :param expansion_factor: Expansion factor for padding cells.
     """
 
     cell_size_x: float
@@ -48,7 +51,7 @@ class BlockModelCreationParameters(BaseModel):
     depth_core: float
     horizontal_padding: float
     bottom_padding: float
-    expansion_fact: float
+    expansion_factor: float
 
 
 class BlockModelOutputParameters(BaseModel):

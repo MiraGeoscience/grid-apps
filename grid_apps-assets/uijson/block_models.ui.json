@@ -5,7 +5,7 @@
     "run_command": "grid_apps.block_models.driver",
     "geoh5": "",
     "monitoring_directory": "",
-    "workspace_geoh5":  "",
+    "workspace_geoh5": "",
     "conda_environment_boolean": false,
     "objects": {
         "main": true,
@@ -19,12 +19,6 @@
             "{48f5054a-1c5c-4ca4-9048-80f36dc60a06}"
         ],
         "label": "Object",
-        "value": ""
-    },
-    "new_grid": {
-        "main": true,
-        "group": "Data",
-        "label": "Name",
         "value": ""
     },
     "cell_size_x": {
@@ -69,11 +63,11 @@
         "value": 0.0,
         "min": 0.0
     },
-    "expansion_fact": {
+    "expansion_factor": {
         "main": true,
         "group": "Grid",
         "label": "Expansion factor",
-        "value": 0.0
+        "value": 1.1
     },
     "export_as": {
         "group": "Output",

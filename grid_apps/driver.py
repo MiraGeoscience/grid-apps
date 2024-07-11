@@ -20,12 +20,13 @@ from geoh5py.objects import ObjectBase
 from geoh5py.shared.utils import fetch_active_workspace
 from geoh5py.ui_json import InputFile
 
+
 logger = logging.getLogger(__name__)
 
 
-class BaseSurfaceDriver(BaseDriver):
+class BaseBlockModelDriver(BaseDriver):
     """
-    Driver for the surface application.
+    Driver for the block model application.
 
     :param parameters: Application parameters.
     """

@@ -14,35 +14,86 @@ import sys
 import numpy as np
 from discretize.utils import mesh_utils
 from geoapps_utils.driver.data import BaseData
-from geoapps_utils.driver.driver import BaseDriver
-from geoh5py.objects import BlockModel, ObjectBase
+from geoh5py.objects import BlockModel
 from geoh5py.shared.utils import fetch_active_workspace
 from geoh5py.ui_json import InputFile
 from geoh5py.workspace import Workspace
 from scipy.spatial import cKDTree
 
+from grid_apps.block_models.params import BlockModelParameters
+from grid_apps.driver import BaseBlockModelDriver
 from grid_apps.utils import get_locations
 
 
 logger = logging.getLogger(__name__)
 
 
-
-
-
-class BlockModelDriver(BaseDriver):
+class BlockModelDriver(BaseBlockModelDriver):
     """
     Create BlockModel from BlockModelParams.
     """
 
-    _parameter_class = BlockModelParams
+    _parameter_class = BlockModelParameters
 
-    def __init__(self, parameters: BlockModelParams | InputFile):
+    def __init__(self, parameters: BlockModelParameters | InputFile):
         if isinstance(parameters, InputFile):
             parameters = self._parameter_class.build(parameters)
 
         # TODO need to re-type params in base class
         super().__init__(parameters)  # type: ignore
+
+    def make_grid(self):
+        """
+        Make block model object from input data.
+        """
+        with fetch_active_workspace(self.params.geoh5, mode="r+"):
+            xyz = get_locations(self.params.geoh5, self.params.source.objects)
+            if xyz is None:
+                raise ValueError("Input object has no centroids or vertices.")
+
+            tree = cKDTree(xyz)
+
+            # Find extent of grid
+            h = [
+                self.params.creation.cell_size_x,
+                self.params.creation.cell_size_y,
+                self.params.creation.cell_size_z,
+            ]
+            # pads: W, E, S, N, D, U
+            pads = [
+                self.params.creation.horizontal_padding,
+                self.params.creation.horizontal_padding,
+                self.params.creation.horizontal_padding,
+                self.params.creation.horizontal_padding,
+                self.params.creation.bottom_padding,
+                0.0,
+            ]
+
+            logger.info("Creating block model . . .")
+
+            object_out = BlockModelDriver.get_block_model(
+                workspace=self.params.geoh5,
+                name=self.params.output.export_as,
+                locs=xyz,
+                h=h,
+                depth_core=self.params.creation.depth_core,
+                pads=pads,
+                expansion_factor=self.params.creation.params.expansion_fact,
+            )
+
+            # Try to recenter on nearest
+            # Find nearest cells
+            if object_out.centroids is None:
+                raise ValueError("Block model has no centroids.")
+
+            rad, ind = tree.query(object_out.centroids)
+            ind_nn = np.argmin(rad)
+
+            d_xyz = object_out.centroids[ind_nn, :] - xyz[ind[ind_nn], :]
+
+            object_out.origin = np.r_[object_out.origin.tolist()] - d_xyz
+
+            self.update_monitoring_directory(object_out)
 
     @staticmethod
     def truncate_locs_depths(locs: np.ndarray, depth_core: float) -> np.ndarray:
@@ -78,8 +129,8 @@ class BlockModelDriver(BaseDriver):
         zrange = locs[:, -1].max() - locs[:, -1].min()  # locs z range
         if depth_core >= zrange:
             return depth_core - zrange + core_z_cell_size
-        else:
-            return depth_core
+
+        return depth_core
 
     @staticmethod
     def find_top_padding(obj: BlockModel, core_z_cell_size: int) -> float:
@@ -104,7 +155,7 @@ class BlockModelDriver(BaseDriver):
         return pad_sum
 
     @staticmethod
-    def get_block_model(
+    def get_block_model(  # pylint: disable=too-many-arguments
         workspace: Workspace,
         name: str,
         locs: np.ndarray,

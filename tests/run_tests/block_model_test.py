@@ -16,7 +16,7 @@ from geoh5py.workspace import Workspace
 from grid_apps.block_models.driver import BlockModelDriver
 
 
-def test_get_block_model(tmp_path: Path):
+def test_get_block_model(tmp_path: Path):  # pylint: disable=too-many-locals
     # padding in the W/E/N/S directions should make create locs at least as
     # far as the core hull plus the padding distances
     top = 500
@@ -25,11 +25,11 @@ def test_get_block_model(tmp_path: Path):
     width = 1000
     n = 100
 
-    X, Y = np.meshgrid(np.arange(0, width, n), np.arange(0, height, n))
-    Z = np.around((top / 2) * np.sin(X) + (top / 2), -1)
-    locs = np.c_[X.ravel(), Y.ravel(), Z.ravel()]
+    x_grid, y_grid = np.meshgrid(np.arange(0, width, n), np.arange(0, height, n))
+    z_grid = np.around((top / 2) * np.sin(x_grid) + (top / 2), -1)
+    locs = np.c_[x_grid.ravel(), y_grid.ravel(), z_grid.ravel()]
     pads = [100, 150, 200, 300, 0, 0]
-    ws = Workspace(tmp_path / "data_transfer.geoh5")
+    ws = Workspace(tmp_path / "block_model.geoh5")
     obj = BlockModelDriver.get_block_model(
         ws, "test", locs, [50, 50, 50], depth_core, pads, 1.1
     )
@@ -47,9 +47,9 @@ def test_get_block_model(tmp_path: Path):
     width = 1000
     n = 100
 
-    X, Y = np.meshgrid(np.arange(0, width, n), np.arange(0, height, n))
-    Z = np.around((top / 2) * np.sin(X) + (top / 2), -1)
-    locs = np.c_[X.ravel(), Y.ravel(), Z.ravel()]
+    x_grid, y_grid = np.meshgrid(np.arange(0, width, n), np.arange(0, height, n))
+    z_grid = np.around((top / 2) * np.sin(x_grid) + (top / 2), -1)
+    locs = np.c_[x_grid.ravel(), y_grid.ravel(), z_grid.ravel()]
     pads = [0, 0, 0, 0, 100, 0]  # padding on the bottom
     h = [50, 50, 50]
 
@@ -68,9 +68,9 @@ def test_get_block_model(tmp_path: Path):
     n = 100
     expansion_rate = 1.1
 
-    X, Y = np.meshgrid(np.arange(0, width, n), np.arange(0, height, n))
-    Z = np.around((top / 2) * np.sin(X) + (top / 2), -1)
-    locs = np.c_[X.ravel(), Y.ravel(), Z.ravel()]
+    x_grid, y_grid = np.meshgrid(np.arange(0, width, n), np.arange(0, height, n))
+    z_grid = np.around((top / 2) * np.sin(x_grid) + (top / 2), -1)
+    locs = np.c_[x_grid.ravel(), y_grid.ravel(), z_grid.ravel()]
     pads = [0, 0, 0, 0, 0, 100]  # padding on the top
     h = [50, 50, 50]
 

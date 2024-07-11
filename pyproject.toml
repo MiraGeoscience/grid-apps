@@ -40,8 +40,8 @@ my_app_hello = 'grid_apps.commands.hello_world:main'
 
 [tool.poetry.dependencies]
 python = "^3.10, <3.11"
-numpy = "~1.23.5"  # also geoh5py
-scipy = "~1.10.1"
+numpy = "~1.26.0"  # also geoh5py
+scipy = "~1.14.0"
 pandas = "~1.5.3"
 pydantic = "~2.5.2"
 discretize = "~0.10.0"

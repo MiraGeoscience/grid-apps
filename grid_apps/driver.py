@@ -16,7 +16,7 @@ from pathlib import Path
 from geoapps_utils.driver.data import BaseData
 from geoapps_utils.driver.driver import BaseDriver
 from geoh5py.groups import UIJsonGroup
-from geoh5py.objects import ObjectBase
+from geoh5py.objects import BlockModel, ObjectBase
 from geoh5py.shared.utils import fetch_active_workspace
 from geoh5py.ui_json import InputFile
 
@@ -57,17 +57,19 @@ class BaseBlockModelDriver(BaseDriver):
 
         return self._out_group
 
-    def store(self):
+    def store(self, block_model: BlockModel):
         """
         Update container group and monitoring directory.
 
         :param surface: Surface to store.
         """
         with fetch_active_workspace(self.workspace, mode="r+") as workspace:
-            self.update_monitoring_directory(self.out_group)
+            self.update_monitoring_directory(
+                block_model if self.out_group is None else self.out_group
+            )
             logger.info(
-                "Surface object(s) saved in '%s' to '%s'.",
-                self.params.output.out_group,
+                "Curve object '%s' saved to '%s'.",
+                self.params.output.export_as,
                 str(workspace.h5file),
             )
 
@@ -78,9 +80,9 @@ class BaseBlockModelDriver(BaseDriver):
     def run(self):
         """Run the surface application driver."""
         logging.info("Begin Process ...")
-        self.make_grid()
+        block_model = self.make_grid()
         logging.info("Process Complete.")
-        self.store()
+        self.store(block_model)
 
     @property
     def params(self) -> BaseData:

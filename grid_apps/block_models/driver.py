@@ -78,7 +78,7 @@ class BlockModelDriver(BaseBlockModelDriver):
                 h=h,
                 depth_core=self.params.creation.depth_core,
                 pads=pads,
-                expansion_factor=self.params.creation.params.expansion_fact,
+                expansion_factor=self.params.creation.expansion_factor,
             )
 
             # Try to recenter on nearest
@@ -94,6 +94,8 @@ class BlockModelDriver(BaseBlockModelDriver):
             object_out.origin = np.r_[object_out.origin.tolist()] - d_xyz
 
             self.update_monitoring_directory(object_out)
+
+        return object_out
 
     @staticmethod
     def truncate_locs_depths(locs: np.ndarray, depth_core: float) -> np.ndarray:
@@ -216,59 +218,6 @@ class BlockModelDriver(BaseBlockModelDriver):
         if not isinstance(val, BaseData):
             raise TypeError("Parameters must be a BaseData subclass.")
         self._params = val
-
-    def run(self):
-        """
-        Create block model and add to self.params.geoh5.
-        """
-        with fetch_active_workspace(self.params.geoh5, mode="r+"):
-            xyz = get_locations(self.params.geoh5, self.params.objects)
-            if xyz is None:
-                raise ValueError("Input object has no centroids or vertices.")
-
-            tree = cKDTree(xyz)
-
-            # Find extent of grid
-            h = [
-                self.params.cell_size_x,
-                self.params.cell_size_y,
-                self.params.cell_size_z,
-            ]
-            # pads: W, E, S, N, D, U
-            pads = [
-                self.params.horizontal_padding,
-                self.params.horizontal_padding,
-                self.params.horizontal_padding,
-                self.params.horizontal_padding,
-                self.params.bottom_padding,
-                0.0,
-            ]
-
-            logger.info("Creating block model . . .")
-
-            object_out = BlockModelDriver.get_block_model(
-                self.params.geoh5,
-                self.params.new_grid,
-                xyz,
-                h,
-                self.params.depth_core,
-                pads,
-                self.params.expansion_fact,
-            )
-
-            # Try to recenter on nearest
-            # Find nearest cells
-            if object_out.centroids is None:
-                raise ValueError("Block model has no centroids.")
-
-            rad, ind = tree.query(object_out.centroids)
-            ind_nn = np.argmin(rad)
-
-            d_xyz = object_out.centroids[ind_nn, :] - xyz[ind[ind_nn], :]
-
-            object_out.origin = np.r_[object_out.origin.tolist()] - d_xyz
-
-            self.update_monitoring_directory(object_out)
 
 
 if __name__ == "__main__":

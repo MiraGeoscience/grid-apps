@@ -9,175 +9,77 @@
 from __future__ import annotations
 
 import logging
-import sys
+import tempfile
+from abc import abstractmethod
+from pathlib import Path
 
-import numpy as np
-from discretize.utils import mesh_utils
 from geoapps_utils.driver.data import BaseData
 from geoapps_utils.driver.driver import BaseDriver
-from geoh5py.objects import BlockModel, ObjectBase
+from geoh5py.groups import UIJsonGroup
+from geoh5py.objects import ObjectBase
 from geoh5py.shared.utils import fetch_active_workspace
 from geoh5py.ui_json import InputFile
-from geoh5py.workspace import Workspace
-from scipy.spatial import cKDTree
-
-from grid_apps.utils import get_locations
-
 
 logger = logging.getLogger(__name__)
 
 
-class BlockModelParams(BaseData):
+class BaseSurfaceDriver(BaseDriver):
     """
-    Parameter class for block model creation application.
+    Driver for the surface application.
 
-    :param geoh5: Path to geoh5 file.
-    :param objects: List of object UUIDs.
-    :param new_grid: Name of new block model.
-    :param cell_size_x: Cell size in x direction.
-    :param cell_size_y: Cell size in y direction.
-    :param cell_size_z: Cell size in z direction.
-    :param depth_core: Depth of core mesh below locs.
-    :param horizontal_padding: Horizontal padding.
-    :param bottom_padding: Bottom padding.
-    :param expansion_fact: Expansion factor for padding cells.
+    :param parameters: Application parameters.
     """
 
-    objects: ObjectBase
-    new_grid: str
-    cell_size_x: float
-    cell_size_y: float
-    cell_size_z: float
-    depth_core: float
-    horizontal_padding: float
-    bottom_padding: float
-    expansion_fact: float
+    _parameter_class: type[BaseData]
 
-
-class BlockModelDriver(BaseDriver):
-    """
-    Create BlockModel from BlockModelParams.
-    """
-
-    _parameter_class = BlockModelParams
-
-    def __init__(self, parameters: BlockModelParams | InputFile):
+    def __init__(self, parameters: BaseData | InputFile):
+        self._out_group = None
         if isinstance(parameters, InputFile):
             parameters = self._parameter_class.build(parameters)
 
         # TODO need to re-type params in base class
-        super().__init__(parameters)  # type: ignore
+        super().__init__(parameters)
 
-    @staticmethod
-    def truncate_locs_depths(locs: np.ndarray, depth_core: float) -> np.ndarray:
+    @property
+    def out_group(self) -> UIJsonGroup | None:
+        """Output container group."""
+
+        if self._out_group is None and self.params.output.out_group is not None:
+            with fetch_active_workspace(self.workspace, mode="r+") as workspace:
+                self._out_group = UIJsonGroup.create(
+                    workspace=workspace,
+                    name=self.params.output.out_group,
+                )
+                self._out_group.options = InputFile.stringify(  # type: ignore
+                    InputFile.demote(self.params.input_file.ui_json)
+                )
+
+        return self._out_group
+
+    def store(self):
         """
-        Sets locations below core to core bottom.
+        Update container group and monitoring directory.
 
-        :param locs: Location points.
-        :param depth_core: Depth of core mesh below locs.
-
-        :return locs: locs with depths truncated.
+        :param surface: Surface to store.
         """
-        zmax = locs[:, -1].max()  # top of locs
-        below_core_ind = (zmax - locs[:, -1]) > depth_core
-        core_bottom_elev = zmax - depth_core
-        locs[below_core_ind, -1] = (
-            core_bottom_elev  # sets locations below core to core bottom
-        )
-        return locs
+        with fetch_active_workspace(self.workspace, mode="r+") as workspace:
+            self.update_monitoring_directory(self.out_group)
+            logger.info(
+                "Surface object(s) saved in '%s' to '%s'.",
+                self.params.output.out_group,
+                str(workspace.h5file),
+            )
 
-    @staticmethod
-    def minimum_depth_core(
-        locs: np.ndarray, depth_core: float, core_z_cell_size: int
-    ) -> float:
-        """
-        Get minimum depth core.
+    @abstractmethod
+    def make_grid(self):
+        pass
 
-        :param locs: Location points.
-        :param depth_core: Depth of core mesh below locs.
-        :param core_z_cell_size: Cell size in z direction.
-
-        :return depth_core: Minimum depth core.
-        """
-        zrange = locs[:, -1].max() - locs[:, -1].min()  # locs z range
-        if depth_core >= zrange:
-            return depth_core - zrange + core_z_cell_size
-        else:
-            return depth_core
-
-    @staticmethod
-    def find_top_padding(obj: BlockModel, core_z_cell_size: int) -> float:
-        """
-        Loop through cell spacing and sum until core_z_cell_size is reached.
-
-        :param obj: Block model.
-        :param core_z_cell_size: Cell size in z direction.
-
-        :return pad_sum: Top padding.
-        """
-        pad_sum = 0.0
-
-        if obj.z_cell_delimiters is None:
-            raise ValueError("Block model has no z_cell_delimiters.")
-
-        for h in np.abs(np.diff(obj.z_cell_delimiters)):
-            if h != core_z_cell_size:
-                pad_sum += h
-            else:
-                break
-        return pad_sum
-
-    @staticmethod
-    def get_block_model(
-        workspace: Workspace,
-        name: str,
-        locs: np.ndarray,
-        h: list,
-        depth_core: float,
-        pads: list,
-        expansion_factor: float,
-    ) -> BlockModel:
-        """
-        Create a BlockModel object from parameters.
-
-        :param workspace: Workspace.
-        :param name: Block model name.
-        :param locs: Location points.
-        :param h: Cell size(s) for the core mesh.
-        :param depth_core: Depth of core mesh below locs.
-        :param pads: len(6) Padding distances [W, E, N, S, Down, Up]
-        :param expansion_factor: Expansion factor for padding cells.
-
-        :return object_out: Output block model.
-        """
-
-        locs = BlockModelDriver.truncate_locs_depths(locs, depth_core)
-        depth_core = BlockModelDriver.minimum_depth_core(locs, depth_core, h[2])
-        mesh = mesh_utils.mesh_builder_xyz(
-            locs,
-            h,
-            padding_distance=[
-                [pads[0], pads[1]],
-                [pads[2], pads[3]],
-                [pads[4], pads[5]],
-            ],
-            depth_core=depth_core,
-            expansion_factor=expansion_factor,
-        )
-
-        object_out = BlockModel.create(
-            workspace,
-            origin=[mesh.x0[0], mesh.x0[1], locs[:, 2].max()],
-            u_cell_delimiters=mesh.nodes_x - mesh.x0[0],
-            v_cell_delimiters=mesh.nodes_y - mesh.x0[1],
-            z_cell_delimiters=-(mesh.x0[2] + mesh.h[2].sum() - mesh.nodes_z[::-1]),
-            name=name,
-        )
-
-        top_padding = BlockModelDriver.find_top_padding(object_out, h[2])
-        object_out.origin["z"] += top_padding
-
-        return object_out
+    def run(self):
+        """Run the surface application driver."""
+        logging.info("Begin Process ...")
+        self.make_grid()
+        logging.info("Process Complete.")
+        self.store()
 
     @property
     def params(self) -> BaseData:
@@ -190,62 +92,15 @@ class BlockModelDriver(BaseDriver):
             raise TypeError("Parameters must be a BaseData subclass.")
         self._params = val
 
-    def run(self):
+    def add_ui_json(self, entity: ObjectBase | UIJsonGroup) -> None:
         """
-        Create block model and add to self.params.geoh5.
+        Add ui.json file to entity.
+
+        :param entity: Object to add ui.json file to.
         """
-        with fetch_active_workspace(self.params.geoh5, mode="r+"):
-            xyz = get_locations(self.params.geoh5, self.params.objects)
-            if xyz is None:
-                raise ValueError("Input object has no centroids or vertices.")
 
-            tree = cKDTree(xyz)
+        with tempfile.TemporaryDirectory() as temp_dir:
+            filepath = Path(temp_dir) / f"{self.params.name}.ui.json"
+            self.params.write_ui_json(filepath)
 
-            # Find extent of grid
-            h = [
-                self.params.cell_size_x,
-                self.params.cell_size_y,
-                self.params.cell_size_z,
-            ]
-            # pads: W, E, S, N, D, U
-            pads = [
-                self.params.horizontal_padding,
-                self.params.horizontal_padding,
-                self.params.horizontal_padding,
-                self.params.horizontal_padding,
-                self.params.bottom_padding,
-                0.0,
-            ]
-
-            logger.info("Creating block model . . .")
-
-            object_out = BlockModelDriver.get_block_model(
-                self.params.geoh5,
-                self.params.new_grid,
-                xyz,
-                h,
-                self.params.depth_core,
-                pads,
-                self.params.expansion_fact,
-            )
-
-            # Try to recenter on nearest
-            # Find nearest cells
-            if object_out.centroids is None:
-                raise ValueError("Block model has no centroids.")
-
-            rad, ind = tree.query(object_out.centroids)
-            ind_nn = np.argmin(rad)
-
-            d_xyz = object_out.centroids[ind_nn, :] - xyz[ind[ind_nn], :]
-
-            object_out.origin = np.r_[object_out.origin.tolist()] - d_xyz
-
-            self.update_monitoring_directory(object_out)
-
-
-if __name__ == "__main__":
-    file = sys.argv[1]
-    ifile = InputFile.read_ui_json(file)
-    driver = BlockModelDriver(ifile)
-    driver.run()
+            entity.add_file(str(filepath))

@@ -12,7 +12,7 @@ from pathlib import Path
 import numpy as np
 from geoh5py.workspace import Workspace
 
-from grid_apps.driver import BlockModelDriver
+from grid_apps.block_models.driver import BlockModelDriver
 
 
 def test_get_block_model(tmp_path: Path):

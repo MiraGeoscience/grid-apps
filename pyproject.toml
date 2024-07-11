@@ -43,10 +43,15 @@ python = "^3.10, <3.11"
 numpy = "~1.23.5"  # also geoh5py
 scipy = "~1.10.1"
 pandas = "~1.5.3"
+pydantic = "~2.5.2"
+discretize = "~0.10.0"
 
 ## pip dependencies
-geoh5py = {version = "~0.8.0", source = "pypi", allow-prereleases = true}
+geoh5py = {git = "https://github.com/MiraGeoscience/geoh5py.git", rev = "develop"}
 #geoh5py = { url = "https://github.com/MiraGeoscience/geoh5py/archive/refs/heads/main.tar.gz#sha256=" }
+
+geoapps-utils = {git = "https://github.com/MiraGeoscience/geoapps-utils.git", rev = "develop"}
+
 
 ## indirect dependencies, forcing them here for installation through Conda not pip
 h5py = "*" # from geoh5py

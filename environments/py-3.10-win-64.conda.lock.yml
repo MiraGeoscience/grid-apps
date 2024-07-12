@@ -24,7 +24,7 @@ dependencies:
   - libcurl=8.8.0=hd5e4a3a_1
   - libdeflate=1.20=hcfcfb64_0
   - libffi=3.4.2=h8ffe710_5
-  - libhwloc=2.11.0=default_h8125262_1000
+  - libhwloc=2.11.1=default_h8125262_1000
   - libiconv=1.17=hcfcfb64_2
   - libjpeg-turbo=3.0.0=hcfcfb64_1
   - liblapack=3.9.0=22_win64_mkl
@@ -34,7 +34,7 @@ dependencies:
   - libtiff=4.6.0=hddb2be6_3
   - libwebp-base=1.4.0=hcfcfb64_0
   - libxcb=1.16=hcd874cb_0
-  - libxml2=2.12.7=h0f24e4e_2
+  - libxml2=2.12.7=h0f24e4e_3
   - libzlib=1.3.1=h2466b09_1
   - m2w64-gcc-libgfortran=5.3.0=6
   - m2w64-gcc-libs=5.3.0=7
@@ -58,9 +58,9 @@ dependencies:
   - python_abi=3.10=4_cp310
   - pytz=2024.1=pyhd8ed1ab_0
   - scipy=1.14.0=py310h46043a1_1
-  - setuptools=70.2.0=pyhd8ed1ab_0
+  - setuptools=70.3.0=pyhd8ed1ab_0
   - six=1.16.0=pyh6c4a22f_0
-  - tbb=2021.12.0=hc790b64_2
+  - tbb=2021.12.0=hc790b64_3
   - tk=8.6.13=h5226925_1
   - typing-extensions=4.12.2=hd8ed1ab_0
   - typing_extensions=4.12.2=pyha770c72_0

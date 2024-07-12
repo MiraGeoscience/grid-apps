@@ -14,6 +14,7 @@ from geoh5py import Workspace
 from grid_apps.block_models.driver import BlockModelDriver
 
 
+# pylint: disable=duplicate-code
 def test_truncate_locs_depths():
     # If z range of locations is larger than depth_core then locations are truncated
     # to the depth_core and the depth_core is reduced to w_cell_size

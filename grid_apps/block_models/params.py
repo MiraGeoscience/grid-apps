@@ -53,6 +53,20 @@ class BlockModelCreationParameters(BaseModel):
     bottom_padding: float
     expansion_factor: float
 
+    @property
+    def cell_sizes(self) -> list[float]:
+        """
+        Cell sizes in x, y and z directions.
+        """
+        return [self.cell_size_x, self.cell_size_y, self.cell_size_z]
+
+    @property
+    def padding(self) -> list[float]:
+        """
+        Padding distances in west, east, south, north, down and up directions.
+        """
+        return [self.horizontal_padding] * 4 + [self.bottom_padding, 0.0]
+
 
 class BlockModelOutputParameters(BaseModel):
     """

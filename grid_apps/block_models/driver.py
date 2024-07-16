@@ -53,31 +53,15 @@ class BlockModelDriver(BaseBlockModelDriver):
 
             tree = cKDTree(xyz)
 
-            # Find extent of grid
-            h = [
-                self.params.creation.cell_size_x,
-                self.params.creation.cell_size_y,
-                self.params.creation.cell_size_z,
-            ]
-            # pads: W, E, S, N, D, U
-            pads = [
-                self.params.creation.horizontal_padding,
-                self.params.creation.horizontal_padding,
-                self.params.creation.horizontal_padding,
-                self.params.creation.horizontal_padding,
-                self.params.creation.bottom_padding,
-                0.0,
-            ]
-
             logger.info("Creating block model . . .")
 
             object_out = BlockModelDriver.get_block_model(
                 workspace=self.params.geoh5,
                 name=self.params.output.export_as,
                 locs=xyz,
-                h=h,
+                h=self.params.creation.cell_sizes,
                 depth_core=self.params.creation.depth_core,
-                pads=pads,
+                pads=self.params.creation.padding,
                 expansion_factor=self.params.creation.expansion_factor,
             )
 
@@ -154,6 +138,7 @@ class BlockModelDriver(BaseBlockModelDriver):
                 pad_sum += h
             else:
                 break
+
         return pad_sum
 
     @staticmethod

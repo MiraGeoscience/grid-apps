@@ -47,18 +47,20 @@ class BlockModelDriver(BaseBlockModelDriver):
         Make block model object from input data.
         """
         with fetch_active_workspace(self.params.geoh5, mode="r+"):
-            xyz = get_locations(self.params.geoh5, self.params.source.objects)
-            if xyz is None:
+            source_locations = get_locations(
+                self.params.geoh5, self.params.source.objects
+            )
+            if source_locations is None:
                 raise ValueError("Input object has no centroids or vertices.")
 
-            tree = cKDTree(xyz)
+            tree = cKDTree(source_locations)
 
             logger.info("Creating block model . . .")
 
-            object_out = BlockModelDriver.get_block_model(
+            block_model = BlockModelDriver.get_block_model(
                 workspace=self.params.geoh5,
                 name=self.params.output.export_as,
-                locs=xyz,
+                locs=source_locations,
                 h=self.params.creation.cell_sizes,
                 depth_core=self.params.creation.depth_core,
                 pads=self.params.creation.padding,
@@ -67,19 +69,25 @@ class BlockModelDriver(BaseBlockModelDriver):
 
             # Try to recenter on nearest
             # Find nearest cells
-            if object_out.centroids is None:
+            if block_model.centroids is None:
                 raise ValueError("Block model has no centroids.")
+                # TODO: Remove once GEOPY-1602 is merged
 
-            rad, ind = tree.query(object_out.centroids)
-            ind_nn = np.argmin(rad)
+            neighbor_distances, neighbor_indices = tree.query(block_model.centroids)
+            nearest_neighbor = np.argmin(neighbor_distances)
 
-            d_xyz = object_out.centroids[ind_nn, :] - xyz[ind[ind_nn], :]
+            source_to_nearest_neighbor = (
+                block_model.centroids[nearest_neighbor, :]
+                - source_locations[neighbor_indices[nearest_neighbor], :]
+            )
 
-            object_out.origin = np.r_[object_out.origin.tolist()] - d_xyz
+            block_model.origin = (
+                np.r_[block_model.origin.tolist()] - source_to_nearest_neighbor
+            )
 
-            self.update_monitoring_directory(object_out)
+            self.update_monitoring_directory(block_model)
 
-        return object_out
+        return block_model
 
     @staticmethod
     def truncate_locs_depths(locs: np.ndarray, depth_core: float) -> np.ndarray:

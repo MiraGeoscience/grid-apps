@@ -90,7 +90,7 @@ class BlockModelParameters(BaseData):
     """
 
     name: ClassVar[str] = "block_model"
-    default_ui_json: ClassVar[Path] = assets_path() / "uijson/block_model.ui.json"
+    default_ui_json: ClassVar[Path] = assets_path() / "uijson/block_models.ui.json"
     title: ClassVar[str] = "Block Model Creation"
     run_command: ClassVar[str] = "grid_apps.block_models.driver"
 

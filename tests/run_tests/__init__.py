@@ -1,7 +1,7 @@
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 #  Copyright (c) 2024 Mira Geoscience Ltd.                                     '
 #                                                                              '
-#  This file is part of grid-apps package.                                        '
+#  This file is part of grid-apps package.                                     '
 #                                                                              '
 #  All rights reserved.                                                        '
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''

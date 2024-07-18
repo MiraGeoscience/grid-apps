@@ -22,7 +22,6 @@ from scipy.spatial import cKDTree
 
 from grid_apps.block_models.params import BlockModelParameters
 from grid_apps.driver import BaseBlockModelDriver
-from grid_apps.utils import get_locations
 
 
 logger = logging.getLogger(__name__)
@@ -47,9 +46,7 @@ class BlockModelDriver(BaseBlockModelDriver):
         Make block model object from input data.
         """
         with fetch_active_workspace(self.params.geoh5, mode="r+"):
-            source_locations = get_locations(
-                self.params.geoh5, self.params.source.objects
-            )
+            source_locations = self.params.source.objects.locations
             if source_locations is None:
                 raise ValueError("Input object has no centroids or vertices.")
 

@@ -147,7 +147,7 @@ class BlockModelDriver(BaseBlockModelDriver):
         return pad_sum
 
     @staticmethod
-    def get_block_model(  # pylint: disable=too-many-arguments
+    def get_block_model(  # pylint: disable=too-many-arguments, too-many-positional-arguments
         workspace: Workspace,
         name: str,
         locs: np.ndarray,

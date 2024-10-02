@@ -127,7 +127,6 @@ venv.bak/
 /.idea/*
 !/.idea/scopes/
 !/.idea/copyright/
-!/.idea/*.iml
 
 # mypy
 .mypy_cache/

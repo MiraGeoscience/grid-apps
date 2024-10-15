@@ -47,11 +47,11 @@ pydantic = "~2.5.2"
 discretize = "~0.10.0"
 
 ## pip dependencies
-geoh5py = { version = "0.10.0-alpha.1", source = "pypi", allow-prereleases = true}
-#geoh5py = {git = "https://github.com/MiraGeoscience/geoh5py.git", rev = "release/0.10.0"}
+#geoh5py = { version = "0.10.0-alpha.1", source = "pypi", allow-prereleases = true}
+geoh5py = {git = "https://github.com/MiraGeoscience/geoh5py.git", rev = "release/0.10.0"}
 
 #geoapps-utils = { version = "0.4.0-alpha.1", source = "pypi", allow-prereleases = true}
-#geoapps-utils = {git = "https://github.com/MiraGeoscience/geoapps-utils.git", rev = "develop"}
+geoapps-utils = {git = "https://github.com/MiraGeoscience/geoapps-utils.git", rev = "develop"}
 
 
 ## indirect dependencies, forcing them here for installation through Conda not pip

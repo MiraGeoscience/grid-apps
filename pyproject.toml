@@ -39,8 +39,7 @@ classifiers = [
 my_app_hello = 'grid_apps.commands.hello_world:main'
 
 [tool.poetry.dependencies]
-python = "^3.10"
-
+python = "^3.10, <3.13"
 numpy = "~1.26.0"  # also geoh5py
 scipy = "~1.14.0"
 pandas = "~2.2.1"
@@ -48,27 +47,36 @@ pydantic = "~2.5.2"
 discretize = "~0.10.0"
 
 ## pip dependencies
-#geoh5py = {version = "~0.10.0", allow-prereleases = true}
+#geoh5py = { version = "0.10.0-alpha.1", source = "pypi", allow-prereleases = true}
 geoh5py = {git = "https://github.com/MiraGeoscience/geoh5py.git", rev = "release/0.10.0"}
 
-#geoapps-utils = {version = "~0.3.0", allow-prereleases = true}
+#geoapps-utils = { version = "0.4.0-alpha.1", source = "pypi", allow-prereleases = true}
 geoapps-utils = {git = "https://github.com/MiraGeoscience/geoapps-utils.git", rev = "release/0.4.0"}
+
+
+## indirect dependencies, forcing them here for installation through Conda not pip
+h5py = "*" # from geoh5py
+Pillow = ">=10.3.0, <10.4.0"  # from geoh5py
 
 ## about pip dependencies
 # to be specified to work with conda-lock
 # - from PyPI: my_package = { version = "1.2.3", source = "pypi" }
-# - from URL: !!! no actual lock, as tag or branch can move and installation will fetch current !!!
-#   - for a tag:    my_package = { url = "https://github.com/ORGANISATION/REPO/archive/refs/tags/TAG.tar.gz" }
-#   - for a branch: my_package = { url = "https://github.com/ORGANISATION/REPO/archive/refs/heads/BRANCH.tar.gz" }
-# - to actually lock on a revision: my_package = { git = "https://github.com/ORGANISATION/REPO.git", rev = "GIT_REV" }
-#   (where rev value is a tag, a branch name or a commit hash). Can also use ``branch`` or ``tag`` instead of ``rev``
+# - from URL:
+#   - for a tags:   my_package = { url = "https://github.com/ORGANISATION/REPO/archive/refs/tags/VERSION_TAG.zip#sha256=" }
+#   - for a branch: my_package = { url = "https://github.com/ORGANISATION/REPO/archive/refs/heads/BRANCH.zip#sha256=" }
+# Note - conda-lock does not support the syntax: my_package = { git = ... }
+#        while poetry2conda supports only { git = "...", tag = "..." }, and not { url = ... }
 
 [tool.poetry.group.dev.dependencies]
 Pygments = "*"
 pylint = "*"
 pytest = "*"
 pytest-cov = "*"
+pyyaml = '*'
+jinja2 = '*'
+packaging = '*'
 tomli = "*"
+
 
 [tool.conda-lock]
 platforms = ['win-64', 'linux-64']

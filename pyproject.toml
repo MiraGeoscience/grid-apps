@@ -39,10 +39,10 @@ classifiers = [
 my_app_hello = 'grid_apps.commands.hello_world:main'
 
 [tool.poetry.dependencies]
-python = "^3.10, <3.11"
+python = "^3.10, <3.13"
 numpy = "~1.26.0"  # also geoh5py
 scipy = "~1.14.0"
-pandas = "~1.5.3"
+pandas = "~2.2.1"
 pydantic = "~2.5.2"
 discretize = "~0.10.0"
 
@@ -51,12 +51,12 @@ discretize = "~0.10.0"
 geoh5py = {git = "https://github.com/MiraGeoscience/geoh5py.git", rev = "release/0.10.0"}
 
 #geoapps-utils = { version = "0.4.0-alpha.1", source = "pypi", allow-prereleases = true}
-geoapps-utils = {git = "https://github.com/MiraGeoscience/geoapps-utils.git", rev = "develop"}
+geoapps-utils = {git = "https://github.com/MiraGeoscience/geoapps-utils.git", rev = "release/0.4.0"}
 
 
 ## indirect dependencies, forcing them here for installation through Conda not pip
 h5py = "*" # from geoh5py
-Pillow = "*" # from geoh5py
+Pillow = ">=10.3.0, <10.4.0"  # from geoh5py
 
 ## about pip dependencies
 # to be specified to work with conda-lock
@@ -82,13 +82,17 @@ tomli = "*"
 platforms = ['win-64', 'linux-64']
 channels = ['conda-forge']
 
-
 [tool.conda-lock.dependencies]
 ## Specify the BLAS implementation
 #` MKL is faster on Interl processors, but its size is larger than the OpenBLAS implementation.
 #  Make sure to force the MKL implementation if a dependency from another package (e.g. SimPEG)
 #  is already bringing in the MKL.
 #libblas = "*=*mkl"
+
+## indirect dependencies, forcing them here for installation through Conda not pip
+#---------------------------------------------------------------------------------
+h5py = ">=3.2.1, <4.0.0"  # from geoh5py
+Pillow = ">=10.3.0, <10.4.0"  # from geoh5py
 
 [tool.ruff]
 target-version = "py310"

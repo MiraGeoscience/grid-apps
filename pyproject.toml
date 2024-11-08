@@ -1,11 +1,12 @@
 [tool.poetry]
 name = "grid-apps"
 version = "0.1.0-alpha.1"
-license = ""  # TODO: pick a license type
-description = "My application"
+license = "Proprietary"
+description = ""  # TODO: add description
 authors = ["Mira Geoscience <support@mirageoscience.com>"]
 repository = "https://github.com/MiraGeoscience/grid-apps"
-homepage = "https://mirageoscience.com"
+documentation  = "https://mirageoscience-grid-apps.readthedocs-hosted.com/"
+homepage = "https://www.mirageoscience.com/mining-industry-software/python-integration/"
 readme = "README.rst"
 packages = [
      { include = "grid_apps" },

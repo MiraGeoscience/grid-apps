@@ -40,7 +40,7 @@ classifiers = [
 my_app_hello = 'grid_apps.commands.hello_world:main'
 
 [tool.poetry.dependencies]
-python = "^3.10, <3.13"
+python = "^3.10"
 numpy = "~1.26.0"  # also geoh5py
 scipy = "~1.14.0"
 pandas = "~2.2.1"

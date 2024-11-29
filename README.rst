@@ -1,9 +1,9 @@
 |coverage| |maintainability| |precommit_ci| |docs| |style| |version| |status| |pyversions|
 
 
-.. |docs| image:: https://readthedocs.org/projects/grid-apps/badge/
+.. |docs| image:: https://readthedocs.com/projects/mirageoscience-grid-apps/badge/?version=latest
     :alt: Documentation Status
-    :target: https://grid-apps.readthedocs.io/en/latest/?badge=latest
+    :target: https://mirageoscience-grid-apps.readthedocs-hosted.com/en/latest/?badge=latest
 
 .. |coverage| image:: https://codecov.io/gh/MiraGeoscience/grid-apps/branch/develop/graph/badge.svg
     :alt: Code coverage
@@ -44,7 +44,7 @@ The **grid-apps** library # TODO: PACKAGE DESCRIPTION
 
 Documentation
 ^^^^^^^^^^^^^
-`Online documentation <https://grid-apps.readthedocs.io/en/latest/>`_
+`Online documentation <https://mirageoscience-grid-apps.readthedocs-hosted.com/en/latest/>`_
 
 
 Installation

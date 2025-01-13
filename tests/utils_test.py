@@ -1,10 +1,12 @@
-# ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-#  Copyright (c) 2024 Mira Geoscience Ltd.                                     '
-#                                                                              '
-#  This file is part of grid-apps package.                                     '
-#                                                                              '
-#  All rights reserved.                                                        '
-# ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+# '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+#  Copyright (c) 2024-2025 Mira Geoscience Ltd.                                     '
+#  All rights reserved.                                                             '
+#                                                                                   '
+#  This file is part of grid-apps package.                                          '
+#                                                                                   '
+#  grid-apps is distributed under the terms and conditions of a proprietary license '
+#  (see LICENSE file at the root of this source code package).                      '
+# '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 from pathlib import Path
 

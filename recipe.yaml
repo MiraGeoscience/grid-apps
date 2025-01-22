@@ -1,18 +1,20 @@
-{% set name = "grid-apps" %}
-{% set version = "0.1.0a1" %}
+schema_version: 1
+
+context:
+  name: grid-apps
+  version: 0.1.0a1
 
 package:
-  name: {{ name|lower }}
-  version: {{ version }}
+  name: ${{ name|lower }}
+  version: ${{ version }}
 
 source:
-  path: ../{{ name }}
-
+  path: ../${{ name }}
 
 build:
-  noarch: python
-  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   number: 0
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
   host:
@@ -32,18 +34,21 @@ requirements:
     - h5py
     - pillow >=10.3.0,<10.4.0
 
-test:
-  imports:
-    - grid_apps
-  commands:
-    - pip check
-  requires:
-    - pip
+tests:
+  - python:
+      imports:
+        - grid_apps
+  - requirements:
+      run:
+        - pip
+    script:
+      - pip check
 
 about:
-  dev_url: https://github.com/MiraGeoscience/grid-apps
+  repository: https://github.com/MiraGeoscience/grid-apps
 
 extra:
   recipe-maintainers:
     - SophieCurinier
     - sebhmg
+

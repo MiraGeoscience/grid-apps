@@ -2,26 +2,29 @@
 name = "grid-apps"
 version = "0.1.0-alpha.1"
 license = "Proprietary"
-description = ""  # TODO: add description
+description = "Grid creation and manipulation"
 authors = ["Mira Geoscience <support@mirageoscience.com>"]
 repository = "https://github.com/MiraGeoscience/grid-apps"
 documentation  = "https://mirageoscience-grid-apps.readthedocs-hosted.com/"
+maintainers = [
+    "Benjamin Kary <benjamink@mirageoscience.com>",
+    "Dominique Fournier <dominiquef@mirageoscience.com>",
+]
 homepage = "https://www.mirageoscience.com/mining-industry-software/python-integration/"
-readme = "README.rst"
+readme = "package.rst"
 packages = [
      { include = "grid_apps" },
      { include = "grid_apps-assets" },
 ]
 
 include = [
-    "COPYING",
-    "COPYING.LESSER",
-    "LICENSE",
-    "README.rst",
-    "THIRD_PARTY_SOFTWARE.rst",
+    { path = "COPYING" },
+    { path = "COPYING.LESSER" },
+    { path = "LICENSE" },
+    { path = "README.rst" },
+    { path = "docs/**/THIRD_PARTY_SOFTWARE.rst" },
 ]
-
-# TODO: adjust classifiers
+keywords = ["geology", "geophysics", "earth sciences"]
 classifiers = [
     "Development Status :: 2 - Pre-Alpha",
     "Intended Audience :: Science/Research",
@@ -48,11 +51,11 @@ pydantic = "~2.5.2"
 discretize = "0.10.*"
 
 ## pip dependencies
-#geoh5py = { version = "0.10.0-alpha.1", source = "pypi", allow-prereleases = true}
-geoh5py = {git = "https://github.com/MiraGeoscience/geoh5py.git", rev = "release/0.10.0"}
+geoh5py = { version = ">=0.10.0-alpha.1", source = "pypi", allow-prereleases = true}
+#geoh5py = {git = "https://github.com/MiraGeoscience/geoh5py.git", rev = "release/0.10.0"}
 
-#geoapps-utils = { version = "0.4.0-alpha.1", source = "pypi", allow-prereleases = true}
-geoapps-utils = {git = "https://github.com/MiraGeoscience/geoapps-utils.git", rev = "release/0.4.0"}
+geoapps-utils = { version = ">=0.4.0-alpha.1", source = "pypi", allow-prereleases = true}
+#geoapps-utils = {git = "https://github.com/MiraGeoscience/geoapps-utils.git", rev = "release/0.4.0"}
 
 
 ## indirect dependencies, forcing them here for installation through Conda not pip

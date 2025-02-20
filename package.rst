@@ -1,16 +1,15 @@
-geoapps-utils
-=============
+grid-apps
+=========
 
-The **geoapps-utils** package provides utility functions
-used by Python applications supported by `Mira Geoscience <https://www.mirageoscience.com/mining-industry-software/geoscience-analyst/python-integration/>`_
+The **grid-apps** library offers tools for the creation and manipulation of grid objects (Octree, BlockModel, Grid2D, DrapeModel) using various Python libraries and `geoh5py <https://mirageoscience-geoh5py.readthedocs-hosted.com/>`_.
 
 Installation
 ^^^^^^^^^^^^
-**geoapps-utils** is currently written for Python 3.10 or higher.
+**grid-apps** is currently written for Python 3.10 or higher.
 
-Install **geoapps-utils** from PyPI::
+Install **grid-apps** from PyPI::
 
-    $ pip install geoapps-utils
+    $ pip install grid-apps
 
 
 Feedback
@@ -18,7 +17,7 @@ Feedback
 Have comments or suggestions? Submit feedback.
 All the content can be found on the github_ repository.
 
-.. _github: https://github.com/MiraGeoscience/geoapps-utils
+.. _github: https://github.com/MiraGeoscience/grid-apps
 
 
 Visit `Mira Geoscience website <https://mirageoscience.com/>`_ to learn more about our products
@@ -51,10 +50,10 @@ SOFTWARE.
 
 Third Party Software
 ^^^^^^^^^^^^^^^^^^^^
-The geoapps-utils Software may provide links to third party libraries or code (collectively “Third Party Software”)
+The grid-apps Software may provide links to third party libraries or code (collectively “Third Party Software”)
 to implement various functions. Third Party Software does not comprise part of the Software.
 The use of Third Party Software is governed by the terms of such software license(s).
 Third Party Software notices and/or additional terms and conditions are located in the
 `THIRD_PARTY_SOFTWARE.rst`_ file.
 
-.. _THIRD_PARTY_SOFTWARE.rst: THIRD_PARTY_SOFTWARE.rst
+.. _THIRD_PARTY_SOFTWARE.rst: .docs/source/THIRD_PARTY_SOFTWARE.rst

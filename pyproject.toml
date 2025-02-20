@@ -11,7 +11,7 @@ maintainers = [
     "Dominique Fournier <dominiquef@mirageoscience.com>",
 ]
 homepage = "https://www.mirageoscience.com/mining-industry-software/python-integration/"
-readme = "README.rst"
+readme = "package.rst"
 packages = [
      { include = "grid_apps" },
      { include = "grid_apps-assets" },

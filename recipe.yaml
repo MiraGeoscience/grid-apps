@@ -39,11 +39,14 @@ tests:
   - python:
       imports:
         - grid_apps
-  - requirements:
+  - script:
+      - pytest ./tests
+    requirements:
       run:
-        - pip
-    script:
-      - pip check
+        - pytest
+    files:
+      source:
+        - tests/
 
 about:
   repository: https://github.com/MiraGeoscience/grid-apps

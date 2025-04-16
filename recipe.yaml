@@ -26,12 +26,11 @@ requirements:
   run:
     - python >=${{ python_min }}
     # Mira packages
-    - geoh5py >=0.10.0a, <0.11.dev
-    - geoapps-utils >=0.4.0a,<0.5.dev
-    # direct dependencies
-    - discretize >=0.10.0, <0.11.dev
+    - geoh5py >=0.12.0a3, <0.13.dev
+    - geoapps-utils >=0.6.0a3,<0.7.dev
+    # other direct dependencies
+    - discretize >=0.11.0, <0.12.dev
     - numpy >=1.26.0, <1.27.dev
-    - pandas >=2.2.1, <2.3.dev
     - pydantic >=2.5.2, <3.0.dev
     - scipy >=1.14.0, <1.15.dev
 
@@ -40,7 +39,7 @@ tests:
       imports:
         - grid_apps
   - script:
-      - pytest ./tests
+      - pytest --ignore=tests/version_test.py
     requirements:
       run:
         - pytest

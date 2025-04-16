@@ -31,7 +31,6 @@ requirements:
     # direct dependencies
     - discretize >=0.10.0, <0.11.dev
     - numpy >=1.26.0, <1.27.dev
-    - pandas >=2.2.1, <2.3.dev
     - pydantic >=2.5.2, <3.0.dev
     - scipy >=1.14.0, <1.15.dev
 

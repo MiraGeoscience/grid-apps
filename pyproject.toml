@@ -47,7 +47,6 @@ python = "^3.10"
 
 discretize = "0.10.*"
 numpy = "~1.26.0"  # also geoh5py
-pandas = "~2.2.1"
 pydantic = "^2.5.2"
 scipy = "~1.14.0"
 

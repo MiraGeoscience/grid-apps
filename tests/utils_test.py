@@ -14,6 +14,7 @@ import numpy as np
 from geoh5py import Workspace
 
 from grid_apps.block_models.driver import BlockModelDriver
+from grid_apps.utils import block_model_to_discretize
 
 
 # pylint: disable=duplicate-code
@@ -90,8 +91,33 @@ def test_find_top_padding(tmp_path: Path):
     pads = [0, 0, 0, 0, 100, 100]  # padding on the top
     h = [50, 50, 50]
 
-    obj = BlockModelDriver.get_block_model(ws, "test2", locs, h, depth_core, pads, 1.1)
+    obj = BlockModelDriver.get_block_model(
+        ws, locs, h, depth_core, pads, 1.1, name="test2"
+    )
 
     top_padding = BlockModelDriver.find_top_padding(obj, h[2])
 
     assert top_padding >= pads[-1]
+
+
+def test_block_model_to_discretize(tmp_path):
+    # Create a test block model
+    h5file_path = tmp_path / f"{__name__}.geoh5"
+    with Workspace.create(h5file_path) as workspace:
+        locs = np.array([[0, 0, 0], [150, 0, 0], [0, 150, 0]])
+        depth_core = 150.0
+        pads = [0, 0, 0, 0, 0, 0]  # padding on the top
+        h = [50, 50, 50]
+        block_model = BlockModelDriver.get_block_model(
+            workspace,
+            locs,
+            h,
+            depth_core,
+            pads,
+            1.1,
+            name="TestBlockModel",
+        )
+        tensor, indices = block_model_to_discretize(block_model, return_index=True)
+
+        # Check the shape of the discretized points
+        np.testing.assert_allclose(block_model.centroids[indices], tensor.cell_centers)

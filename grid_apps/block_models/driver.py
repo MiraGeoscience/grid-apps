@@ -57,13 +57,13 @@ class BlockModelDriver(BaseBlockModelDriver):
             logger.info("Creating block model . . .")
 
             block_model = BlockModelDriver.get_block_model(
-                workspace=self.params.geoh5,
+                self.params.geoh5,
+                source_locations,
+                self.params.creation.cell_sizes,
+                self.params.creation.depth_core,
+                self.params.creation.padding,
+                self.params.creation.expansion_factor,
                 name=self.params.output.export_as,
-                locs=source_locations,
-                h=self.params.creation.cell_sizes,
-                depth_core=self.params.creation.depth_core,
-                pads=self.params.creation.padding,
-                expansion_factor=self.params.creation.expansion_factor,
             )
 
             # Try to recenter on nearest
@@ -151,23 +151,23 @@ class BlockModelDriver(BaseBlockModelDriver):
     @staticmethod
     def get_block_model(  # pylint: disable=too-many-arguments, too-many-positional-arguments
         workspace: Workspace,
-        name: str,
         locs: np.ndarray,
         h: list,
         depth_core: float,
         pads: list,
         expansion_factor: float,
+        name: str = "BlockModel",
     ) -> BlockModel:
         """
         Create a BlockModel object from parameters.
 
         :param workspace: Workspace.
-        :param name: Block model name.
         :param locs: Location points.
         :param h: Cell size(s) for the core mesh.
         :param depth_core: Depth of core mesh below locs.
         :param pads: len(6) Padding distances [W, E, N, S, Down, Up]
         :param expansion_factor: Expansion factor for padding cells.
+        :param name: Block model name.
 
         :return object_out: Output block model.
         """

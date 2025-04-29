@@ -12,6 +12,7 @@ from pathlib import Path
 
 import numpy as np
 from geoh5py import Workspace
+from pytest import raises
 
 from grid_apps.block_models.driver import BlockModelDriver
 from grid_apps.utils import block_model_to_discretize
@@ -117,6 +118,10 @@ def test_block_model_to_discretize(tmp_path):
             1.1,
             name="TestBlockModel",
         )
+
+        with raises(TypeError):
+            block_model_to_discretize("abc", return_index=True)
+
         tensor, indices = block_model_to_discretize(block_model, return_index=True)
 
         # Check the shape of the discretized points

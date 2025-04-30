@@ -12,7 +12,7 @@ from __future__ import annotations
 
 import numpy as np
 from discretize import TensorMesh
-from geoh5py.objects import BlockModel, ObjectBase
+from geoh5py.objects import BlockModel
 
 
 def block_model_to_discretize(

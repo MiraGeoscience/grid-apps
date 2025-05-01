@@ -37,7 +37,9 @@ def test_block_model_to_octree(tmp_path):
             name="TestBlockModel",
         )
 
-        treemesh = BlockModelToOctreeDriver.block_model_to_treemesh(block_model)
+        treemesh = BlockModelToOctreeDriver.block_model_to_treemesh(
+            block_model, finalize=False
+        )
         treemesh = BlockModelToOctreeDriver.refine_by_cell_volumes(
             treemesh, block_model
         )

@@ -74,12 +74,10 @@ class BlockModelDriver(BaseBlockModelDriver):
 
             neighbor_distances, neighbor_indices = tree.query(block_model.centroids)
             nearest_neighbor = np.argmin(neighbor_distances)
-
             source_to_nearest_neighbor = (
                 block_model.centroids[nearest_neighbor, :]
                 - source_locations[neighbor_indices[nearest_neighbor], :]
             )
-
             block_model.origin = (
                 np.r_[block_model.origin.tolist()] - source_to_nearest_neighbor
             )

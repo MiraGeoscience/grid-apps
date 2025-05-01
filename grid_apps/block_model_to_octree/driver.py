@@ -15,6 +15,7 @@ import sys
 
 import numpy as np
 from discretize import TreeMesh
+from geoh5py.data import FloatData, ReferencedData
 from geoh5py.objects import BlockModel
 from geoh5py.ui_json import InputFile
 from geoh5py.ui_json.utils import fetch_active_workspace
@@ -22,6 +23,7 @@ from octree_creation_app.utils import treemesh_2_octree
 
 from grid_apps.block_model_to_octree.options import BlockModel2OctreeOptions
 from grid_apps.driver import BaseBlockModelDriver
+from grid_apps.utils import block_model_to_discretize
 
 
 logger = logging.getLogger(__name__)
@@ -92,11 +94,18 @@ class BlockModelToOctreeDriver(BaseBlockModelDriver):
         with fetch_active_workspace(self.params.geoh5, mode="r+"):
             entity = self.params.source.entity
 
-            treemesh = BlockModelToOctreeDriver.block_model_to_treemesh(entity)
-            treemesh = BlockModelToOctreeDriver.refine_by_cell_volumes(
-                treemesh, entity, finalize=True
+            treemesh = BlockModelToOctreeDriver.block_model_to_treemesh(
+                entity, finalize=False
             )
 
+            if self.params.data is None:
+                treemesh = BlockModelToOctreeDriver.refine_by_cell_volumes(
+                    treemesh, entity, finalize=True
+                )
+            else:
+                treemesh = BlockModelToOctreeDriver.refine_by_values(
+                    treemesh, self.params.data, finalize=True
+                )
             octree = treemesh_2_octree(self.params.geoh5, treemesh)
 
             return octree
@@ -129,6 +138,17 @@ class BlockModelToOctreeDriver(BaseBlockModelDriver):
         )
 
         return mesh
+
+    @staticmethod
+    def refine_by_values(mesh: TreeMesh, data: FloatData | ReferencedData):
+        """
+        Increase the mesh resolution based on the gradient of data values.
+
+        :param mesh:
+        :param data:
+        :return:
+        """
+        tensor = block_model_to_discretize(data.parent)
 
 
 if __name__ == "__main__":

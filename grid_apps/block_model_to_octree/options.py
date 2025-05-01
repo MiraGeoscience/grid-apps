@@ -14,6 +14,7 @@ from pathlib import Path
 from typing import ClassVar
 
 from geoapps_utils.driver.data import BaseData
+from geoh5py.data import FloatData, ReferencedData
 from geoh5py.objects import BlockModel
 from pydantic import BaseModel, ConfigDict
 
@@ -31,6 +32,7 @@ class SourceOptions(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
     entity: BlockModel
+    data: FloatData | ReferencedData | None = None
 
 
 class OutputOptions(BaseModel):

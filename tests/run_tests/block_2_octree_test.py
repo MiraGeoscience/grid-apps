@@ -11,10 +11,11 @@
 
 import numpy as np
 from geoh5py import Workspace
-from pytest import raises
+from geoh5py.objects import Points
+from octree_creation_app.utils import treemesh_2_octree
 
+from grid_apps.block_model_to_octree.driver import BlockModelToOctreeDriver
 from grid_apps.block_models.driver import BlockModelDriver
-from grid_apps.utils import block_model_to_discretize
 
 
 def test_block_model_to_octree(tmp_path):
@@ -23,27 +24,23 @@ def test_block_model_to_octree(tmp_path):
     with Workspace.create(h5file_path) as workspace:
         locs = np.array([[0, 0, 0], [150, 0, 0], [0, 150, 0]])
         depth_core = 150.0
-        pads = [0, 0, 0, 0, 0, 0]  # padding on the top
+        pads = [1000, 1000, 1000, 1000, 1000, 1000]  # padding on the top
         h = [50, 50, 50]
+        Points.create(workspace, vertices=locs)
         block_model = BlockModelDriver.get_block_model(
             workspace,
             locs,
             h,
             depth_core,
             pads,
-            1.1,
+            1.5,
             name="TestBlockModel",
         )
 
-        origin = []
-        for ax, ori in zip("uvz", block_model.origin, strict=False):
-            cell_sizes = getattr(block_model, f"{ax}_cells")
-            cc_x = np.median(block_model.local_axis_centers(ax))
-            n_cx = np.ceil(np.log2(np.sum(cell_sizes) / cell_sizes.min()))
+        treemesh = BlockModelToOctreeDriver.block_model_to_treemesh(block_model)
+        treemesh = BlockModelToOctreeDriver.refine_by_cell_volumes(
+            treemesh, block_model
+        )
+        octree = treemesh_2_octree(workspace, treemesh)
 
-            cell_sizes_octree = np.ones(int(2**n_cx)) * cell_sizes.min()
-            cc_x_octree = np.median(
-                np.cumsum(cell_sizes_octree) - cell_sizes_octree / 2
-            )
-
-            origin.append(ori + cc_x - cc_x_octree)
+        assert octree.n_cells == 3172

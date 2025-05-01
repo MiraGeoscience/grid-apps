@@ -188,15 +188,12 @@ class BlockModelDriver(BaseBlockModelDriver):
 
         object_out = BlockModel.create(
             workspace,
-            origin=[mesh.x0[0], mesh.x0[1], locs[:, 2].max()],
+            origin=[mesh.x0[0], mesh.x0[1], mesh.x0[2] + mesh.h[2].sum()],
             u_cell_delimiters=mesh.nodes_x - mesh.x0[0],
             v_cell_delimiters=mesh.nodes_y - mesh.x0[1],
-            z_cell_delimiters=-(mesh.x0[2] + mesh.h[2].sum() - mesh.nodes_z[::-1]),
+            z_cell_delimiters=-(mesh.nodes_z - mesh.x0[2])[::-1],
             name=name,
         )
-
-        top_padding = BlockModelDriver.find_top_padding(object_out, h[2])
-        object_out.origin["z"] += top_padding
 
         return object_out
 

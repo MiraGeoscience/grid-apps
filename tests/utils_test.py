@@ -15,7 +15,7 @@ from geoh5py import Workspace
 from pytest import raises
 
 from grid_apps.block_models.driver import BlockModelDriver
-from grid_apps.utils import block_model_to_discretize
+from grid_apps.utils import block_model_to_discretize, tensor_mesh_ordering
 
 
 # pylint: disable=duplicate-code
@@ -120,9 +120,10 @@ def test_block_model_to_discretize(tmp_path):
         )
 
         with raises(TypeError):
-            block_model_to_discretize("abc", return_index=True)
+            block_model_to_discretize("abc")
 
-        tensor, indices = block_model_to_discretize(block_model, return_index=True)
+        tensor = block_model_to_discretize(block_model)
+        indices = tensor_mesh_ordering(block_model)
 
         # Check the shape of the discretized points
         np.testing.assert_allclose(block_model.centroids[indices], tensor.cell_centers)

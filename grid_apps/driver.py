@@ -43,22 +43,6 @@ class BaseBlockModelDriver(BaseDriver):
         # TODO need to re-type params in base class
         super().__init__(parameters)
 
-    @property
-    def out_group(self) -> UIJsonGroup | None:
-        """Output container group."""
-
-        if self._out_group is None and self.params.output.out_group is not None:
-            with fetch_active_workspace(self.workspace, mode="r+") as workspace:
-                self._out_group = UIJsonGroup.create(
-                    workspace=workspace,
-                    name=self.params.output.out_group,
-                )
-                self._out_group.options = InputFile.stringify(  # type: ignore
-                    InputFile.demote(self.params.input_file.ui_json)
-                )
-
-        return self._out_group
-
     def store(self, block_model: BlockModel):
         """
         Update container group and monitoring directory.

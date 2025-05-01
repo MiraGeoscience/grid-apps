@@ -23,7 +23,7 @@ from octree_creation_app.utils import treemesh_2_octree
 
 from grid_apps.block_model_to_octree.options import BlockModel2OctreeOptions
 from grid_apps.driver import BaseBlockModelDriver
-from grid_apps.utils import block_model_to_discretize
+from grid_apps.utils import block_model_to_discretize, tensor_mesh_ordering
 
 
 logger = logging.getLogger(__name__)
@@ -98,15 +98,20 @@ class BlockModelToOctreeDriver(BaseBlockModelDriver):
                 entity, finalize=False
             )
 
-            if self.params.data is None:
+            if self.params.source.data is None:
                 treemesh = BlockModelToOctreeDriver.refine_by_cell_volumes(
                     treemesh, entity, finalize=True
                 )
             else:
                 treemesh = BlockModelToOctreeDriver.refine_by_values(
-                    treemesh, self.params.data, finalize=True
+                    treemesh, self.params.source.data, finalize=True
                 )
-            octree = treemesh_2_octree(self.params.geoh5, treemesh)
+            octree = treemesh_2_octree(
+                self.params.geoh5,
+                treemesh,
+                parent=self.params.output.out_group,
+                name=self.params.output.export_as or entity.name + "_octree",
+            )
 
             return octree
 
@@ -140,7 +145,9 @@ class BlockModelToOctreeDriver(BaseBlockModelDriver):
         return mesh
 
     @staticmethod
-    def refine_by_values(mesh: TreeMesh, data: FloatData | ReferencedData):
+    def refine_by_values(
+        mesh: TreeMesh, data: FloatData | ReferencedData, finalize=True
+    ):
         """
         Increase the mesh resolution based on the gradient of data values.
 
@@ -148,7 +155,28 @@ class BlockModelToOctreeDriver(BaseBlockModelDriver):
         :param data:
         :return:
         """
+        if not isinstance(data, FloatData | ReferencedData):
+            raise TypeError(
+                "Argument 'data' must be an instance of FloatData or ReferencedData."
+            )
+
+        if not isinstance(data.parent, BlockModel):
+            raise TypeError("The parent of 'data' must be an instance of BlockModel.")
+
         tensor = block_model_to_discretize(data.parent)
+        indices = tensor_mesh_ordering(data.parent)
+
+        levels = np.abs(tensor.cell_gradient @ data.values[indices])
+
+        if isinstance(data, FloatData):
+            levels /= levels.max() / mesh.max_level
+        else:
+            levels[levels > 0] = mesh.max_level
+
+        locs = tensor.average_cell_to_face @ tensor.cell_centers
+        mesh.insert_cells(locs, levels.astype(int), finalize=finalize)
+
+        return mesh
 
 
 if __name__ == "__main__":

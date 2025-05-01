@@ -15,6 +15,7 @@ from typing import ClassVar
 
 from geoapps_utils.driver.data import BaseData
 from geoh5py.data import FloatData, ReferencedData
+from geoh5py.groups import UIJsonGroup
 from geoh5py.objects import BlockModel
 from pydantic import BaseModel, ConfigDict
 
@@ -43,8 +44,10 @@ class OutputOptions(BaseModel):
     :param out_group: Name of the output group.
     """
 
-    export_as: str = "block_model"
-    out_group: str | None = None
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+
+    export_as: str | None = None
+    out_group: UIJsonGroup | None = None
 
 
 class BlockModel2OctreeOptions(BaseData):

@@ -66,6 +66,9 @@ class BlockModelDriver(BaseBlockModelDriver):
                 name=self.params.output.export_as,
             )
 
+            if self.params.output.out_group is not None:
+                block_model.parent = self.params.output.out_group
+
             # Try to recenter on nearest
             # Find nearest cells
             if block_model.centroids is None:
@@ -82,7 +85,9 @@ class BlockModelDriver(BaseBlockModelDriver):
                 np.r_[block_model.origin.tolist()] - source_to_nearest_neighbor
             )
 
-            self.update_monitoring_directory(block_model)
+            self.update_monitoring_directory(
+                self.params.output.out_group or block_model
+            )
 
         return block_model
 
@@ -189,7 +194,7 @@ class BlockModelDriver(BaseBlockModelDriver):
             origin=[mesh.x0[0], mesh.x0[1], mesh.x0[2] + mesh.h[2].sum()],
             u_cell_delimiters=mesh.nodes_x - mesh.x0[0],
             v_cell_delimiters=mesh.nodes_y - mesh.x0[1],
-            z_cell_delimiters=-(mesh.nodes_z - mesh.x0[2])[::-1],
+            z_cell_delimiters=-(mesh.x0[2] + mesh.h[2].sum() - mesh.nodes_z[::-1]),
             name=name,
         )
 

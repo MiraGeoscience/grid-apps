@@ -14,6 +14,7 @@ from pathlib import Path
 from typing import ClassVar
 
 from geoapps_utils.driver.data import BaseData
+from geoh5py.groups import UIJsonGroup
 from geoh5py.objects import CellObject, Points
 from geoh5py.objects.grid_object import GridObject
 from pydantic import BaseModel, ConfigDict
@@ -78,8 +79,10 @@ class BlockModelOutputParameters(BaseModel):
     :param out_group: Name of the output group.
     """
 
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+
     export_as: str = "block_model"
-    out_group: str | None = None
+    out_group: UIJsonGroup | None = None
 
 
 class BlockModelParameters(BaseData):

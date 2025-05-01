@@ -11,38 +11,97 @@
 
 import numpy as np
 from geoh5py import Workspace
-from geoh5py.objects import Points
-from octree_creation_app.utils import treemesh_2_octree
+from geoh5py.objects import BlockModel
 
 from grid_apps.block_model_to_octree.driver import BlockModelToOctreeDriver
+from grid_apps.block_model_to_octree.options import BlockModel2OctreeOptions
 from grid_apps.block_models.driver import BlockModelDriver
+
+
+def generate_block_model(
+    workspace: Workspace,
+) -> BlockModel:
+    """
+    Create a block model object from input data.
+    """
+    locs = np.array([[-75, -75, -75], [75, 75, 75]])
+    depth_core = 150.0
+    pads = [1000, 1000, 1000, 1000, 1000, 1000]  # padding on the top
+    h = [10, 10, 10]
+    if locs is None:
+        raise ValueError("Input object has no centroids or vertices.")
+
+    # Create the block model
+    block_model = BlockModelDriver.get_block_model(
+        workspace=workspace,
+        locs=locs,
+        h=h,
+        depth_core=depth_core,
+        pads=pads,
+        expansion_factor=1.5,
+        name="TestBlockModel",
+    )
+    return block_model
 
 
 def test_block_model_to_octree(tmp_path):
     # Create a test block model
     h5file_path = tmp_path / f"{__name__}.geoh5"
     with Workspace.create(h5file_path) as workspace:
-        locs = np.array([[0, 0, 0], [150, 0, 0], [0, 150, 0]])
-        depth_core = 150.0
-        pads = [1000, 1000, 1000, 1000, 1000, 1000]  # padding on the top
-        h = [50, 50, 50]
-        Points.create(workspace, vertices=locs)
-        block_model = BlockModelDriver.get_block_model(
-            workspace,
-            locs,
-            h,
-            depth_core,
-            pads,
-            1.5,
-            name="TestBlockModel",
+        block_model = generate_block_model(workspace)
+
+        params = BlockModel2OctreeOptions.build(
+            {
+                "geoh5": workspace,
+                "entity": block_model,
+            }
         )
 
-        treemesh = BlockModelToOctreeDriver.block_model_to_treemesh(
-            block_model, finalize=False
-        )
-        treemesh = BlockModelToOctreeDriver.refine_by_cell_volumes(
-            treemesh, block_model
-        )
-        octree = treemesh_2_octree(workspace, treemesh)
+        driver = BlockModelToOctreeDriver(params)
+        octree = driver.make_grid()
 
-        assert octree.n_cells == 3172
+        assert octree.n_cells == 13987
+
+
+def test_block_model_to_refine_octree(tmp_path):
+    # Create a test block model
+    h5file_path = tmp_path / f"{__name__}.geoh5"
+    with Workspace.create(h5file_path) as workspace:
+        block_model = generate_block_model(workspace)
+
+        wave = 100 * np.exp(
+            -0.5
+            * (
+                (block_model.locations[:, 0] / 50) ** 2.0
+                + (block_model.locations[:, 1] / 50) ** 2.0
+                + (block_model.locations[:, 2] / 50) ** 2.0
+            )
+        )  #
+
+        # Create float data
+        float_data = block_model.add_data({"wave": {"values": wave.flatten()}})
+
+        params = BlockModel2OctreeOptions.build(
+            {"geoh5": workspace, "entity": block_model, "data": float_data}
+        )
+
+        driver = BlockModelToOctreeDriver(params)
+        octree = driver.make_grid()
+
+        assert octree.n_cells == 1254
+
+        # Repeat with reference data
+        wave[wave < 25] = 1
+        wave[wave > 25] = 2
+        ref_data = block_model.add_data(
+            {"wave": {"values": wave.flatten(), "type": "referenced"}}
+        )
+
+        params = BlockModel2OctreeOptions.build(
+            {"geoh5": workspace, "entity": block_model, "data": ref_data}
+        )
+
+        driver = BlockModelToOctreeDriver(params)
+        octree = driver.make_grid()
+
+        assert octree.n_cells == 5223

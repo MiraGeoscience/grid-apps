@@ -57,12 +57,12 @@ class BlockModelDriver(BaseBlockModelDriver):
             logger.info("Creating block model . . .")
 
             block_model = BlockModelDriver.get_block_model(
-                self.params.geoh5,
-                source_locations,
-                self.params.creation.cell_sizes,
-                self.params.creation.depth_core,
-                self.params.creation.padding,
-                self.params.creation.expansion_factor,
+                workspace=self.params.geoh5,
+                locs=source_locations,
+                h=self.params.creation.cell_sizes,
+                depth_core=self.params.creation.depth_core,
+                pads=self.params.creation.padding,
+                expansion_factor=self.params.creation.expansion_factor,
                 name=self.params.output.export_as,
             )
 

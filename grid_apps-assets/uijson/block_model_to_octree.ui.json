@@ -7,13 +7,29 @@
     "monitoring_directory": "",
     "workspace_geoh5": "",
     "conda_environment_boolean": false,
-    "objects": {
+    "entity": {
         "main": true,
-        "group": "Data",
+        "group": "Input",
         "meshType": [
             "{B020A277-90E2-4CD7-84D6-612EE3F25051}"
         ],
         "label": "Object",
+        "value": ""
+    },
+    "data": {
+        "association": [
+            "Cell"
+        ],
+        "dataType": [
+            "Float",
+            "Referenced"
+        ],
+        "main": true,
+        "group": "Input",
+        "label": "Refine on model",
+        "parent": "entity",
+        "optional": true,
+        "enabled": false,
         "value": ""
     },
     "export_as": {

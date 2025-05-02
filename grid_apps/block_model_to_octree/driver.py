@@ -97,7 +97,7 @@ class BlockModelToOctreeDriver(BaseBlockModelDriver):
             treemesh = BlockModelToOctreeDriver.block_model_to_treemesh(
                 entity, finalize=False
             )
-
+            model = None
             if self.params.source.data is None:
                 treemesh = BlockModelToOctreeDriver.refine_by_cell_volumes(
                     treemesh, entity, finalize=True
@@ -106,12 +106,32 @@ class BlockModelToOctreeDriver(BaseBlockModelDriver):
                 treemesh = BlockModelToOctreeDriver.refine_by_values(
                     treemesh, self.params.source.data, finalize=True
                 )
+                # Transfer the model
+                ind = treemesh.get_containing_cells(entity.centroids)
+                model = (
+                    np.ones(
+                        treemesh.n_cells, dtype=self.params.source.data.values.dtype
+                    )
+                    * self.params.source.data.nan_value
+                )
+                model[ind] = self.params.source.data.values
+
             octree = treemesh_2_octree(
                 self.params.geoh5,
                 treemesh,
                 parent=self.params.output.out_group,
                 name=self.params.output.export_as or entity.name + "_octree",
             )
+
+            if model is not None and self.params.source.data is not None:
+                octree.add_data(
+                    {
+                        self.params.source.data.name: {
+                            "values": model,
+                            "entity_type": self.params.source.data.entity_type,
+                        }
+                    }
+                )
 
             return octree
 

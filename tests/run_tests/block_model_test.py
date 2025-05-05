@@ -33,7 +33,7 @@ def test_get_block_model(tmp_path: Path):  # pylint: disable=too-many-locals
     pads = [100, 150, 200, 300, 0, 0]
     ws = Workspace(tmp_path / "block_model.geoh5")
     obj = BlockModelDriver.get_block_model(
-        ws, "test", locs, [50, 50, 50], depth_core, pads, 1.1
+        ws, locs, [50, 50, 50], depth_core, pads, 1.1, name="test"
     )
     assert (obj.origin["z"] + obj.z_cell_delimiters).max() == top
     assert obj.origin["x"] < -pads[0]
@@ -55,7 +55,9 @@ def test_get_block_model(tmp_path: Path):  # pylint: disable=too-many-locals
     pads = [0, 0, 0, 0, 100, 0]  # padding on the bottom
     h = [50, 50, 50]
 
-    obj = BlockModelDriver.get_block_model(ws, "test2", locs, h, depth_core, pads, 1.1)
+    obj = BlockModelDriver.get_block_model(
+        ws, locs, h, depth_core, pads, 1.1, name="test2"
+    )
 
     assert top - (depth_core + h[2] + pads[4]) >= np.min(
         obj.origin["z"] + obj.z_cell_delimiters
@@ -77,7 +79,7 @@ def test_get_block_model(tmp_path: Path):  # pylint: disable=too-many-locals
     h = [50, 50, 50]
 
     obj = BlockModelDriver.get_block_model(
-        ws, "test2", locs, h, depth_core, pads, expansion_rate
+        ws, locs, h, depth_core, pads, expansion_rate, name="test2"
     )
 
     assert obj.origin["z"] >= top + pads[-1]

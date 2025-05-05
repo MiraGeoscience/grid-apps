@@ -33,9 +33,15 @@ repos:
             numpy==1.26.*,
             types-toml,
             types-PyYAML,
+            pydantic==2.5.*,
             tomli, # to read config from pyproject.toml
         ]
-        exclude: ^(docs|grid_apps-assets)/
+        exclude: |
+            (?x)(^
+                docs/.*|
+                grid_apps-assets/.*|
+                tests/.*|
+            )$
 -   repo: https://github.com/codingjoe/relint
     rev: 3.3.1
     hooks:

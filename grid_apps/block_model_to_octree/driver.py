@@ -40,7 +40,7 @@ class BlockModelToOctreeDriver(BaseBlockModelDriver):
         if isinstance(parameters, InputFile):
             parameters = self._parameter_class.build(parameters)
 
-        super().__init__(parameters)  # type: ignore
+        super().__init__(parameters)
 
     @staticmethod
     def block_model_to_treemesh(
@@ -93,43 +93,41 @@ class BlockModelToOctreeDriver(BaseBlockModelDriver):
         :return: Octree object refined by the cell volumes or gradient of the data.
         """
         with fetch_active_workspace(self.params.geoh5, mode="r+"):
-            entity = self.params.source.entity
+            entity = self.params.entity
 
             treemesh = BlockModelToOctreeDriver.block_model_to_treemesh(
                 entity, finalize=False
             )
             model = None
-            if self.params.source.data is None:
+            if self.params.data is None:
                 treemesh = BlockModelToOctreeDriver.refine_by_cell_volumes(
                     treemesh, entity, finalize=True
                 )
             else:
                 treemesh = BlockModelToOctreeDriver.refine_by_values(
-                    treemesh, self.params.source.data, finalize=True
+                    treemesh, self.params.data, finalize=True
                 )
                 # Transfer the model
                 ind = treemesh.get_containing_cells(entity.centroids)
                 model = (
-                    np.ones(
-                        treemesh.n_cells, dtype=self.params.source.data.values.dtype
-                    )
-                    * self.params.source.data.nan_value
+                    np.ones(treemesh.n_cells, dtype=self.params.data.values.dtype)
+                    * self.params.data.nan_value
                 )
-                model[ind] = self.params.source.data.values
+                model[ind] = self.params.data.values
 
             octree = treemesh_2_octree(
                 self.params.geoh5,
                 treemesh,
-                parent=self.params.output.out_group,
-                name=self.params.output.export_as or entity.name + "_octree",
+                parent=self.params.out_group,
+                name=self.params.export_as or entity.name + "_octree",
             )
 
-            if model is not None and self.params.source.data is not None:
+            if model is not None and self.params.data is not None:
                 octree.add_data(
                     {
-                        self.params.source.data.name: {
+                        self.params.data.name: {
                             "values": model,
-                            "entity_type": self.params.source.data.entity_type,
+                            "entity_type": self.params.data.entity_type,
                         }
                     }
                 )

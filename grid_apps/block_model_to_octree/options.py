@@ -17,47 +17,22 @@ from geoapps_utils.driver.data import BaseData
 from geoh5py.data import FloatData, ReferencedData
 from geoh5py.groups import UIJsonGroup
 from geoh5py.objects import BlockModel
-from pydantic import BaseModel, ConfigDict
+from pydantic import ConfigDict
 
 from grid_apps import assets_path
-
-
-class SourceOptions(BaseModel):
-    """
-    Source parameters providing input data to the driver.
-
-    :param objects: A Grid2D, Octree, BlockModel, Points, Curve or
-        Surface source object.
-    """
-
-    model_config = ConfigDict(arbitrary_types_allowed=True)
-
-    entity: BlockModel
-    data: FloatData | ReferencedData | None = None
-
-
-class OutputOptions(BaseModel):
-    """
-    Output parameters for block model creation.
-
-    :param export_as: Name of the output entity.
-    :param out_group: Name of the output group.
-    """
-
-    model_config = ConfigDict(arbitrary_types_allowed=True)
-
-    export_as: str | None = None
-    out_group: UIJsonGroup | None = None
 
 
 class BlockModel2OctreeOptions(BaseData):
     """
     Block model parameters for use with `block_models.driver`.
 
-    :param source: Source data parameters.
-    :param creation: Block Model creation parameters.
-    :param output: Block Model output parameters.
+    :param entity: BlockModel source object.
+    :param data: Optional data to refine the octree mesh.
+    :param export_as: Name of the output entity.
+    :param out_group: Output UIJson group.
     """
+
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
     name: ClassVar[str] = "block_model_to_octree"
     default_ui_json: ClassVar[Path] = (
@@ -65,7 +40,10 @@ class BlockModel2OctreeOptions(BaseData):
     )
     title: ClassVar[str] = "Block Model to Octree Conversion"
     run_command: ClassVar[str] = "grid_apps.block_model_to_octree.driver"
-
     conda_environment: str = "grid_apps"
-    source: SourceOptions
-    output: OutputOptions
+
+    entity: BlockModel
+    data: FloatData | ReferencedData | None = None
+
+    export_as: str | None = None
+    out_group: UIJsonGroup | None = None

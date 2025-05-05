@@ -16,7 +16,7 @@ import sys
 import numpy as np
 from discretize import TreeMesh
 from geoh5py.data import FloatData, ReferencedData
-from geoh5py.objects import BlockModel
+from geoh5py.objects import BlockModel, Octree
 from geoh5py.ui_json import InputFile
 from geoh5py.ui_json.utils import fetch_active_workspace
 from octree_creation_app.utils import treemesh_2_octree
@@ -86,10 +86,11 @@ class BlockModelToOctreeDriver(BaseBlockModelDriver):
 
         return treemesh
 
-    def make_grid(self):
+    def make_grid(self) -> Octree:
         """
         Convert the block model and output the octree mesh.
-        :return:
+
+        :return: Octree object refined by the cell volumes or gradient of the data.
         """
         with fetch_active_workspace(self.params.geoh5, mode="r+"):
             entity = self.params.source.entity
@@ -146,7 +147,7 @@ class BlockModelToOctreeDriver(BaseBlockModelDriver):
         :param entity: BlockModel object to be used for refinement.
         :param finalize: Whether to finalize the treemesh after refinement.
 
-        :return: TreeMesh object with refinement.
+        :return: TreeMesh object with refined levels.
         """
         tensor_oct_level = []
         for ax in "uvz":
@@ -167,13 +168,16 @@ class BlockModelToOctreeDriver(BaseBlockModelDriver):
     @staticmethod
     def refine_by_values(
         mesh: TreeMesh, data: FloatData | ReferencedData, finalize=True
-    ):
+    ) -> TreeMesh:
         """
         Increase the mesh resolution based on the gradient of data values.
 
-        :param mesh:
-        :param data:
-        :return:
+        :param mesh: Input TreeMesh object.
+        :param data: FloatData or ReferencedData object containing the values to
+            be used for refinement.
+        :param finalize: Whether to finalize the treemesh after refinement.
+
+        :return: TreeMesh object with refined levels.
         """
         if not isinstance(data, FloatData | ReferencedData):
             raise TypeError(
@@ -201,6 +205,5 @@ class BlockModelToOctreeDriver(BaseBlockModelDriver):
 
 if __name__ == "__main__":
     file = sys.argv[1]
-    ifile = InputFile.read_ui_json(file)
-    driver = BlockModelToOctreeDriver(ifile)
+    driver = BlockModelToOctreeDriver.start(file)
     driver.run()

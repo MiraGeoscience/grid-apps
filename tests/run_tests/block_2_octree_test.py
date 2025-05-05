@@ -47,6 +47,7 @@ def generate_block_model(
 def test_block_model_to_octree(tmp_path):
     # Create a test block model
     h5file_path = tmp_path / f"{__name__}.geoh5"
+    ifile = tmp_path / f"{__name__}.ui.json"
     with Workspace.create(h5file_path) as workspace:
         block_model = generate_block_model(workspace)
 
@@ -57,10 +58,12 @@ def test_block_model_to_octree(tmp_path):
             }
         )
 
-        driver = BlockModelToOctreeDriver(params)
-        octree = driver.make_grid()
+        params.write_ui_json(ifile)
 
-        assert octree.n_cells == 13987
+    driver = BlockModelToOctreeDriver.start(ifile)
+    octree = driver.make_grid()
+
+    assert octree.n_cells == 13987
 
 
 def test_block_model_to_refine_octree(tmp_path):

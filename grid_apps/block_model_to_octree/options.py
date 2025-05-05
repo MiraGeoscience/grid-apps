@@ -17,9 +17,23 @@ from geoapps_utils.driver.data import BaseData
 from geoh5py.data import FloatData, ReferencedData
 from geoh5py.groups import UIJsonGroup
 from geoh5py.objects import BlockModel
-from pydantic import ConfigDict
+from pydantic import BaseModel, ConfigDict
 
 from grid_apps import assets_path
+
+
+class OutputOptions(BaseModel):
+    """
+    Output parameters for block model creation.
+
+    :param export_as: Name of the output entity.
+    :param out_group: Output UIJson group.
+    """
+
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+
+    export_as: str | None = None
+    out_group: UIJsonGroup | None = None
 
 
 class BlockModel2OctreeOptions(BaseData):
@@ -45,5 +59,4 @@ class BlockModel2OctreeOptions(BaseData):
     entity: BlockModel
     data: FloatData | ReferencedData | None = None
 
-    export_as: str | None = None
-    out_group: UIJsonGroup | None = None
+    output: OutputOptions

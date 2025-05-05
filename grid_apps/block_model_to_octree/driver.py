@@ -34,11 +34,11 @@ class BlockModelToOctreeDriver(BaseBlockModelDriver):
     Convert a BlockModel object to Octree with various refinement strategies.
     """
 
-    _parameter_class = BlockModel2OctreeOptions
+    _params_class = BlockModel2OctreeOptions
 
     def __init__(self, parameters: BlockModel2OctreeOptions | InputFile):
         if isinstance(parameters, InputFile):
-            parameters = self._parameter_class.build(parameters)
+            parameters = self._params_class.build(parameters)
 
         super().__init__(parameters)
 
@@ -118,8 +118,8 @@ class BlockModelToOctreeDriver(BaseBlockModelDriver):
             octree = treemesh_2_octree(
                 self.params.geoh5,
                 treemesh,
-                parent=self.params.out_group,
-                name=self.params.export_as or entity.name + "_octree",
+                parent=self.params.output.out_group,
+                name=self.params.output.export_as or entity.name + "_octree",
             )
 
             if model is not None and self.params.data is not None:

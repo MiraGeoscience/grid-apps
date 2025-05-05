@@ -34,11 +34,11 @@ class BlockModelDriver(BaseBlockModelDriver):
     Create BlockModel from BlockModelParams.
     """
 
-    _parameter_class = BlockModelParameters
+    _params_class = BlockModelParameters
 
     def __init__(self, parameters: BlockModelParameters | InputFile):
         if isinstance(parameters, InputFile):
-            parameters = self._parameter_class.build(parameters)
+            parameters = self._params_class.build(parameters)
 
         # TODO need to re-type params in base class
         super().__init__(parameters)  # type: ignore

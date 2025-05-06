@@ -63,7 +63,11 @@ def tensor_mesh_ordering(
             entity.shape[1],
         ),
         order="F",
-    )[::-1, :, :]
+    )
+
+    if entity.z_cells[0] < 0:
+        indices = indices[::-1, :, :]
+
     indices = indices.transpose((1, 2, 0)).flatten(order="F")
 
     return indices

@@ -1,0 +1,50 @@
+{
+    "version": "0.1.0",
+    "title": "Block Model To Octree Conversion",
+    "conda_environment": "grid_apps",
+    "run_command": "grid_apps.block_model_to_octree.driver",
+    "geoh5": "",
+    "monitoring_directory": "",
+    "workspace_geoh5": "",
+    "conda_environment_boolean": false,
+    "entity": {
+        "main": true,
+        "group": "Input",
+        "meshType": [
+            "{B020A277-90E2-4CD7-84D6-612EE3F25051}"
+        ],
+        "label": "Object",
+        "value": ""
+    },
+    "data": {
+        "association": [
+            "Cell"
+        ],
+        "dataType": [
+            "Float",
+            "Referenced"
+        ],
+        "main": true,
+        "group": "Input",
+        "label": "Refine on model",
+        "parent": "entity",
+        "optional": true,
+        "enabled": false,
+        "value": ""
+    },
+    "export_as": {
+        "group": "Output",
+        "main": true,
+        "label": "Save as",
+        "value": "block_model"
+    },
+    "out_group": {
+        "group": "Output preferences",
+        "label": "UIJson group",
+        "value": "",
+        "groupType": "{BB50AC61-A657-4926-9C82-067658E246A0}",
+        "visible": true,
+        "optional": true,
+        "enabled": false
+    }
+}

@@ -11,8 +11,10 @@
 from __future__ import annotations
 
 import logging
+import sys
 import tempfile
 from abc import abstractmethod
+from json import load
 from pathlib import Path
 
 from geoapps_utils.driver.data import BaseData
@@ -26,7 +28,7 @@ from geoh5py.ui_json import InputFile
 logger = logging.getLogger(__name__)
 
 
-class BaseBlockModelDriver(BaseDriver):
+class BaseGridDriver(BaseDriver):
     """
     Driver for the block model application.
 
@@ -42,22 +44,6 @@ class BaseBlockModelDriver(BaseDriver):
 
         # TODO need to re-type params in base class
         super().__init__(parameters)
-
-    @property
-    def out_group(self) -> UIJsonGroup | None:
-        """Output container group."""
-
-        if self._out_group is None and self.params.output.out_group is not None:
-            with fetch_active_workspace(self.workspace, mode="r+") as workspace:
-                self._out_group = UIJsonGroup.create(
-                    workspace=workspace,
-                    name=self.params.output.out_group,
-                )
-                self._out_group.options = InputFile.stringify(  # type: ignore
-                    InputFile.demote(self.params.input_file.ui_json)
-                )
-
-        return self._out_group
 
     def store(self, block_model: BlockModel):
         """
@@ -97,6 +83,17 @@ class BaseBlockModelDriver(BaseDriver):
             raise TypeError("Parameters must be a BaseData subclass.")
         self._params = val
 
+    @classmethod
+    def start(cls, filepath: str | Path, driver_class=None, **kwargs):
+        with open(filepath, encoding="utf-8") as jsonfile:
+            uijson = load(jsonfile)
+
+        if driver_class is None:
+            module = __import__(uijson["run_command"], fromlist=["Driver"])
+            driver_class = module.Driver
+
+        super().start(filepath, driver_class=driver_class, **kwargs)
+
     def add_ui_json(self, entity: ObjectBase | UIJsonGroup) -> None:
         """
         Add ui.json file to entity.
@@ -109,3 +106,8 @@ class BaseBlockModelDriver(BaseDriver):
             self.params.write_ui_json(filepath)
 
             entity.add_file(str(filepath))
+
+
+if __name__ == "__main__":
+    file = Path(sys.argv[1]).resolve()
+    BaseGridDriver.start(file)

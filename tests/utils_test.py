@@ -14,7 +14,7 @@ import numpy as np
 from geoh5py import Workspace
 from pytest import raises
 
-from grid_apps.block_models.driver import BlockModelDriver
+from grid_apps.block_models.driver import Driver as BlockModelDriver
 from grid_apps.utils import block_model_to_discretize, tensor_mesh_ordering
 
 

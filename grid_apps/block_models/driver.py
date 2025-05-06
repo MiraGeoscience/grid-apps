@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import logging
 import sys
+from pathlib import Path
 
 import numpy as np
 from discretize.utils import mesh_utils
@@ -23,22 +24,22 @@ from geoh5py.workspace import Workspace
 from scipy.spatial import cKDTree
 
 from grid_apps.block_models.params import BlockModelParameters
-from grid_apps.driver import BaseBlockModelDriver
+from grid_apps.driver import BaseGridDriver
 
 
 logger = logging.getLogger(__name__)
 
 
-class BlockModelDriver(BaseBlockModelDriver):
+class Driver(BaseGridDriver):
     """
     Create BlockModel from BlockModelParams.
     """
 
-    _parameter_class = BlockModelParameters
+    _params_class = BlockModelParameters
 
     def __init__(self, parameters: BlockModelParameters | InputFile):
         if isinstance(parameters, InputFile):
-            parameters = self._parameter_class.build(parameters)
+            parameters = self._params_class.build(parameters)
 
         # TODO need to re-type params in base class
         super().__init__(parameters)  # type: ignore
@@ -56,7 +57,7 @@ class BlockModelDriver(BaseBlockModelDriver):
 
             logger.info("Creating block model . . .")
 
-            block_model = BlockModelDriver.get_block_model(
+            block_model = Driver.get_block_model(
                 workspace=self.params.geoh5,
                 locs=source_locations,
                 h=self.params.creation.cell_sizes,
@@ -66,6 +67,9 @@ class BlockModelDriver(BaseBlockModelDriver):
                 name=self.params.output.export_as,
             )
 
+            if self.params.output.out_group is not None:
+                block_model.parent = self.params.output.out_group
+
             # Try to recenter on nearest
             # Find nearest cells
             if block_model.centroids is None:
@@ -74,17 +78,17 @@ class BlockModelDriver(BaseBlockModelDriver):
 
             neighbor_distances, neighbor_indices = tree.query(block_model.centroids)
             nearest_neighbor = np.argmin(neighbor_distances)
-
             source_to_nearest_neighbor = (
                 block_model.centroids[nearest_neighbor, :]
                 - source_locations[neighbor_indices[nearest_neighbor], :]
             )
-
             block_model.origin = (
                 np.r_[block_model.origin.tolist()] - source_to_nearest_neighbor
             )
 
-            self.update_monitoring_directory(block_model)
+            self.update_monitoring_directory(
+                self.params.output.out_group or block_model
+            )
 
         return block_model
 
@@ -172,8 +176,8 @@ class BlockModelDriver(BaseBlockModelDriver):
         :return object_out: Output block model.
         """
 
-        locs = BlockModelDriver.truncate_locs_depths(locs, depth_core)
-        depth_core = BlockModelDriver.minimum_depth_core(locs, depth_core, h[2])
+        locs = Driver.truncate_locs_depths(locs, depth_core)
+        depth_core = Driver.minimum_depth_core(locs, depth_core, h[2])
         mesh = mesh_utils.mesh_builder_xyz(
             locs,
             h,
@@ -188,15 +192,12 @@ class BlockModelDriver(BaseBlockModelDriver):
 
         object_out = BlockModel.create(
             workspace,
-            origin=[mesh.x0[0], mesh.x0[1], locs[:, 2].max()],
+            origin=[mesh.x0[0], mesh.x0[1], mesh.x0[2] + mesh.h[2].sum()],
             u_cell_delimiters=mesh.nodes_x - mesh.x0[0],
             v_cell_delimiters=mesh.nodes_y - mesh.x0[1],
             z_cell_delimiters=-(mesh.x0[2] + mesh.h[2].sum() - mesh.nodes_z[::-1]),
             name=name,
         )
-
-        top_padding = BlockModelDriver.find_top_padding(object_out, h[2])
-        object_out.origin["z"] += top_padding
 
         return object_out
 
@@ -213,7 +214,5 @@ class BlockModelDriver(BaseBlockModelDriver):
 
 
 if __name__ == "__main__":
-    file = sys.argv[1]
-    ifile = InputFile.read_ui_json(file)
-    driver = BlockModelDriver(ifile)
-    driver.run()
+    file = Path(sys.argv[1]).resolve()
+    Driver.start(file)

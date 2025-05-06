@@ -12,10 +12,11 @@
 import numpy as np
 from geoh5py import Workspace
 from geoh5py.objects import BlockModel
+from geoh5py.ui_json import InputFile
 
-from grid_apps.block_model_to_octree.driver import BlockModelToOctreeDriver
+from grid_apps.block_model_to_octree.driver import Driver as BlockModelToOctreeDriver
 from grid_apps.block_model_to_octree.options import BlockModel2OctreeOptions
-from grid_apps.block_models.driver import BlockModelDriver
+from grid_apps.block_models.driver import Driver as BlockModelDriver
 
 
 def generate_block_model(
@@ -60,7 +61,8 @@ def test_block_model_to_octree(tmp_path):
 
         params.write_ui_json(ifile)
 
-    driver = BlockModelToOctreeDriver.start(ifile)
+    ifile_class = InputFile.read_ui_json(ifile)
+    driver = BlockModelToOctreeDriver(ifile_class)
     octree = driver.make_grid()
 
     assert octree.n_cells == 13987

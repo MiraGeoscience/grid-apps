@@ -15,7 +15,7 @@ from pathlib import Path
 import numpy as np
 from geoh5py.workspace import Workspace
 
-from grid_apps.block_models.driver import BlockModelDriver
+from grid_apps.block_models.driver import Driver as BlockModelDriver
 
 
 def test_get_block_model(tmp_path: Path):  # pylint: disable=too-many-locals

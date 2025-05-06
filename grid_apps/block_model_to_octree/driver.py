@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import logging
 import sys
+from pathlib import Path
 
 import numpy as np
 from discretize import TreeMesh
@@ -20,16 +21,17 @@ from geoh5py.objects import BlockModel, Octree
 from geoh5py.ui_json import InputFile
 from geoh5py.ui_json.utils import fetch_active_workspace
 from octree_creation_app.utils import treemesh_2_octree
+from scipy.spatial import cKDTree
 
 from grid_apps.block_model_to_octree.options import BlockModel2OctreeOptions
-from grid_apps.driver import BaseBlockModelDriver
+from grid_apps.driver import BaseGridDriver
 from grid_apps.utils import block_model_to_discretize, tensor_mesh_ordering
 
 
 logger = logging.getLogger(__name__)
 
 
-class BlockModelToOctreeDriver(BaseBlockModelDriver):
+class Driver(BaseGridDriver):
     """
     Convert a BlockModel object to Octree with various refinement strategies.
     """
@@ -95,16 +97,14 @@ class BlockModelToOctreeDriver(BaseBlockModelDriver):
         with fetch_active_workspace(self.params.geoh5, mode="r+"):
             entity = self.params.entity
 
-            treemesh = BlockModelToOctreeDriver.block_model_to_treemesh(
-                entity, finalize=False
-            )
+            treemesh = Driver.block_model_to_treemesh(entity, finalize=False)
             model = None
             if self.params.data is None:
-                treemesh = BlockModelToOctreeDriver.refine_by_cell_volumes(
+                treemesh = Driver.refine_by_cell_volumes(
                     treemesh, entity, finalize=True
                 )
             else:
-                treemesh = BlockModelToOctreeDriver.refine_by_values(
+                treemesh = Driver.refine_by_values(
                     treemesh, self.params.data, finalize=True
                 )
                 # Transfer the model
@@ -114,6 +114,12 @@ class BlockModelToOctreeDriver(BaseBlockModelDriver):
                     * self.params.data.nan_value
                 )
                 model[ind] = self.params.data.values
+
+                nan_vals = (model == self.params.data.nan_value) | np.isnan(model)
+                if np.any(nan_vals):
+                    tree = cKDTree(entity.centroids)
+                    ind = tree.query(treemesh.cell_centers[nan_vals])[1]
+                    model[nan_vals] = self.params.data.values[ind]
 
             octree = treemesh_2_octree(
                 self.params.geoh5,
@@ -202,6 +208,5 @@ class BlockModelToOctreeDriver(BaseBlockModelDriver):
 
 
 if __name__ == "__main__":
-    file = sys.argv[1]
-    driver = BlockModelToOctreeDriver.start(file)
-    driver.run()
+    file = Path(sys.argv[1]).resolve()
+    Driver.start(file)

@@ -45,6 +45,24 @@ def generate_block_model(
     return block_model
 
 
+def gaussian_wave(locations: np.ndarray, width: float, amplitude: float) -> np.ndarray:
+    """
+    Generate a Gaussian wave function.
+
+    :param locations: Array of shape (n, m) representing the coordinates.
+    :param width: Width of the Gaussian wave.
+    :param amplitude: Amplitude of the Gaussian wave.
+
+    :return: Array of shape (n,) representing the Gaussian wave values at the given locations.
+    """
+    exp = np.zeros(locations.shape[0])
+
+    for loc in locations.T:
+        exp += (loc / width) ** 2
+
+    return amplitude * np.exp(-0.5 * (exp))
+
+
 def test_block_model_to_octree(tmp_path):
     # Create a test block model
     h5file_path = tmp_path / f"{__name__}.geoh5"
@@ -68,20 +86,17 @@ def test_block_model_to_octree(tmp_path):
     assert octree.n_cells == 13987
 
 
-def test_block_model_to_refine_octree(tmp_path):
+def test_float_refine_octree(tmp_path):
     # Create a test block model
     h5file_path = tmp_path / f"{__name__}.geoh5"
     with Workspace.create(h5file_path) as workspace:
         block_model = generate_block_model(workspace)
 
-        wave = 100 * np.exp(
-            -0.5
-            * (
-                (block_model.locations[:, 0] / 50) ** 2.0
-                + (block_model.locations[:, 1] / 50) ** 2.0
-                + (block_model.locations[:, 2] / 50) ** 2.0
-            )
-        )  #
+        wave = gaussian_wave(block_model.centroids, width=50, amplitude=100)
+        topo = gaussian_wave(block_model.centroids[:, :2], width=100, amplitude=50)
+        active = block_model.locations[:, 2] < topo
+
+        wave[~active] = np.nan  # Set values below topography to NaN
 
         # Create float data
         float_data = block_model.add_data({"wave": {"values": wave.flatten()}})
@@ -93,7 +108,14 @@ def test_block_model_to_refine_octree(tmp_path):
         driver = BlockModelToOctreeDriver(params)
         octree = driver.make_grid()
 
-        assert octree.n_cells == 1254
+        assert octree.n_cells == 7883
+
+
+def test_integer_refine_octree(tmp_path):
+    h5file_path = tmp_path / f"{__name__}.geoh5"
+    with Workspace.create(h5file_path) as workspace:
+        block_model = generate_block_model(workspace)
+        wave = gaussian_wave(block_model.centroids, width=50, amplitude=100)
 
         # Repeat with reference data
         wave[wave < 25] = 1

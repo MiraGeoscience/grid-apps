@@ -142,7 +142,10 @@ class Driver(BaseGridDriver):
 
     @staticmethod
     def refine_by_cell_volumes(
-        mesh: TreeMesh, entity: BlockModel, finalize=True
+        mesh: TreeMesh,
+        entity: BlockModel,
+        finalize: bool = True,
+        mask: np.ndarray | None = None,
     ) -> TreeMesh:
         """
         Refine the octree mesh by the cell volumes of the block model.
@@ -150,22 +153,29 @@ class Driver(BaseGridDriver):
         :param mesh: TreeMesh object to be refined.
         :param entity: BlockModel object to be used for refinement.
         :param finalize: Whether to finalize the treemesh after refinement.
+        :param mask: Optional mask on the block model centroids to apply the refinement over.
 
         :return: TreeMesh object with refined levels.
         """
+        if not isinstance(entity, BlockModel):
+            raise TypeError("entity must be an instance of BlockModel.")
+
         tensor_oct_level = []
         for ax in "uvz":
             cell_sizes = np.abs(getattr(entity, f"{ax}_cells"))
             h_core = cell_sizes.min()
-
             # Find the core region
             tensor_oct_level.append(np.log2(cell_sizes / h_core).astype(int))
 
         e_x, e_y, e_z = np.meshgrid(*tensor_oct_level)
         max_level = np.c_[np.ravel(e_x), np.ravel(e_y), np.ravel(e_z)].max(axis=1)
-        mesh.insert_cells(
-            entity.centroids, mesh.max_level - max_level, finalize=finalize
-        )
+
+        locations = entity.centroids
+        if mask is not None:
+            locations = locations[mask]
+            max_level = max_level[mask]
+
+        mesh.insert_cells(locations, mesh.max_level - max_level, finalize=finalize)
 
         return mesh
 
@@ -188,21 +198,34 @@ class Driver(BaseGridDriver):
                 "Argument 'data' must be an instance of FloatData or ReferencedData."
             )
 
-        if not isinstance(data.parent, BlockModel):
+        entity = data.parent
+        if not isinstance(entity, BlockModel):
             raise TypeError("The parent of 'data' must be an instance of BlockModel.")
 
-        tensor = block_model_to_discretize(data.parent)
-        indices = tensor_mesh_ordering(data.parent)
+        tensor = block_model_to_discretize(entity)
+        indices = tensor_mesh_ordering(entity)
 
         levels = np.abs(tensor.cell_gradient @ data.values[indices])
+        isnan = np.isnan(levels)
 
         if isinstance(data, FloatData):
-            levels /= levels.max() / mesh.max_level
+            levels = np.searchsorted(
+                np.nanpercentile(levels, np.linspace(5, 95, mesh.max_level)), levels
+            )
         else:
             levels[levels > 0] = mesh.max_level
 
+        if any(isnan):
+            horizon = (
+                tensor.average_face_to_cell
+                @ (tensor.cell_gradient @ np.isnan(data.values))
+            ).astype(bool)
+            mesh = Driver.refine_by_cell_volumes(
+                mesh, entity, finalize=False, mask=horizon
+            )
+
         locs = tensor.average_cell_to_face @ tensor.cell_centers
-        mesh.insert_cells(locs, levels.astype(int), finalize=finalize)
+        mesh.insert_cells(locs[~isnan], levels[~isnan].astype(int), finalize=finalize)
 
         return mesh
 

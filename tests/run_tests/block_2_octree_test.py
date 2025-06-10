@@ -71,7 +71,7 @@ def test_block_model_to_octree(tmp_path):
         block_model = generate_block_model(workspace)
 
         params = BlockModel2OctreeOptions.build(
-            {
+            **{
                 "geoh5": workspace,
                 "entity": block_model,
             }

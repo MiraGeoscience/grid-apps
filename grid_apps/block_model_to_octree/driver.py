@@ -209,19 +209,21 @@ class Driver(BaseGridDriver):
         isnan = np.isnan(levels)
 
         if isinstance(data, FloatData):
-            levels = np.searchsorted(
-                np.nanpercentile(levels, np.linspace(5, 95, mesh.max_level)), levels
+            actives = levels[~isnan]
+            log_percent = np.percentile(
+                np.log(actives[actives > 0]), np.linspace(5, 95, mesh.max_level)
             )
+            levels = np.searchsorted(np.exp(log_percent), levels)
+            levels[isnan] = 0
         else:
             levels[levels > 0] = mesh.max_level
 
+        # Refine on the value/nan interface, without boundary cells
         if any(isnan):
-            horizon = (
-                tensor.average_face_to_cell
-                @ (tensor.cell_gradient @ np.isnan(data.values))
-            ).astype(bool)
+            face_ndv = tensor.cell_gradient @ np.isnan(data.values[indices])
+            horizon = (tensor.average_face_to_cell @ face_ndv.astype(bool)).astype(bool)
             mesh = Driver.refine_by_cell_volumes(
-                mesh, entity, finalize=False, mask=horizon
+                mesh, entity, finalize=False, mask=horizon[np.argsort(indices)]
             )
 
         locs = tensor.average_cell_to_face @ tensor.cell_centers

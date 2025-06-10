@@ -59,4 +59,4 @@ class BlockModel2OctreeOptions(BaseData):
     entity: BlockModel
     data: FloatData | ReferencedData | None = None
 
-    output: OutputOptions
+    output: OutputOptions = OutputOptions()

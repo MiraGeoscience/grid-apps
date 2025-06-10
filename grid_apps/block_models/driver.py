@@ -23,7 +23,7 @@ from geoh5py.ui_json import InputFile
 from geoh5py.workspace import Workspace
 from scipy.spatial import cKDTree
 
-from grid_apps.block_models.params import BlockModelParameters
+from grid_apps.block_models.options import BlockModelOptions
 from grid_apps.driver import BaseGridDriver
 
 
@@ -35,9 +35,9 @@ class Driver(BaseGridDriver):
     Create BlockModel from BlockModelParams.
     """
 
-    _params_class = BlockModelParameters
+    _params_class = BlockModelOptions
 
-    def __init__(self, parameters: BlockModelParameters | InputFile):
+    def __init__(self, parameters: BlockModelOptions | InputFile):
         if isinstance(parameters, InputFile):
             parameters = self._params_class.build(parameters)
 

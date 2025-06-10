@@ -102,7 +102,7 @@ def test_float_refine_octree(tmp_path):
         float_data = block_model.add_data({"wave": {"values": wave.flatten()}})
 
         params = BlockModel2OctreeOptions.build(
-            {"geoh5": workspace, "entity": block_model, "data": float_data}
+            **{"geoh5": workspace, "entity": block_model, "data": float_data}
         )
 
         driver = BlockModelToOctreeDriver(params)
@@ -125,7 +125,7 @@ def test_integer_refine_octree(tmp_path):
         )
 
         params = BlockModel2OctreeOptions.build(
-            {"geoh5": workspace, "entity": block_model, "data": ref_data}
+            **{"geoh5": workspace, "entity": block_model, "data": ref_data}
         )
 
         driver = BlockModelToOctreeDriver(params)

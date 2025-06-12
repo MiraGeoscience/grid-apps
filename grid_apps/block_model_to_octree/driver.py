@@ -205,18 +205,18 @@ class Driver(BaseGridDriver):
         tensor = block_model_to_discretize(entity)
         indices = tensor_mesh_ordering(entity)
 
-        levels = np.abs(tensor.cell_gradient @ data.values[indices])
-        isnan = np.isnan(levels)
+        gradients = np.abs(tensor.cell_gradient @ data.values[indices])
+        levels = np.zeros(gradients.shape, dtype=int)
+        isnan = np.isnan(gradients)
 
         if isinstance(data, FloatData):
-            actives = levels[~isnan]
-            log_percent = np.percentile(
-                np.log(actives[actives > 0]), np.linspace(5, 95, mesh.max_level)
+            actives = gradients[~isnan]
+            bins = np.percentile(
+                actives[actives > 0], np.linspace(5, 95, mesh.max_level)
             )
-            levels = np.searchsorted(np.exp(log_percent), levels)
-            levels[isnan] = 0
+            levels[~isnan] = np.searchsorted(bins, actives)
         else:
-            levels[levels > 0] = mesh.max_level
+            levels[gradients > 0] = mesh.max_level
 
         # Refine on the value/nan interface, without boundary cells
         if any(isnan):

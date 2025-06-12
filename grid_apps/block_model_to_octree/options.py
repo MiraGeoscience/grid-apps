@@ -42,8 +42,7 @@ class BlockModel2OctreeOptions(BaseData):
 
     :param entity: BlockModel source object.
     :param data: Optional data to refine the octree mesh.
-    :param export_as: Name of the output entity.
-    :param out_group: Output UIJson group.
+    :param output: Output options.
     """
 
     model_config = ConfigDict(arbitrary_types_allowed=True)

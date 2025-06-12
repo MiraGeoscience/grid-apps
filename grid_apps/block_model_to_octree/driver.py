@@ -25,7 +25,11 @@ from scipy.spatial import cKDTree
 
 from grid_apps.block_model_to_octree.options import BlockModel2OctreeOptions
 from grid_apps.driver import BaseGridDriver
-from grid_apps.utils import block_model_to_discretize, tensor_mesh_ordering
+from grid_apps.utils import (
+    block_model_to_discretize,
+    boundary_value_indices,
+    tensor_mesh_ordering,
+)
 
 
 logger = logging.getLogger(__name__)
@@ -220,8 +224,9 @@ class Driver(BaseGridDriver):
 
         # Refine on the value/nan interface, without boundary cells
         if any(isnan):
-            face_ndv = tensor.cell_gradient @ np.isnan(data.values[indices])
-            horizon = (tensor.average_face_to_cell @ face_ndv.astype(bool)).astype(bool)
+            horizon = boundary_value_indices(
+                tensor, data.values[indices], data.nan_value
+            )
             mesh = Driver.refine_by_cell_volumes(
                 mesh, entity, finalize=False, mask=horizon[np.argsort(indices)]
             )

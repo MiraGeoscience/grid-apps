@@ -32,7 +32,9 @@ logger = logging.getLogger(__name__)
 
 class Driver(BaseGridDriver):
     """
-    Create BlockModel from BlockModelParams.
+    Create BlockModel from parameters.
+
+    :param parameters: BlockModelOptions or InputFile containing the parameters.
     """
 
     _params_class = BlockModelOptions

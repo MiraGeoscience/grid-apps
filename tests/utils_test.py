@@ -11,6 +11,7 @@
 from pathlib import Path
 
 import numpy as np
+import pytest
 from discretize import TreeMesh
 from geoh5py import Workspace
 from geoh5py.objects import BlockModel
@@ -171,6 +172,12 @@ def test_octree_boundary_value_indices(tmp_path):
     treemesh.refine(4, finalize=True)
     values = np.ones(treemesh.n_cells)
     values[7] = 2
+
+    with pytest.raises(TypeError, match="Mesh must be an instance"):
+        indices = boundary_value_indices("abc", values, 2)
+
+    with pytest.raises(TypeError, match="Values must be an instance"):
+        indices = boundary_value_indices(treemesh, 123, 2)
 
     indices = boundary_value_indices(treemesh, values, 2)
     h5file_path = tmp_path / f"{__name__}.geoh5"

@@ -86,10 +86,10 @@ def boundary_value_indices(
     :return: Mask of boundary cells.
     """
     if not isinstance(mesh, TensorMesh | TreeMesh):
-        raise TypeError("mesh must be an instance of TensorMesh or TreeMesh.")
+        raise TypeError("Mesh must be an instance of TensorMesh or TreeMesh.")
 
     if not isinstance(values, np.ndarray):
-        raise TypeError("values must be a numpy array.")
+        raise TypeError("Values must be a numpy array.")
 
     if target is np.nan:
         is_target = np.isnan(values)

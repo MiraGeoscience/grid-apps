@@ -176,7 +176,7 @@ def test_octree_boundary_value_indices(tmp_path):
     with pytest.raises(TypeError, match="Mesh must be an instance"):
         indices = boundary_value_indices("abc", values, 2)
 
-    with pytest.raises(TypeError, match="Values must be an instance"):
+    with pytest.raises(TypeError, match="Values must be a numpy array"):
         indices = boundary_value_indices(treemesh, 123, 2)
 
     indices = boundary_value_indices(treemesh, values, 2)

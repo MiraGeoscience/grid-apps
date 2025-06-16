@@ -25,7 +25,11 @@ from scipy.spatial import cKDTree
 
 from grid_apps.block_model_to_octree.options import BlockModel2OctreeOptions
 from grid_apps.driver import BaseGridDriver
-from grid_apps.utils import block_model_to_discretize, tensor_mesh_ordering
+from grid_apps.utils import (
+    block_model_to_discretize,
+    boundary_value_indices,
+    tensor_mesh_ordering,
+)
 
 
 logger = logging.getLogger(__name__)
@@ -205,23 +209,26 @@ class Driver(BaseGridDriver):
         tensor = block_model_to_discretize(entity)
         indices = tensor_mesh_ordering(entity)
 
-        levels = np.abs(tensor.cell_gradient @ data.values[indices])
-        isnan = np.isnan(levels)
+        gradients = np.abs(tensor.cell_gradient @ data.values[indices])
+        levels = np.zeros(gradients.shape, dtype=int)
+        isnan = np.isnan(gradients)
 
         if isinstance(data, FloatData):
-            levels = np.searchsorted(
-                np.nanpercentile(levels, np.linspace(5, 95, mesh.max_level)), levels
+            actives = gradients[~isnan]
+            bins = np.percentile(
+                actives[actives > 0], np.linspace(5, 95, mesh.max_level)
             )
+            levels[~isnan] = np.searchsorted(bins, actives)
         else:
-            levels[levels > 0] = mesh.max_level
+            levels[gradients > 0] = mesh.max_level
 
+        # Refine on the value/nan interface, without boundary cells
         if any(isnan):
-            horizon = (
-                tensor.average_face_to_cell
-                @ (tensor.cell_gradient @ np.isnan(data.values))
-            ).astype(bool)
+            horizon = boundary_value_indices(
+                tensor, data.values[indices], data.nan_value
+            )
             mesh = Driver.refine_by_cell_volumes(
-                mesh, entity, finalize=False, mask=horizon
+                mesh, entity, finalize=False, mask=horizon[np.argsort(indices)]
             )
 
         locs = tensor.average_cell_to_face @ tensor.cell_centers

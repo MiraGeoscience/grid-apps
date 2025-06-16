@@ -11,7 +11,7 @@
 from __future__ import annotations
 
 import numpy as np
-from discretize import TensorMesh
+from discretize import TensorMesh, TreeMesh
 from geoh5py.objects import BlockModel
 
 
@@ -71,3 +71,32 @@ def tensor_mesh_ordering(
     indices = indices.transpose((1, 2, 0)).flatten(order="F")
 
     return indices
+
+
+def boundary_value_indices(
+    mesh: TensorMesh | TreeMesh, values: np.ndarray, target: float | int
+) -> np.ndarray:
+    """
+    Get a mask of the boundary cells in a mesh based on a target value.
+
+    :param mesh: The discretize mesh.
+    :param values: The values associated with the cells.
+    :param target: The target value to identify boundary cells.
+
+    :return: Mask of boundary cells.
+    """
+    if not isinstance(mesh, TensorMesh | TreeMesh):
+        raise TypeError("Mesh must be an instance of TensorMesh or TreeMesh.")
+
+    if not isinstance(values, np.ndarray):
+        raise TypeError("Values must be a numpy array.")
+
+    if target is np.nan:
+        is_target = np.isnan(values)
+    else:
+        is_target = values == target
+
+    on_face = (mesh.cell_gradient @ is_target).astype(bool)
+    boundary_cells = (mesh.average_face_to_cell @ on_face).astype(bool)
+
+    return boundary_cells

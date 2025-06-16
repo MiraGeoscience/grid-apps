@@ -14,9 +14,9 @@ dependencies:
   - ca-certificates=2025.4.26=hbd8a1cb_0
   - cached-property=1.5.2=hd8ed1ab_1
   - cached_property=1.5.2=pyha770c72_1
-  - discretize=0.11.2=py310ha2bacc8_1
+  - discretize=0.11.3=py310ha2bacc8_0
   - freetype=2.13.3=ha770c72_1
-  - h5py=3.13.0=nompi_py310h2a0e991_101
+  - h5py=3.14.0=nompi_py310hea1e86d_100
   - hdf5=1.14.6=nompi_h2d575fe_101
   - keyutils=1.6.1=h166bdaf_0
   - krb5=1.21.3=h659f571_0
@@ -26,31 +26,31 @@ dependencies:
   - libaec=1.1.3=h59595ed_0
   - libblas=3.9.0=31_h59b9bed_openblas
   - libcblas=3.9.0=31_he106b2a_openblas
-  - libcurl=8.13.0=h332b0f4_0
-  - libdeflate=1.23=h86f0d12_0
+  - libcurl=8.14.1=h332b0f4_0
+  - libdeflate=1.24=h86f0d12_0
   - libedit=3.1.20250104=pl5321h7949ede_0
   - libev=4.33=hd590300_2
   - libexpat=2.7.0=h5888daf_0
   - libffi=3.4.6=h2dba641_1
   - libfreetype=2.13.3=ha770c72_1
   - libfreetype6=2.13.3=h48d6fc4_1
-  - libgcc=14.2.0=h767d61c_2
-  - libgcc-ng=14.2.0=h69a702a_2
-  - libgfortran=14.2.0=h69a702a_2
-  - libgfortran5=14.2.0=hf1ad2bd_2
-  - libgomp=14.2.0=h767d61c_2
+  - libgcc=15.1.0=h767d61c_2
+  - libgcc-ng=15.1.0=h69a702a_2
+  - libgfortran=15.1.0=h69a702a_2
+  - libgfortran5=15.1.0=hcea5267_2
+  - libgomp=15.1.0=h767d61c_2
   - libjpeg-turbo=3.1.0=hb9d3cd8_0
   - liblapack=3.9.0=31_h7ac8fdf_openblas
-  - liblzma=5.8.1=hb9d3cd8_0
+  - liblzma=5.8.1=hb9d3cd8_2
   - libnghttp2=1.64.0=h161d5f1_0
   - libnsl=2.0.1=hd590300_0
   - libopenblas=0.3.29=pthreads_h94d23a6_0
   - libpng=1.6.47=h943b412_0
-  - libsqlite=3.49.1=hee588c1_2
+  - libsqlite=3.50.1=hee588c1_0
   - libssh2=1.11.1=hcf80075_0
-  - libstdcxx=14.2.0=h8f9b012_2
-  - libstdcxx-ng=14.2.0=h4852527_2
-  - libtiff=4.7.0=hd9ff511_4
+  - libstdcxx=15.1.0=h8f9b012_2
+  - libstdcxx-ng=15.1.0=h4852527_2
+  - libtiff=4.7.0=hf01ce69_5
   - libuuid=2.38.1=h0b41bf4_0
   - libwebp-base=1.5.0=h851e524_0
   - libxcb=1.17.0=h8a09558_0
@@ -63,26 +63,26 @@ dependencies:
   - pillow=10.3.0=py310hebfe307_1
   - pip=25.1.1=pyh8b19718_0
   - pthread-stubs=0.4=hb9d3cd8_1002
-  - pydantic=2.11.3=pyh3cfb1c2_0
-  - pydantic-core=2.33.1=py310hc1293b2_0
-  - python=3.10.17=hd6af730_0_cpython
+  - pydantic=2.11.4=pyh3cfb1c2_0
+  - pydantic-core=2.33.2=py310hbcd0ec0_0
+  - python=3.10.18=hd6af730_0_cpython
   - python_abi=3.10=7_cp310
   - readline=8.2=h8c095d6_2
   - scipy=1.14.1=py310hfcf56fc_2
-  - setuptools=80.1.0=pyhff2d567_0
-  - tk=8.6.13=noxft_h4845f30_101
-  - typing-extensions=4.13.2=h0e9735f_0
-  - typing-inspection=0.4.0=pyhd8ed1ab_0
-  - typing_extensions=4.13.2=pyh29332c3_0
+  - setuptools=80.9.0=pyhff2d567_0
+  - tk=8.6.13=noxft_hd72426e_102
+  - typing-extensions=4.14.0=h32cad80_0
+  - typing-inspection=0.4.1=pyhd8ed1ab_0
+  - typing_extensions=4.14.0=pyhe01879c_0
   - tzdata=2025b=h78e105d_0
   - wheel=0.45.1=pyhd8ed1ab_1
   - xorg-libxau=1.0.12=hb9d3cd8_0
   - xorg-libxdmcp=1.1.5=hb9d3cd8_0
   - zstd=1.5.7=hb8e6e7a_2
   - pip:
-      - geoapps-utils @ git+https://github.com/MiraGeoscience/geoapps-utils.git@7b76c8132fa01d3007b883326a817a8d1e17cfc3
-      - geoh5py @ git+https://github.com/MiraGeoscience/geoh5py.git@4acc52a74c4c20a6ffc7f335e431f9ef3f6392b1
-      - octree-creation-app @ git+https://github.com/MiraGeoscience/octree-creation-app.git@e9c99d6fd5d324571a2717990aecb3ed673cbaca
+      - geoapps-utils @ git+https://github.com/MiraGeoscience/geoapps-utils.git@8d46ccb686e4206683862ec803fc709b26271cd8
+      - geoh5py @ git+https://github.com/MiraGeoscience/geoh5py.git@585c89094e3eff35df10d3076964bf154b24d575
+      - octree-creation-app @ git+https://github.com/MiraGeoscience/octree-creation-app.git@02fbd85bf7d54b8f4336f1f0094c1c3e27714e81
 
 variables:
   KMP_WARNINGS: 0

@@ -13,7 +13,7 @@ from geoh5py.objects import Points
 from geoh5py.ui_json import InputFile
 
 from grid_apps import assets_path
-from grid_apps.block_models.params import BlockModelParameters
+from grid_apps.block_models.options import BlockModelOptions
 
 
 def test_block_model_params_from_uijson(tmp_path):
@@ -38,7 +38,7 @@ def test_block_model_params_from_uijson(tmp_path):
     for k, v in updates.items():
         ifile.set_data_value(k, v)
 
-    params = BlockModelParameters.build(ifile)
+    params = BlockModelOptions.build(ifile)
     assert params.geoh5 == ws
     assert params.source.objects == updates["objects"]
     assert params.creation.cell_size_x == updates["cell_size_x"]

@@ -11,11 +11,19 @@
 from pathlib import Path
 
 import numpy as np
+import pytest
+from discretize import TreeMesh
 from geoh5py import Workspace
+from geoh5py.objects import BlockModel
+from octree_creation_app.utils import treemesh_2_octree
 from pytest import raises
 
 from grid_apps.block_models.driver import Driver as BlockModelDriver
-from grid_apps.utils import block_model_to_discretize, tensor_mesh_ordering
+from grid_apps.utils import (
+    block_model_to_discretize,
+    boundary_value_indices,
+    tensor_mesh_ordering,
+)
 
 
 # pylint: disable=duplicate-code
@@ -127,3 +135,60 @@ def test_block_model_to_discretize(tmp_path):
 
         # Check the shape of the discretized points
         np.testing.assert_allclose(block_model.centroids[indices], tensor.cell_centers)
+
+
+def test_tensor_boundary_value_indices(tmp_path):
+    # Create a test block model
+    h5file_path = tmp_path / f"{__name__}.geoh5"
+    with Workspace.create(h5file_path) as workspace:
+        block = BlockModel.create(
+            workspace,
+            u_cell_delimiters=np.cumsum(np.ones(16)),
+            v_cell_delimiters=np.cumsum(np.ones(16)),
+            z_cell_delimiters=np.cumsum(np.ones(16)),
+        )
+
+        tensor = block_model_to_discretize(block)
+
+        values = np.ones(tensor.n_cells)
+        values[int(tensor.n_cells / 2)] = 2
+
+        indices = boundary_value_indices(tensor, values, 2)
+
+        assert indices.sum() == 7
+
+        # Just for visual validation
+        block.add_data(
+            {
+                "boundary_indices": {
+                    "values": indices[np.argsort(tensor_mesh_ordering(block))],
+                }
+            }
+        )
+
+
+def test_octree_boundary_value_indices(tmp_path):
+    treemesh = TreeMesh([16, 16, 16])
+    treemesh.refine(4, finalize=True)
+    values = np.ones(treemesh.n_cells)
+    values[7] = 2
+
+    with pytest.raises(TypeError, match="Mesh must be an instance"):
+        indices = boundary_value_indices("abc", values, 2)
+
+    with pytest.raises(TypeError, match="Values must be a numpy array"):
+        indices = boundary_value_indices(treemesh, 123, 2)
+
+    indices = boundary_value_indices(treemesh, values, 2)
+    h5file_path = tmp_path / f"{__name__}.geoh5"
+    with Workspace.create(h5file_path) as workspace:
+        octree = treemesh_2_octree(workspace, treemesh, name="TestOctree")
+        octree.add_data(
+            {
+                "boundary_indices": {
+                    "values": indices,
+                }
+            }
+        )
+
+    assert indices.sum() == 7

@@ -22,7 +22,7 @@ from pydantic import BaseModel, ConfigDict
 from grid_apps import assets_path
 
 
-class BlockModelSourceParameters(BaseModel):
+class BlockModelSourceOptions(BaseModel):
     """
     Source parameters providing input data to the driver.
 
@@ -35,7 +35,7 @@ class BlockModelSourceParameters(BaseModel):
     objects: Points | CellObject | GridObject
 
 
-class BlockModelCreationParameters(BaseModel):
+class BlockModelCreationOptions(BaseModel):
     """
     Block model specification parameters.
 
@@ -71,7 +71,7 @@ class BlockModelCreationParameters(BaseModel):
         return [self.horizontal_padding] * 4 + [self.bottom_padding, 0.0]
 
 
-class BlockModelOutputParameters(BaseModel):
+class BlockModelOutputOptions(BaseModel):
     """
     Output parameters for block model creation.
 
@@ -85,7 +85,7 @@ class BlockModelOutputParameters(BaseModel):
     out_group: UIJsonGroup | None = None
 
 
-class BlockModelParameters(BaseData):
+class BlockModelOptions(BaseData):
     """
     Block model parameters for use with `block_models.driver`.
 
@@ -100,6 +100,6 @@ class BlockModelParameters(BaseData):
     run_command: ClassVar[str] = "grid_apps.block_models.driver"
 
     conda_environment: str = "grid_apps"
-    source: BlockModelSourceParameters
-    creation: BlockModelCreationParameters
-    output: BlockModelOutputParameters
+    source: BlockModelSourceOptions
+    creation: BlockModelCreationOptions
+    output: BlockModelOutputOptions = BlockModelOutputOptions()

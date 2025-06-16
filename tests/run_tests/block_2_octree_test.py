@@ -71,7 +71,7 @@ def test_block_model_to_octree(tmp_path):
         block_model = generate_block_model(workspace)
 
         params = BlockModel2OctreeOptions.build(
-            {
+            **{
                 "geoh5": workspace,
                 "entity": block_model,
             }
@@ -102,13 +102,13 @@ def test_float_refine_octree(tmp_path):
         float_data = block_model.add_data({"wave": {"values": wave.flatten()}})
 
         params = BlockModel2OctreeOptions.build(
-            {"geoh5": workspace, "entity": block_model, "data": float_data}
+            **{"geoh5": workspace, "entity": block_model, "data": float_data}
         )
 
         driver = BlockModelToOctreeDriver(params)
         octree = driver.make_grid()
 
-        assert octree.n_cells == 7883
+        assert octree.n_cells == 7491
 
 
 def test_integer_refine_octree(tmp_path):
@@ -125,7 +125,7 @@ def test_integer_refine_octree(tmp_path):
         )
 
         params = BlockModel2OctreeOptions.build(
-            {"geoh5": workspace, "entity": block_model, "data": ref_data}
+            **{"geoh5": workspace, "entity": block_model, "data": ref_data}
         )
 
         driver = BlockModelToOctreeDriver(params)

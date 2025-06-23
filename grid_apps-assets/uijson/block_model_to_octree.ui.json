@@ -9,11 +9,10 @@
     "conda_environment_boolean": false,
     "entity": {
         "main": true,
-        "group": "Input",
         "meshType": [
             "{B020A277-90E2-4CD7-84D6-612EE3F25051}"
         ],
-        "label": "Object",
+        "label": "Block Model",
         "value": ""
     },
     "data": {
@@ -25,7 +24,6 @@
             "Referenced"
         ],
         "main": true,
-        "group": "Input",
         "label": "Refine on model",
         "parent": "entity",
         "optional": true,
@@ -33,7 +31,6 @@
         "value": ""
     },
     "export_as": {
-        "group": "Output",
         "main": true,
         "label": "Save as",
         "value": "block_model"

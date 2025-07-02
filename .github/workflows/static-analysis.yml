@@ -87,3 +87,12 @@ jobs:
       - name: Run pylint on all files
         if: github.event_name == 'push'
         run: pylint $source_dir tests
+  zizmor-security-scan:
+    name: Zizmor analysis
+    permissions:
+      contents: read
+      actions: read
+    uses: MiraGeoscience/CI-tools/.github/workflows/zizmor_security.yml@feature_zizmor_security
+    with:
+      app-name: 'grid-apps'
+

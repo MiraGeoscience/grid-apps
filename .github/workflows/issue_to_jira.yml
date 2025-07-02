@@ -1,6 +1,9 @@
 # This workflow will create a JIRA issue upon creation of a GitHub issue
 
 name: Create JIRA issue
+permissions:
+  contents: read
+  issues: write
 
 on:
   issues:

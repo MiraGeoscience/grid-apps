@@ -2,6 +2,9 @@
 # if a JIRA issue number is detected in the branch name or title
 
 name: Add JIRA issue summary
+permissions:
+  contents: read
+  pull-requests: write
 
 on:
   pull_request_target:

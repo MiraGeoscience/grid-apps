@@ -49,8 +49,9 @@ jobs:
       - uses: actions/checkout@v4
         with:
           lfs: true
+          persist-credentials: false
       - name: Setup conda env
-        uses: mamba-org/setup-micromamba@v1
+        uses: mamba-org/setup-micromamba@25b0505146bcbf25fc0b007ec3dbf0d16a592087
         with:
           environment-file: ${{ env.CONDA_LOCK_ENV_FILE }}
           environment-name: test_env

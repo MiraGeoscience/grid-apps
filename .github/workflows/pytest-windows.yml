@@ -1,4 +1,7 @@
 name: pytest on Windows
+permissions:
+  contents: read
+  pull-requests: write
 
 on:
   pull_request:
@@ -45,8 +48,9 @@ jobs:
       - uses: actions/checkout@v4
         with:
           lfs: true
+          persist-credentials: false
       - name: Setup conda env
-        uses: mamba-org/setup-micromamba@v1
+        uses: mamba-org/setup-micromamba@25b0505146bcbf25fc0b007ec3dbf0d16a592087
         with:
           environment-file: ${{ env.CONDA_LOCK_ENV_FILE }}
           environment-name: test_env
@@ -56,7 +60,7 @@ jobs:
         run: pytest --cov --cov-report=xml
       - name: Codecov
         if: ${{ success() && matrix.python_ver == '3.10' }}
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@2f9a6e947d9f1025e3d1c427046f63693c71b52e
         with:
           name: GitHub
           token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos

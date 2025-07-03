@@ -1,4 +1,7 @@
 name: static analysis
+permissions:
+  contents: read
+  pull-requests: write
 
 on:
   pull_request:
@@ -34,14 +37,8 @@ jobs:
     env:
       SKIP: pylint
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-        with:
-          persist-credentials: false
-      - name: Set up git credentials
-        run: |
-          git config --global url."https://${GITHUB_TOKEN}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
       - name: capture modified files
         if: github.event_name == 'pull_request'
         run: >-
@@ -51,12 +48,12 @@ jobs:
           )" >> $GITHUB_ENV
       - name: Run pre-commit on modified files
         if: github.event_name == 'pull_request' && env.FILES_PARAM
-        uses: pre-commit/action@646c83fcd040023954eafda54b4db0192ce70507
+        uses: pre-commit/action@5e8a56f83d5b979e44ce55291f9d1e8e2893d3e
         with:
           extra_args: --hook-stage push --files ${{ env.FILES_PARAM }}
       - name: Run pre-commit on all files
         if: github.event_name == 'push'
-        uses: pre-commit/action@646c83fcd040023954eafda54b4db0192ce70507
+        uses: pre-commit/action@f5e8a56f83d5b979e44ce55291f9d1e8e2893d3e
         with:
           extra_args: --hook-stage push --all-files
 
@@ -73,16 +70,9 @@ jobs:
       PIP_NO_DEPS: 1 # all dependencies are installed from conda
       CONDA_LOCK_ENV_FILE: environments/py-3.10-linux-64-dev.conda.lock.yml
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-        with:
-          persist-credentials: false
-      - name: Set up git credentials
-        run: |
-          git config --global url."https://${GITHUB_TOKEN}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v4
       - name: Setup conda env
-        uses: mamba-org/setup-micromamba@4b9113af4fba0e9e1124b252dd6497a419e7396d
+        uses: mamba-org/setup-micromamba@25b0505146bcbf25fc0b007ec3dbf0d16a592087
         with:
           environment-file: ${{ env.CONDA_LOCK_ENV_FILE }}
           environment-name: linter_env
@@ -100,7 +90,7 @@ jobs:
       - name: Run pylint on all files
         if: github.event_name == 'push'
         run: pylint $source_dir tests
-  zizmor-security-scan:
+  Zizmor-security-scan:
     name: Zizmor analysis
     permissions:
       contents: read
@@ -108,4 +98,3 @@ jobs:
     uses: MiraGeoscience/CI-tools/.github/workflows/zizmor_security.yml@feature_zizmor_security
     with:
       app-name: 'grid-apps'
-

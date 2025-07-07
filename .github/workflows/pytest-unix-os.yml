@@ -17,6 +17,10 @@ on:
       - feature/**
       - hotfix/**
 
+permissions:
+  contents: read
+  pull-requests: read
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
@@ -40,17 +44,27 @@ jobs:
     env:
       PYTHONUTF8: 1
       CONDA_CHANNEL_PRIORITY: strict
-      PIP_NO_DEPS: 1 # all dependencies are installed from conda
+      PIP_NO_DEPS: 1
       CONDA_LOCK_ENV_FILE: environments/py-${{ matrix.python_ver }}-${{ startsWith(matrix.os, 'macos') && 'osx' || 'linux' }}-64-dev.conda.lock.yml
+
     steps:
       - uses: actions/checkout@v4
         with:
           lfs: true
+
       - name: Setup conda env
         uses: mamba-org/setup-micromamba@v1
         with:
           environment-file: ${{ env.CONDA_LOCK_ENV_FILE }}
           environment-name: test_env
           cache-downloads: true
+
       - name: pytest
         run: pytest --cov --cov-report=xml
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage.xml
+          flags: unix

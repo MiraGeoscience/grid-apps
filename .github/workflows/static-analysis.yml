@@ -1,8 +1,4 @@
-name: Static analysis 
-
-permissions:
-  contents: read
-  pull-requests: write
+name: static analysis
 
 on:
   pull_request:
@@ -29,38 +25,37 @@ env:
   source_dir: grid_apps
 
 jobs:
-  Pre-Commit:
-    name: Pre-Commit (ubuntu-latest)
+  pre-commit:
+    name: pre-commit
     if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
+    strategy:
+      fail-fast: false
     runs-on: ubuntu-latest
     env:
       SKIP: pylint
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v4
-
-      - name: Capture modified files
+      - name: capture modified files
         if: github.event_name == 'pull_request'
-        run: |
-          git fetch --deepen=500 origin ${{ github.base_ref }}
-          echo "FILES_PARAM=$(
-            git diff --diff-filter=AM --name-only refs/remotes/origin/${{ github.base_ref }}... -- | grep -E '^(${source_dir}|tests)/.*\.py$' | xargs
+        run: >-
+          git fetch --deepen=500 origin ${{github.base_ref}}
+          && echo "FILES_PARAM=$(
+          git diff --diff-filter=AM --name-only refs/remotes/origin/${{github.base_ref}}... -- | grep -E "^(${source_dir}|tests)/.*\.py$" | xargs
           )" >> $GITHUB_ENV
-
       - name: Run pre-commit on modified files
         if: github.event_name == 'pull_request' && env.FILES_PARAM
         uses: pre-commit/action@v3.0.0
         with:
           extra_args: --hook-stage push --files ${{ env.FILES_PARAM }}
-
       - name: Run pre-commit on all files
         if: github.event_name == 'push'
         uses: pre-commit/action@v3.0.0
         with:
           extra_args: --hook-stage push --all-files
 
-  Pylint:
-    name: Pylint (ubuntu-latest)
+  pylint:
+    name: pylint
     if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     defaults:
@@ -69,39 +64,34 @@ jobs:
     env:
       PYTHONUTF8: 1
       CONDA_CHANNEL_PRIORITY: strict
-      PIP_NO_DEPS: 1
+      PIP_NO_DEPS: 1 # all dependencies are installed from conda
       CONDA_LOCK_ENV_FILE: environments/py-3.10-linux-64-dev.conda.lock.yml
     steps:
       - uses: actions/checkout@v4
-
       - name: Setup conda env
-        uses: mamba-org/setup-micromamba@v1.4.3
+        uses: mamba-org/setup-micromamba@v1
         with:
           environment-file: ${{ env.CONDA_LOCK_ENV_FILE }}
           environment-name: linter_env
           cache-downloads: true
-
-      - name: Capture modified files
+      - name: capture modified files
         if: github.event_name == 'pull_request'
-        run: |
-          git fetch --deepen=500 origin ${{ github.base_ref }}
-          echo "FILES_PARAM=$(
-            git diff --diff-filter=AM --name-only refs/remotes/origin/${{ github.base_ref }}... -- | grep -E '^(${source_dir}|tests)/.*\.py$' | xargs
+        run: >-
+          git fetch --deepen=500 origin ${{github.base_ref}}
+          && echo "FILES_PARAM=$(
+          git diff --diff-filter=AM --name-only refs/remotes/origin/${{github.base_ref}}... -- | grep -E "^(${source_dir}|tests)/.*\.py$" | xargs
           )" >> $GITHUB_ENV
-
       - name: Run pylint on modified files
         if: github.event_name == 'pull_request' && env.FILES_PARAM
         run: pylint $FILES_PARAM
-
       - name: Run pylint on all files
         if: github.event_name == 'push'
         run: pylint $source_dir tests
-
-  Zizmor-Security-Scan:
+  call-workflow-zizmor:
     name: Zizmor analysis
     permissions:
       contents: read
       actions: read
     uses: MiraGeoscience/CI-tools/.github/workflows/reusable-zizmor-security.yml@main
     with:
-      app-name: 'grid-apps'
+      app-name: 'grid-apps' 

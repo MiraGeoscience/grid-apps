@@ -2,12 +2,9 @@
 # if a JIRA issue number is detected in the branch name or title
 
 name: Add JIRA issue summary
-permissions:
-  contents: read
-  pull-requests: write
 
 on:
-  pull_request:
+  pull_request_target:
     types: [opened]
 
 jobs:
@@ -39,7 +36,7 @@ jobs:
         curl -sS -X GET
         -H "Authorization: Basic $JIRA_BASIC_AUTH"
         -H "Content-Type: application/json"
-        "$JIRA_BASE_URL/rest/api/2/issue/$ISSUE_KEY"
+        "$JIRA_BASE_URL/rest/api/2/issue/${{ steps.find_jira_key.outputs.issue_key }}"
         | echo "summary=$(jq -r '.fields.summary // empty')" >> $GITHUB_OUTPUT
     - name: Extract PR title
       id: get_pr_title
@@ -55,7 +52,7 @@ jobs:
         PR_BODY: ${{ github.event.pull_request.body }}
       run: >
         jq
-        --arg ISSUE_ID "$ISSUE_KEY"
+        --arg ISSUE_ID "${{ steps.find_jira_key.outputs.issue_key }}"
         --arg ISSUE_SUMMARY "$(cat <<< $ISSUE_SUMMARY)"
         --arg TITLE_TEXT "$(cat <<< ${TITLE_TEXT:-$ISSUE_SUMMARY})"
         --arg PR_BODY "$(cat <<< $PR_BODY)"

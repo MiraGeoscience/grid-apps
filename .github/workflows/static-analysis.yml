@@ -85,7 +85,7 @@ jobs:
           git diff --diff-filter=AM --name-only refs/remotes/origin/${{github.base_ref}}... -- | grep -E "^(${source_dir}|tests)/.*\.py$" | xargs
           )" >> $GITHUB_ENV
       - name: Run pylint on modified files
-        if: github.event_name == 'pull_request' && env.FILES_PARAM
+        if: github.event_name == 'pull_r equest' && env.FILES_PARAM
         run: pylint $FILES_PARAM
       - name: Run pylint on all files
         if: github.event_name == 'push'
@@ -95,6 +95,6 @@ jobs:
     permissions:
       contents: read
       actions: read
-    uses: MiraGeoscience/CI-tools/.github/workflows/zizmor_security.yml@feature_zizmor_security
+    uses: MiraGeoscience/CI-tools/.github/workflows/reusable-zizmor-security.yml@feature_zizmor_security
     with:
       app-name: 'grid-apps'

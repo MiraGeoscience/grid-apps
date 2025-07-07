@@ -72,7 +72,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Setup conda env
-        uses: mamba-org/setup-micromamba@25b0505146bcbf25fc0b007ec3dbf0d16a592087
+        uses: mamba-org/setup-micromamba@4b9113af4fba0e9e1124b252dd6497a419e7396d
         with:
           environment-file: ${{ env.CONDA_LOCK_ENV_FILE }}
           environment-name: linter_env

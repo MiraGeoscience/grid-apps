@@ -67,7 +67,7 @@ jobs:
     env:
       PYTHONUTF8: 1
       CONDA_CHANNEL_PRIORITY: strict
-      PIP_NO_DEPS: 1 # all dependencies are installed from conda
+      PIP_NO_DEPS: 1
       CONDA_LOCK_ENV_FILE: environments/py-3.10-linux-64-dev.conda.lock.yml
     steps:
       - uses: actions/checkout@v4
@@ -85,12 +85,13 @@ jobs:
           git diff --diff-filter=AM --name-only refs/remotes/origin/${{github.base_ref}}... -- | grep -E "^(${source_dir}|tests)/.*\.py$" | xargs
           )" >> $GITHUB_ENV
       - name: Run pylint on modified files
-        if: github.event_name == 'pull_r equest' && env.FILES_PARAM
+        if: github.event_name == 'pull_request' && env.FILES_PARAM
         run: pylint $FILES_PARAM
       - name: Run pylint on all files
         if: github.event_name == 'push'
         run: pylint $source_dir tests
-  Zizmor-security-scan:
+
+  zizmor_security_scan:
     name: Zizmor analysis
     permissions:
       contents: read

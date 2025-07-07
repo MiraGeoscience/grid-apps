@@ -1,17 +1,19 @@
 # This workflow will comment the PR with the JIRA issue summary
 # if a JIRA issue number is detected in the branch name or title
 
-name: Add JIRA issue summary
+name: Add JIRA Summary to PR
+
+permissions:
+  contents: read
+  pull-requests: write
 
 on:
   pull_request:
     types: [opened]
-  permissions:
-  contents: read
-  pull-requests: write
 
 jobs:
   add_jira_summary:
+    if: github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
 
     steps:

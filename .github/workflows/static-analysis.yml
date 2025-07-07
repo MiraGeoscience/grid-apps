@@ -2,7 +2,6 @@ name: static analysis
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
     branches:
       - develop
       - main
@@ -16,10 +15,6 @@ on:
       - release/**
       - feature/**
       - hotfix/**
-
-permissions:
-  contents: read
-  pull-requests: write
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
@@ -35,33 +30,41 @@ jobs:
     strategy:
       fail-fast: false
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    defaults:
+      run:
+        shell: bash -l {0}
     env:
       SKIP: pylint
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - uses: actions/checkout@1e31de5234b9f8995739874a8ce0492dc87873e2
         with:
-          python-version: '3.10'
+          persist-credentials: true
 
-      - name: capture modified files
+      - uses: actions/setup-python@7f4fc3e22c37d6ff65e88745f38bd3157c663f7c
+        
+      - name: Set base ref
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: echo "BASE_REF=$BASE_REF" >> $GITHUB_ENV
+
+      - name: Capture modified files
         if: github.event_name == 'pull_request'
-        run: >-
-          git fetch --deepen=500 origin ${{github.base_ref}}
-          && echo "FILES_PARAM=$(
-          git diff --diff-filter=AM --name-only refs/remotes/origin/${{github.base_ref}}... -- | grep -E "^(${source_dir}|tests)/.*\.py$" | xargs
-          )" >> $GITHUB_ENV
+        run: |
+          git fetch origin $BASE_REF --deepen=500
+          FILES_PARAM=$(git diff --diff-filter=AM --name-only origin/$BASE_REF... -- | grep -E "^(${source_dir}|tests)/.*\.py$" | xargs)
+          echo "FILES_PARAM=$FILES_PARAM" >> $GITHUB_ENV
 
       - name: Run pre-commit on modified files
         if: github.event_name == 'pull_request' && env.FILES_PARAM
-        uses: pre-commit/action@v3.0.0
+        uses: pre-commit/action@646c83fcd040023954eafda54b4db0192ce70507
         with:
-          extra_args: --hook-stage push --files ${{ env.FILES_PARAM }}
+          create-args: --hook-stage push --files ${{ env.FILES_PARAM }}
 
       - name: Run pre-commit on all files
         if: github.event_name == 'push'
-        uses: pre-commit/action@v3.0.0
+        uses: pre-commit/action@646c83fcd040023954eafda54b4db0192ce70507
         with:
           extra_args: --hook-stage push --all-files
 
@@ -89,7 +92,6 @@ jobs:
           environment-file: ${{ env.CONDA_LOCK_ENV_FILE }}
           environment-name: linter_env
           cache-downloads: true
-
       - name: Set base ref
         env:
           BASE_REF: ${{ github.base_ref }}
@@ -111,7 +113,7 @@ jobs:
         run: pylint $source_dir tests
 
   call-workflow-zizmor:
-    name: Zizmor analysis
+    name: Zizmor Security Scan
     permissions:
       contents: read
       actions: read

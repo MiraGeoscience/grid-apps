@@ -1,4 +1,5 @@
 name: static analysis
+
 on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
@@ -35,18 +36,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v4
+
       - name: capture modified files
         if: github.event_name == 'pull_request'
-        run: >-
-          git fetch --deepen=500 origin ${{github.base_ref}}
-          && echo "FILES_PARAM=$(
-          git diff --diff-filter=AM --name-only refs/remotes/origin/${{github.base_ref}}... -- | grep -E "^(${source_dir}|tests)/.*\.py$" | xargs
-          )" >> $GITHUB_ENV
+        id: capture_files
+        run: |
+          git fetch --deepen=500 origin ${{ github.base_ref }}
+          FILES_PARAM=$(git diff --diff-filter=AM --name-only refs/remotes/origin/${{ github.base_ref }}... -- | grep -E "^(${source_dir}|tests)/.*\.py$" | xargs)
+          echo "FILES_PARAM=$FILES_PARAM" >> $GITHUB_ENV
+          echo "::set-output name=files_param::$FILES_PARAM"
+
       - name: Run pre-commit on modified files
-        if: github.event_name == 'pull_request' && env.FILES_PARAM
+        if: github.event_name == 'pull_request' && steps.capture_files.outputs.files_param != ''
         uses: pre-commit/action@v3.0.0
         with:
-          extra_args: --hook-stage push --files ${{ env.FILES_PARAM }}
+          extra_args: --hook-stage push --files ${{ steps.capture_files.outputs.files_param }}
+
       - name: Run pre-commit on all files
         if: github.event_name == 'push'
         uses: pre-commit/action@v3.0.0
@@ -63,29 +68,35 @@ jobs:
     env:
       PYTHONUTF8: 1
       CONDA_CHANNEL_PRIORITY: strict
-      PIP_NO_DEPS: 1 # all dependencies are installed from conda
+      PIP_NO_DEPS: 1
       CONDA_LOCK_ENV_FILE: environments/py-3.10-linux-64-dev.conda.lock.yml
     steps:
       - uses: actions/checkout@v4
+
       - name: Setup conda env
         uses: mamba-org/setup-micromamba@v1
         with:
           environment-file: ${{ env.CONDA_LOCK_ENV_FILE }}
           environment-name: linter_env
           cache-downloads: true
+
       - name: capture modified files
         if: github.event_name == 'pull_request'
-        run: >-
-          git fetch --deepen=500 origin ${{github.base_ref}}
-          && echo "FILES_PARAM=$(
-          git diff --diff-filter=AM --name-only refs/remotes/origin/${{github.base_ref}}... -- | grep -E "^(${source_dir}|tests)/.*\.py$" | xargs
-          )" >> $GITHUB_ENV
+        id: capture_files
+        run: |
+          git fetch --deepen=500 origin ${{ github.base_ref }}
+          FILES_PARAM=$(git diff --diff-filter=AM --name-only refs/remotes/origin/${{ github.base_ref }}... -- | grep -E "^(${source_dir}|tests)/.*\.py$" | xargs)
+          echo "FILES_PARAM=$FILES_PARAM" >> $GITHUB_ENV
+          echo "::set-output name=files_param::$FILES_PARAM"
+
       - name: Run pylint on modified files
-        if: github.event_name == 'pull_request' && env.FILES_PARAM
-        run: pylint $FILES_PARAM
+        if: github.event_name == 'pull_request' && steps.capture_files.outputs.files_param != ''
+        run: pylint ${{ steps.capture_files.outputs.files_param }}
+
       - name: Run pylint on all files
         if: github.event_name == 'push'
         run: pylint $source_dir tests
+
   call-workflow-zizmor:
     name: Zizmor analysis
     permissions:

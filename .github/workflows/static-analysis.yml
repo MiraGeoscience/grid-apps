@@ -17,6 +17,10 @@ on:
       - feature/**
       - hotfix/**
 
+permissions:
+  contents: read
+  pull-requests: write
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
@@ -35,7 +39,10 @@ jobs:
       SKIP: pylint
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
       - name: capture modified files
         if: github.event_name == 'pull_request'
         run: >-
@@ -87,6 +94,7 @@ jobs:
       - name: Run pylint on all files
         if: github.event_name == 'push'
         run: pylint $source_dir tests
+
   call-workflow-zizmor:
     name: Zizmor analysis
     permissions:
@@ -94,4 +102,4 @@ jobs:
       actions: read
     uses: MiraGeoscience/CI-tools/.github/workflows/reusable-zizmor-security.yml@feature_zizmor_security
     with:
-      app-name: 'grid-apps' 
+      app-name: 'grid-apps'

@@ -1,8 +1,7 @@
 name: static analysis
-permissions:
-  contents: read
 on:
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
     branches:
       - develop
       - main
@@ -22,96 +21,73 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  source_dir: orano
+  source_dir: grid_apps
 
 jobs:
   pre-commit:
     name: pre-commit
+    if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
+    strategy:
+      fail-fast: false
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    defaults:
-      run:
-        shell: bash -l {0}
     env:
-      SKIP: pylint,isort
+      SKIP: pylint
     steps:
-      - uses: actions/checkout@1e31de5234b9f8995739874a8ce0492dc87873e2
-        with:
-          persist-credentials: true
-
-      - uses: actions/setup-python@7f4fc3e22c37d6ff65e88745f38bd3157c663f7c
-        
-      - name: Set base ref
-        env:
-          BASE_REF: ${{ github.base_ref }}
-        run: echo "BASE_REF=$BASE_REF" >> $GITHUB_ENV
-
-      - name: Capture modified files
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+      - name: capture modified files
         if: github.event_name == 'pull_request'
-        run: |
-          git fetch origin $BASE_REF --deepen=500
-          FILES_PARAM=$(git diff --diff-filter=AM --name-only origin/$BASE_REF... -- | grep -E "^(${source_dir}|tests)/.*\.py$" | xargs)
-          echo "FILES_PARAM=$FILES_PARAM" >> $GITHUB_ENV
-
+        run: >-
+          git fetch --deepen=500 origin ${{github.base_ref}}
+          && echo "FILES_PARAM=$(
+          git diff --diff-filter=AM --name-only refs/remotes/origin/${{github.base_ref}}... -- | grep -E "^(${source_dir}|tests)/.*\.py$" | xargs
+          )" >> $GITHUB_ENV
       - name: Run pre-commit on modified files
         if: github.event_name == 'pull_request' && env.FILES_PARAM
-        uses: pre-commit/action@646c83fcd040023954eafda54b4db0192ce70507
+        uses: pre-commit/action@v3.0.0
         with:
-          create-args: --hook-stage push --files ${{ env.FILES_PARAM }}
-
+          extra_args: --hook-stage push --files ${{ env.FILES_PARAM }}
       - name: Run pre-commit on all files
         if: github.event_name == 'push'
-        uses: pre-commit/action@646c83fcd040023954eafda54b4db0192ce70507
+        uses: pre-commit/action@v3.0.0
         with:
           extra_args: --hook-stage push --all-files
 
   pylint:
     name: pylint
+    if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
     defaults:
       run:
         shell: bash -l {0}
     env:
       PYTHONUTF8: 1
       CONDA_CHANNEL_PRIORITY: strict
-      PIP_NO_DEPS: 1
+      PIP_NO_DEPS: 1 # all dependencies are installed from conda
       CONDA_LOCK_ENV_FILE: environments/py-3.10-linux-64-dev.conda.lock.yml
     steps:
-      - uses: actions/checkout@1e31de5234b9f8995739874a8ce0492dc87873e2
-        with:
-          persist-credentials: true
-
+      - uses: actions/checkout@v4
       - name: Setup conda env
-        uses: mamba-org/setup-micromamba@feb7656f829886af1ab11cf61126b048557b2e19
+        uses: mamba-org/setup-micromamba@v1
         with:
           environment-file: ${{ env.CONDA_LOCK_ENV_FILE }}
           environment-name: linter_env
           cache-downloads: true
-      - name: Set base ref
-        env:
-          BASE_REF: ${{ github.base_ref }}
-        run: echo "BASE_REF=$BASE_REF" >> $GITHUB_ENV
-
-      - name: Capture modified files
+      - name: capture modified files
         if: github.event_name == 'pull_request'
-        run: |
-          git fetch origin $BASE_REF --deepen=500
-          FILES_PARAM=$(git diff --diff-filter=AM --name-only origin/$BASE_REF... -- | grep -E "^(${source_dir}|tests)/.*\.py$" | xargs)
-          echo "FILES_PARAM=$FILES_PARAM" >> $GITHUB_ENV
-
+        run: >-
+          git fetch --deepen=500 origin ${{github.base_ref}}
+          && echo "FILES_PARAM=$(
+          git diff --diff-filter=AM --name-only refs/remotes/origin/${{github.base_ref}}... -- | grep -E "^(${source_dir}|tests)/.*\.py$" | xargs
+          )" >> $GITHUB_ENV
       - name: Run pylint on modified files
         if: github.event_name == 'pull_request' && env.FILES_PARAM
         run: pylint $FILES_PARAM
-
       - name: Run pylint on all files
         if: github.event_name == 'push'
         run: pylint $source_dir tests
-
   call-workflow-zizmor:
-    name: Zizmor Security Scan
+    name: Zizmor analysis
     permissions:
       contents: read
       actions: read

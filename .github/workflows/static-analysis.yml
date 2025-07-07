@@ -52,7 +52,7 @@ jobs:
         if: github.event_name == 'pull_request'
         run: |
           echo "BASE_REF<<EOF" >> $GITHUB_ENV
-          echo "${{ github.base_ref }}" >> $GITHUB_ENV
+          echo "${GITHUB_BASE_REF}" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
       - name: capture modified files
         if: github.event_name == 'pull_request'
@@ -97,8 +97,8 @@ jobs:
       - name: Set base_ref
         if: github.event_name == 'pull_request'
         run: |
-         echo "BASE_REF<<EOF" >> $GITHUB_ENV
-         echo "${{ github.base_ref }}" >> $GITHUB_ENV
+          echo "BASE_REF<<EOF" >> $GITHUB_ENV
+          echo "${GITHUB_BASE_REF}" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
       - name: capture modified files
         if: github.event_name == 'pull_request'

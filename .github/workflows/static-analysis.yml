@@ -2,7 +2,7 @@ name: static analysis
 
 permissions:
   contents: read
-  pull-requests: write
+
 
 on:
   pull_request:
@@ -48,12 +48,15 @@ jobs:
           environment-name: linter_env
           cache-downloads: true
       - uses: actions/setup-python@7f4fc3e22c37d6ff65e88745f38bd3157c663f7c
+      - name: Set base_ref
+        if: github.event_name == 'pull_request'
+        run: echo "BASE_REF=${{ github.base_ref }}" >> $GITHUB_ENV
       - name: capture modified files
         if: github.event_name == 'pull_request'
         run: >-
-          git fetch --deepen=500 origin ${{github.base_ref}}
+          git fetch --deepen=500 origin "$BASE_REF"
           && echo "FILES_PARAM=$(
-          git diff --diff-filter=AM --name-only refs/remotes/origin/${{github.base_ref}}... -- | grep -E "^(${source_dir}|tests)/.*\.py$" | xargs
+          git diff --diff-filter=AM --name-only refs/remotes/origin/"$BASE_REF"... -- | grep -E "^(${source_dir}|tests)/.*\.py$" | xargs
           )" >> $GITHUB_ENV
       - name: Run pre-commit on modified files
         if: github.event_name == 'pull_request' && env.FILES_PARAM
@@ -88,12 +91,15 @@ jobs:
           environment-file: ${{ env.CONDA_LOCK_ENV_FILE }}
           environment-name: linter_env
           cache-downloads: true
+      - name: Set base_ref
+        if: github.event_name == 'pull_request'
+        run: echo "BASE_REF=${{ github.base_ref }}" >> $GITHUB_ENV
       - name: capture modified files
         if: github.event_name == 'pull_request'
         run: >-
-          git fetch --deepen=500 origin ${{github.base_ref}}
+          git fetch --deepen=500 origin "$BASE_REF"
           && echo "FILES_PARAM=$(
-          git diff --diff-filter=AM --name-only refs/remotes/origin/${{github.base_ref}}... -- | grep -E "^(${source_dir}|tests)/.*\.py$" | xargs
+          git diff --diff-filter=AM --name-only refs/remotes/origin/"$BASE_REF"... -- | grep -E "^(${source_dir}|tests)/.*\.py$" | xargs
           )" >> $GITHUB_ENV
       - name: Run pylint on modified files
         if: github.event_name == 'pull_request' && env.FILES_PARAM

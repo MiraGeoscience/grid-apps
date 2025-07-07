@@ -50,7 +50,10 @@ jobs:
       - uses: actions/setup-python@7f4fc3e22c37d6ff65e88745f38bd3157c663f7c
       - name: Set base_ref
         if: github.event_name == 'pull_request'
-        run: echo "BASE_REF=${{ github.base_ref }}" >> $GITHUB_ENV
+        run: |
+          echo "BASE_REF<<EOF" >> $GITHUB_ENV
+          echo "${{ github.base_ref }}" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
       - name: capture modified files
         if: github.event_name == 'pull_request'
         run: >-
@@ -93,7 +96,10 @@ jobs:
           cache-downloads: true
       - name: Set base_ref
         if: github.event_name == 'pull_request'
-        run: echo "BASE_REF=${{ github.base_ref }}" >> $GITHUB_ENV
+        run: |
+         echo "BASE_REF<<EOF" >> $GITHUB_ENV
+         echo "${{ github.base_ref }}" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
       - name: capture modified files
         if: github.event_name == 'pull_request'
         run: >-

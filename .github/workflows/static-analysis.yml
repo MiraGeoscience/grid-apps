@@ -1,5 +1,9 @@
 name: static analysis
 
+permissions:
+  contents: read
+  pull-requests: write
+
 on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
@@ -38,7 +42,7 @@ jobs:
         with:
           persist-credentials: true
       - name: Setup conda env
-        uses: mamba-org/setup-micromamba@v1
+        uses: mamba-org/setup-micromamba@4b9113af4fba0e9e1124b252dd6497a419e7396d
         with:
           environment-file: environments/py-3.10-linux-64-dev.conda.lock.yml
           environment-name: linter_env

@@ -31,7 +31,6 @@ env:
 jobs:
   pre-commit:
     name: pre-commit
-    if: always()
     strategy:
       fail-fast: false
     runs-on: ubuntu-latest

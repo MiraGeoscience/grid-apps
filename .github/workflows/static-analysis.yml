@@ -48,12 +48,12 @@ jobs:
           )" >> $GITHUB_ENV
       - name: Run pre-commit on modified files
         if: github.event_name == 'pull_request' && env.FILES_PARAM
-        uses: pre-commit/action@5e8a56f83d5b979e44ce55291f9d1e8e2893d3e
+        uses: pre-commit/action@646c83fcd040023954eafda54b4db0192ce70507
         with:
           extra_args: --hook-stage push --files ${{ env.FILES_PARAM }}
       - name: Run pre-commit on all files
         if: github.event_name == 'push'
-        uses: pre-commit/action@f5e8a56f83d5b979e44ce55291f9d1e8e2893d3e
+        uses: pre-commit/action@646c83fcd040023954eafda54b4db0192ce70507
         with:
           extra_args: --hook-stage push --all-files
 
@@ -72,7 +72,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Setup conda env
-        uses: mamba-org/setup-micromamba@25b0505146bcbf25fc0b007ec3dbf0d16a592087
+        uses: mamba-org/setup-micromamba@4b9113af4fba0e9e1124b252dd6497a419e7396d
         with:
           environment-file: ${{ env.CONDA_LOCK_ENV_FILE }}
           environment-name: linter_env

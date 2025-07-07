@@ -1,6 +1,7 @@
 # This workflow will create a JIRA issue upon creation of a GitHub issue
 
 name: Create JIRA issue
+
 permissions:
   contents: read
   issues: write
@@ -14,26 +15,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: JIRA Login
-      uses: atlassian/gajira-login@vatlassian/gajira-login@4c3df0c5823295d5a2e6a2cc6bdf01a4dd4a0fdf
-      env:
-        JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
-        JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
-        JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
-    - name: Jira Create issue
-      id: create_jira_issue
-      uses: atlassian/gajira-create@0e2453cde905ec0b60a9eaac20b20f1110055743
-      with:
-        project: GEOPY
-        issuetype: Story
-        summary: ${{ github.event.issue.title }}
-        description: "_from [GitHub issue #${{ github.event.issue.number }}|${{ github.event.issue.html_url }}]_"
-        # Additional fields in JSON format
-        #fields: '{"components": [{"name": "grid-apps"}]}'
-    - name: Post JIRA link
-      uses: peter-evans/create-or-update-comment@08a3e806d6e071c55802c42130946e0cc28c2f14
-      with:
-        # The number of the issue or pull request in which to create a comment.
-        issue-number: ${{ github.event.issue.number }}
-        # The comment body.
-        body: "JIRA issue [${{ steps.create_jira_issue.outputs.issue }}] was created."
+      - name: JIRA Login
+        uses: atlassian/gajira-login@v3.0.2
+        env:
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+
+      - name: Jira Create issue
+        id: create_jira_issue
+        uses: atlassian/gajira-create@v3.0.2
+        with:
+          project: GEOPY
+          issuetype: Story
+          summary: ${{ github.event.issue.title }}
+          description: "_from [GitHub issue #${{ github.event.issue.number }}|${{ github.event.issue.html_url }}]_"
+
+      - name: Post JIRA link
+        uses: peter-evans/create-or-update-comment@v2.1.1
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: "JIRA issue [${{ steps.create_jira_issue.outputs.issue }}] was created."

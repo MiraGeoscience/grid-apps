@@ -31,6 +31,7 @@ env:
 jobs:
   pre-commit:
     name: pre-commit
+    # if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
     strategy:
       fail-fast: false
     runs-on: ubuntu-latest

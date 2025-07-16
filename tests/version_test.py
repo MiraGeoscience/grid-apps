@@ -12,7 +12,7 @@ from pathlib import Path
 
 import tomli as toml
 
-from packaging.version import Version, InvalidVersion
+from packaging.version import InvalidVersion, Version
 
 import grid_apps
 

@@ -1,5 +1,5 @@
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-#  Copyright (c) 2022-2024 Mira Geoscience Ltd.                                '
+#  Copyright (c) 2022-2025 Mira Geoscience Ltd.                                '
 #                                                                              '
 #  This file is part of grid-apps package.                                        '
 #                                                                              '
@@ -11,7 +11,6 @@ from __future__ import annotations
 from pathlib import Path
 
 import tomli as toml
-
 from packaging.version import InvalidVersion, Version
 
 import grid_apps

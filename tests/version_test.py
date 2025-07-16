@@ -1,5 +1,5 @@
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-#  Copyright (c) 2022-2025 Mira Geoscience Ltd.                                '
+#  Copyright (c) 2025 Mira Geoscience Ltd.                                '
 #                                                                              '
 #  This file is part of grid-apps package.                                        '
 #                                                                              '

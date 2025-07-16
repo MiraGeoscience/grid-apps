@@ -6,13 +6,13 @@ channels:
   - conda-forge
   - nodefaults
 dependencies:
-  - astroid=3.3.10=py310h5588dad_0
+  - astroid=3.3.11=py310h5588dad_0
   - brotli-python=1.1.0=py310h9e98ed7_3
   - bzip2=1.0.8=h2466b09_7
-  - ca-certificates=2025.7.9=h4c7d964_0
+  - ca-certificates=2025.7.14=h4c7d964_0
   - cached-property=1.5.2=hd8ed1ab_1
   - cached_property=1.5.2=pyha770c72_1
-  - certifi=2025.7.9=pyhd8ed1ab_0
+  - certifi=2025.7.14=pyhd8ed1ab_0
   - cffi=1.17.1=py310ha8f682b_0
   - charset-normalizer=3.4.2=pyhd8ed1ab_0
   - colorama=0.4.6=pyhd8ed1ab_1

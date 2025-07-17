@@ -1,5 +1,9 @@
 name: static analysis
 
+permissions:
+  contents: read
+
+
 on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
@@ -27,30 +31,44 @@ env:
 jobs:
   pre-commit:
     name: pre-commit
-    if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
+    #if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
     strategy:
       fail-fast: false
     runs-on: ubuntu-latest
     env:
       SKIP: pylint
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v4
+      - uses: actions/checkout@1e31de5234b9f8995739874a8ce0492dc87873e2
+        with:
+          persist-credentials: true
+      - name: Setup conda env
+        uses: mamba-org/setup-micromamba@4b9113af4fba0e9e1124b252dd6497a419e7396d
+        with:
+          environment-file: environments/py-3.10-linux-64-dev.conda.lock.yml
+          environment-name: linter_env
+          cache-downloads: true
+      - uses: actions/setup-python@7f4fc3e22c37d6ff65e88745f38bd3157c663f7c
+      - name: Set base_ref
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "BASE_REF<<EOF" >> $GITHUB_ENV
+          echo "${GITHUB_BASE_REF}" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
       - name: capture modified files
         if: github.event_name == 'pull_request'
         run: >-
-          git fetch --deepen=500 origin ${{github.base_ref}}
+          git fetch --deepen=500 origin "$BASE_REF"
           && echo "FILES_PARAM=$(
-          git diff --diff-filter=AM --name-only refs/remotes/origin/${{github.base_ref}}... -- | grep -E "^(${source_dir}|tests)/.*\.py$" | xargs
+          git diff --diff-filter=AM --name-only refs/remotes/origin/"$BASE_REF"... -- | grep -E "^(${source_dir}|tests)/.*\.py$" | xargs
           )" >> $GITHUB_ENV
       - name: Run pre-commit on modified files
         if: github.event_name == 'pull_request' && env.FILES_PARAM
-        uses: pre-commit/action@v3.0.0
+        uses: pre-commit/action@646c83fcd040023954eafda54b4db0192ce70507
         with:
           extra_args: --hook-stage push --files ${{ env.FILES_PARAM }}
       - name: Run pre-commit on all files
         if: github.event_name == 'push'
-        uses: pre-commit/action@v3.0.0
+        uses: pre-commit/action@646c83fcd040023954eafda54b4db0192ce70507
         with:
           extra_args: --hook-stage push --all-files
 
@@ -67,19 +85,27 @@ jobs:
       PIP_NO_DEPS: 1 # all dependencies are installed from conda
       CONDA_LOCK_ENV_FILE: environments/py-3.10-linux-64-dev.conda.lock.yml
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@1e31de5234b9f8995739874a8ce0492dc87873e2
+        with:
+          persist-credentials: true
       - name: Setup conda env
-        uses: mamba-org/setup-micromamba@v1
+        uses: mamba-org/setup-micromamba@feb7656f829886af1ab11cf61126b048557b2e19
         with:
           environment-file: ${{ env.CONDA_LOCK_ENV_FILE }}
           environment-name: linter_env
           cache-downloads: true
+      - name: Set base_ref
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "BASE_REF<<EOF" >> $GITHUB_ENV
+          echo "${GITHUB_BASE_REF}" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
       - name: capture modified files
         if: github.event_name == 'pull_request'
         run: >-
-          git fetch --deepen=500 origin ${{github.base_ref}}
+          git fetch --deepen=500 origin "$BASE_REF"
           && echo "FILES_PARAM=$(
-          git diff --diff-filter=AM --name-only refs/remotes/origin/${{github.base_ref}}... -- | grep -E "^(${source_dir}|tests)/.*\.py$" | xargs
+          git diff --diff-filter=AM --name-only refs/remotes/origin/"$BASE_REF"... -- | grep -E "^(${source_dir}|tests)/.*\.py$" | xargs
           )" >> $GITHUB_ENV
       - name: Run pylint on modified files
         if: github.event_name == 'pull_request' && env.FILES_PARAM
@@ -87,3 +113,11 @@ jobs:
       - name: Run pylint on all files
         if: github.event_name == 'push'
         run: pylint $source_dir tests
+  call-workflow-zizmor:
+    name: Zizmor Security Scan
+    permissions:
+      contents: read
+      actions: read
+    uses: MiraGeoscience/CI-tools/.github/workflows/reusable-zizmor-security.yml@feature_zizmor_security
+    with:
+      app-name: 'grid-apps'

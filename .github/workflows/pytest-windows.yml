@@ -1,5 +1,9 @@
 name: pytest on Windows
 
+permissions:
+  contents: read
+  pull-requests: read
+
 on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
@@ -42,11 +46,12 @@ jobs:
       PIP_NO_DEPS: 1 # all dependencies are installed from conda
       CONDA_LOCK_ENV_FILE: environments/py-${{ matrix.python_ver }}-win-64-dev.conda.lock.yml
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           lfs: true
+          persist-credentials: false
       - name: Setup conda env
-        uses: mamba-org/setup-micromamba@v1
+        uses: mamba-org/setup-micromamba@4b9113af4fba0e9e1124b252dd6497a419e7396d
         with:
           environment-file: ${{ env.CONDA_LOCK_ENV_FILE }}
           environment-name: test_env
@@ -56,7 +61,7 @@ jobs:
         run: pytest --cov --cov-report=xml
       - name: Codecov
         if: ${{ success() && matrix.python_ver == '3.10' }}
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@ab904c41d6ece82784817410c45d8b8c02684457
         with:
           name: GitHub
           token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos

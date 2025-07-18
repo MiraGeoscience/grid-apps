@@ -56,7 +56,7 @@ python = "^3.10, <3.11"
 numpy = "~1.23.5"  # also geoh5py
 scipy = "~1.10.1"
 pandas = "~1.5.3"
-
+geoh5py = "~0.8.0"
 ## pip dependencies
 [tool.conda-lock.dependencies]
 geoh5py = { version = "~0.8.0", source = "pypi", allow-prereleases = true }

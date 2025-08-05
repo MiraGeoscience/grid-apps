@@ -18,7 +18,6 @@ import numpy as np
 from discretize import TreeMesh
 from geoh5py.data import FloatData, ReferencedData
 from geoh5py.objects import BlockModel, Octree
-from geoh5py.ui_json import InputFile
 from geoh5py.ui_json.utils import fetch_active_workspace
 from octree_creation_app.utils import treemesh_2_octree
 from scipy.spatial import cKDTree
@@ -41,12 +40,6 @@ class Driver(BaseGridDriver):
     """
 
     _params_class = BlockModel2OctreeOptions
-
-    def __init__(self, parameters: BlockModel2OctreeOptions | InputFile):
-        if isinstance(parameters, InputFile):
-            parameters = self._params_class.build(parameters)
-
-        super().__init__(parameters)
 
     @staticmethod
     def block_model_to_treemesh(

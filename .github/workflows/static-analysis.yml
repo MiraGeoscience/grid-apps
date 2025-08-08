@@ -118,6 +118,4 @@ jobs:
     permissions:
       contents: read
       actions: read
-    uses: MiraGeoscience/CI-tools/.github/workflows/reusable-zizmor-security.yml@feature_zizmor_security
-    with:
-      app-name: 'grid-apps'
+    uses: MiraGeoscience/CI-tools/.github/workflows/reusable-zizmor-security.yml@main

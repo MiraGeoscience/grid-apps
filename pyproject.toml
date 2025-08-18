@@ -1,30 +1,31 @@
-[tool.poetry]
+[build-system]
+requires = ["poetry-core>=1.8.0"]
+build-backend = "poetry.core.masonry.api"
+
+[project]
 name = "grid-apps"
-version = "0.1.0-alpha.1"
-license = "Proprietary"
+version = "0.1.0a1"
+requires-python = '>=3.10,<4.0'
+
 description = "Grid creation and manipulation"
-authors = ["Mira Geoscience <support@mirageoscience.com>"]
-repository = "https://github.com/MiraGeoscience/grid-apps"
-documentation  = "https://mirageoscience-grid-apps.readthedocs-hosted.com/"
-maintainers = [
-    "Benjamin Kary <benjamink@mirageoscience.com>",
-    "Dominique Fournier <dominiquef@mirageoscience.com>",
-]
-homepage = "https://www.mirageoscience.com/mining-industry-software/python-integration/"
+license = "Proprietary"
+keywords = ["geology", "geophysics", "earth sciences"]
 readme = "package.rst"
-packages = [
-     { include = "grid_apps" },
-     { include = "grid_apps-assets" },
+dynamic = ["dependencies", "classifiers"]
+authors = [{name = "Mira Geoscience", email = "support@mirageoscience.com"}]
+maintainers = [
+    { name = "Benjamin Kary", email = "benjamink@mirageoscience.com" },
+    { name = "Dominique Fournier", email = "dominiquef@mirageoscience.com" }
 ]
 
-include = [
-    { path = "COPYING" },
-    { path = "COPYING.LESSER" },
-    { path = "LICENSE" },
-    { path = "README.rst" },
-    { path = "docs/**/THIRD_PARTY_SOFTWARE.rst" },
-]
-keywords = ["geology", "geophysics", "earth sciences"]
+[project.urls]
+repository = "https://github.com/MiraGeoscience/grid-apps"
+documentation  = "https://mirageoscience-grid-apps.readthedocs-hosted.com/"
+homepage = "https://www.mirageoscience.com/mining-industry-software/python-integration/"
+
+[tool.poetry]
+requires-poetry = '>=2.0,<3.0'
+
 classifiers = [
     "Development Status :: 2 - Pre-Alpha",
     "Intended Audience :: Science/Research",
@@ -39,12 +40,20 @@ classifiers = [
     "Natural Language :: English",
 ]
 
-[tool.poetry.scripts]
-my_app_hello = 'grid_apps.commands.hello_world:main'
+packages = [
+     { include = "grid_apps" },
+     { include = "grid_apps-assets" },
+]
+
+include = [
+    { path = "COPYING" },
+    { path = "COPYING.LESSER" },
+    { path = "LICENSE" },
+    { path = "README.rst" },
+    { path = "docs/**/THIRD_PARTY_SOFTWARE.rst" },
+]
 
 [tool.poetry.dependencies]
-python = "^3.10"
-
 discretize = ">=0.11.0, <0.12.dev"
 numpy = "~1.26.0"  # also geoh5py
 pydantic = "^2.5.2"
@@ -163,7 +172,3 @@ fail_under = 50
 [tool.coverage.html]
 skip_empty = true
 skip_covered = true
-
-[build-system]
-requires = ["poetry-core>=1.0.0", "setuptools"]
-build-backend = "poetry.core.masonry.api"

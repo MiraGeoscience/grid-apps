@@ -165,6 +165,9 @@ class RefinementOptions(BaseModel):
     @field_validator("levels", mode="before")
     @classmethod
     def int_2_list(cls, levels: int | list[int]):
+        """
+        Convert single integer to list.
+        """
         if isinstance(levels, int):
             levels = [levels]
         return levels
@@ -172,12 +175,18 @@ class RefinementOptions(BaseModel):
     @field_validator("levels", mode="before")
     @classmethod
     def string_2_list(cls, levels: str | list[int]):
+        """
+        Convert comma-separated string to list of integers.
+        """
         if isinstance(levels, str):
             levels = [int(level) for level in levels.split(",")]
         return levels
 
     @field_serializer("levels")
     def list_to_string(self, value):
+        """
+        Convert list of integers to comma-separated string.
+        """
         return ", ".join(str(v) for v in value)
 
 

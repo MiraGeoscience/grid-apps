@@ -46,13 +46,20 @@ def setup_test_octree(diagonal_balance=False):
         tree_diagonal_balance=diagonal_balance,
     )
 
+    params_dict = {
+        "u_cell_size": cell_sizes[0],
+        "v_cell_size": cell_sizes[1],
+        "w_cell_size": cell_sizes[2],
+        "horizontal_padding": horizontal_padding,
+        "vertical_padding": vertical_padding,
+        "depth_core": depth_core,
+        "diagonal_balance": False,
+        "minimum_level": minimum_level,
+    }
+
     return (
-        cell_sizes,
-        depth_core,
-        horizontal_padding,
         locations,
-        minimum_level,
         refinement,
         treemesh,
-        vertical_padding,
+        params_dict,
     )

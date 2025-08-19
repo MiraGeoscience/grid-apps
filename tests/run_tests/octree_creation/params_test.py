@@ -46,19 +46,7 @@ def test_collect_refinements_from_dict():
     )
     assert refinements[1] is None
 
-
-def test_refinement_identifiers():
-    data = {
-        "Not a refinement": "ignore me",
-        "Refinement A object": "I am not None. Collect me.",
-        "Refinement A levels": [4, 2],
-        "Refinement A horizon": False,
-        "Refinement A distance": 1000,
-        "Refinement B object": None,
-        "Refinement B levels": None,
-        "Refinement B horizon": None,
-        "Refinement B distance": None,
-    }
+    # Test refinements detected
     active = refinement_identifiers(data)
     assert len(active) == 2
     assert all(k in active for k in ["A", "B"])

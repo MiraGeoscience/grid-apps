@@ -36,20 +36,13 @@ from grid_apps.utils import octree_2_treemesh, treemesh_2_octree
 
 
 def test_create_octree_radial(tmp_path: Path, setup_test_octree):  # pylint: disable=too-many-locals
-    (
-        cell_sizes,
-        depth_core,
-        horizontal_padding,
-        locations,
-        minimum_level,
-        refinement,
-        treemesh,
-        vertical_padding,
-    ) = setup_test_octree
+    (locations, refinement, treemesh, params_dict) = setup_test_octree
 
     with Workspace.create(tmp_path / "testOctree.geoh5") as workspace:
         points = Points.create(workspace, vertices=locations)
-        treemesh.refine(treemesh.max_level - minimum_level + 1, finalize=False)
+        treemesh.refine(
+            treemesh.max_level - params_dict["minimum_level"] + 1, finalize=False
+        )
         treemesh = OctreeDriver.refine_tree_from_points(
             treemesh,
             points,
@@ -63,25 +56,19 @@ def test_create_octree_radial(tmp_path: Path, setup_test_octree):  # pylint: dis
 
         assert OctreeDriver.cell_size_from_level(treemesh, 1) == 10.0
 
-        params_dict = {
-            "geoh5": workspace,
-            "objects": points,
-            "u_cell_size": cell_sizes[0],
-            "v_cell_size": cell_sizes[1],
-            "w_cell_size": cell_sizes[2],
-            "horizontal_padding": horizontal_padding,
-            "vertical_padding": vertical_padding,
-            "depth_core": depth_core,
-            "diagonal_balance": False,
-            "minimum_level": minimum_level,
-            "refinements": [
-                {
-                    "refinement_object": points,
-                    "levels": refinement,
-                    "horizon": False,
-                }
-            ],
-        }
+        params_dict.update(
+            {
+                "geoh5": workspace,
+                "objects": points,
+                "refinements": [
+                    {
+                        "refinement_object": points,
+                        "levels": refinement,
+                        "horizon": False,
+                    }
+                ],
+            }
+        )
         params = OctreeOptions(**params_dict)
         params.write_ui_json(tmp_path / "testOctree.ui.json")
         # params.write_input_file(name="testOctree", path=tmp_path, validate=False)
@@ -93,16 +80,7 @@ def test_create_octree_radial(tmp_path: Path, setup_test_octree):  # pylint: dis
 
 
 def test_create_octree_surface(tmp_path: Path, setup_test_octree):  # pylint: disable=too-many-locals
-    (
-        cell_sizes,
-        depth_core,
-        horizontal_padding,
-        locations,
-        minimum_level,
-        refinement,
-        treemesh,
-        vertical_padding,
-    ) = setup_test_octree
+    (locations, refinement, treemesh, params_dict) = setup_test_octree
 
     with Workspace.create(tmp_path / "testOctree.geoh5") as workspace:
         simplices = np.unique(
@@ -117,7 +95,7 @@ def test_create_octree_surface(tmp_path: Path, setup_test_octree):  # pylint: di
         )
 
         treemesh.refine(
-            treemesh.max_level - minimum_level + 1,
+            treemesh.max_level - params_dict["minimum_level"] + 1,
             finalize=False,
         )
         treemesh = OctreeDriver.refine_tree_from_surface(
@@ -134,26 +112,20 @@ def test_create_octree_surface(tmp_path: Path, setup_test_octree):  # pylint: di
             168396,
         ]  # Different results on Linux and Windows
 
-        params_dict = {
-            "geoh5": workspace,
-            "objects": surface,
-            "u_cell_size": cell_sizes[0],
-            "v_cell_size": cell_sizes[1],
-            "w_cell_size": cell_sizes[2],
-            "horizontal_padding": horizontal_padding,
-            "vertical_padding": vertical_padding,
-            "depth_core": depth_core,
-            "diagonal_balance": False,
-            "minimum_level": minimum_level,
-            "refinements": [
-                {
-                    "refinement_object": surface,
-                    "levels": refinement,
-                    "horizon": True,
-                    "distance": 1000.0,
-                }
-            ],
-        }
+        params_dict.update(
+            {
+                "geoh5": workspace,
+                "objects": surface,
+                "refinements": [
+                    {
+                        "refinement_object": surface,
+                        "levels": refinement,
+                        "horizon": True,
+                        "distance": 1000.0,
+                    }
+                ],
+            }
+        )
         params = OctreeOptions(**params_dict)
         params.write_ui_json(tmp_path / "testOctree.ui.json")
         driver = OctreeDriver(params)
@@ -164,7 +136,7 @@ def test_create_octree_surface(tmp_path: Path, setup_test_octree):  # pylint: di
 
 
 def test_create_octree_surface_straight_line(tmp_path: Path, setup_test_octree):
-    _, _, _, _, _, refinement, treemesh, _ = setup_test_octree
+    (_, refinement, treemesh, _) = setup_test_octree
 
     with Workspace.create(tmp_path / "test.geoh5") as workspace:
         locs = np.c_[np.linspace(-50, 50, 21), np.zeros(21), np.zeros(21)]
@@ -184,39 +156,24 @@ def test_create_octree_surface_straight_line(tmp_path: Path, setup_test_octree):
 
 
 def test_create_octree_curve(tmp_path: Path, setup_test_octree):  # pylint: disable=too-many-locals
-    (
-        cell_sizes,
-        depth_core,
-        horizontal_padding,
-        locations,
-        minimum_level,
-        refinement,
-        _,
-        vertical_padding,
-    ) = setup_test_octree
+    (locations, refinement, _, params_dict) = setup_test_octree
 
     with Workspace.create(tmp_path / "testOctree.geoh5") as workspace:
         curve = Curve.create(workspace, vertices=locations)
         curve.remove_cells([-1])
 
-        params_dict = {
-            "geoh5": workspace,
-            "objects": curve,
-            "u_cell_size": cell_sizes[0],
-            "v_cell_size": cell_sizes[1],
-            "w_cell_size": cell_sizes[2],
-            "horizontal_padding": horizontal_padding,
-            "vertical_padding": vertical_padding,
-            "depth_core": depth_core,
-            "diagonal_balance": False,
-            "minimum_level": minimum_level,
-            "refinements": [
-                {
-                    "refinement_object": curve,
-                    "levels": refinement,
-                }
-            ],
-        }
+        params_dict.update(
+            {
+                "geoh5": workspace,
+                "objects": curve,
+                "refinements": [
+                    {
+                        "refinement_object": curve,
+                        "levels": refinement,
+                    }
+                ],
+            }
+        )
         params = OctreeOptions(**params_dict)
         params.write_ui_json(tmp_path / "testOctree.ui.json")
         driver = OctreeDriver(params)
@@ -227,16 +184,7 @@ def test_create_octree_curve(tmp_path: Path, setup_test_octree):  # pylint: disa
 
 
 def test_create_octree_empty_curve(tmp_path: Path, setup_test_octree):  # pylint: disable=too-many-locals
-    (
-        cell_sizes,
-        depth_core,
-        horizontal_padding,
-        locations,
-        _,
-        refinement,
-        _,
-        vertical_padding,
-    ) = setup_test_octree
+    (locations, refinement, _, params_dict) = setup_test_octree
 
     with Workspace.create(tmp_path / "testOctree.geoh5") as workspace:
         # Create sources along line
@@ -244,24 +192,19 @@ def test_create_octree_empty_curve(tmp_path: Path, setup_test_octree):  # pylint
         curve = Curve.create(workspace, vertices=[(0, 0, 0), (0, 0, 0)])
         curve.remove_cells([0])
 
-        params_dict = {
-            "geoh5": workspace,
-            "objects": extent,
-            "u_cell_size": cell_sizes[0],
-            "v_cell_size": cell_sizes[1],
-            "w_cell_size": cell_sizes[2],
-            "horizontal_padding": horizontal_padding,
-            "vertical_padding": vertical_padding,
-            "depth_core": depth_core,
-            "diagonal_balance": False,
-            "minimum_level": 10,
-            "refinements": [
-                {
-                    "refinement_object": curve,
-                    "levels": refinement,
-                }
-            ],
-        }
+        params_dict.update(
+            {
+                "geoh5": workspace,
+                "objects": extent,
+                "minimum_level": 10,
+                "refinements": [
+                    {
+                        "refinement_object": curve,
+                        "levels": refinement,
+                    }
+                ],
+            }
+        )
         params = OctreeOptions(**params_dict)
         params.write_ui_json(tmp_path / "testOctree.ui.json")
         driver = OctreeDriver(params)
@@ -273,16 +216,7 @@ def test_create_octree_empty_curve(tmp_path: Path, setup_test_octree):  # pylint
 
 
 def test_create_octree_dipoles(tmp_path: Path, setup_test_octree):  # pylint: disable=too-many-locals
-    (
-        cell_sizes,
-        depth_core,
-        horizontal_padding,
-        _,
-        minimum_level,
-        refinement,
-        _,
-        vertical_padding,
-    ) = setup_test_octree
+    (_, refinement, _, params_dict) = setup_test_octree
 
     n_data = 12
     with Workspace.create(tmp_path / "testOctree.geoh5") as workspace:
@@ -318,24 +252,18 @@ def test_create_octree_dipoles(tmp_path: Path, setup_test_octree):  # pylint: di
         )
         potentials.ab_cell_id = np.hstack(current_id).astype("int32")
         potentials.current_electrodes = currents
-        params_dict = {
-            "geoh5": workspace,
-            "objects": potentials,
-            "u_cell_size": cell_sizes[0],
-            "v_cell_size": cell_sizes[1],
-            "w_cell_size": cell_sizes[2],
-            "horizontal_padding": horizontal_padding,
-            "vertical_padding": vertical_padding,
-            "depth_core": depth_core,
-            "diagonal_balance": False,
-            "minimum_level": minimum_level,
-            "refinements": [
-                {
-                    "refinement_object": potentials,
-                    "levels": refinement,
-                }
-            ],
-        }
+        params_dict.update(
+            {
+                "geoh5": workspace,
+                "objects": potentials,
+                "refinements": [
+                    {
+                        "refinement_object": potentials,
+                        "levels": refinement,
+                    }
+                ],
+            }
+        )
         params = OctreeOptions(**params_dict)
         params.write_ui_json(tmp_path / "testOctree.ui.json")
         driver = OctreeDriver(params)
@@ -345,16 +273,7 @@ def test_create_octree_dipoles(tmp_path: Path, setup_test_octree):  # pylint: di
 
 
 def test_create_octree_triangulation(tmp_path: Path, setup_test_octree):  # pylint: disable=too-many-locals
-    (
-        cell_sizes,
-        depth_core,
-        horizontal_padding,
-        locations,
-        minimum_level,
-        refinement,
-        treemesh,
-        vertical_padding,
-    ) = setup_test_octree
+    (locations, refinement, treemesh, params_dict) = setup_test_octree
 
     # Generate a sphere of points
     phi, theta = np.meshgrid(
@@ -373,7 +292,7 @@ def test_create_octree_triangulation(tmp_path: Path, setup_test_octree):  # pyli
             cells=surf.simplices,  # pylint: disable=no-member
         )
         treemesh.refine(
-            treemesh.max_level - minimum_level + 1,
+            treemesh.max_level - params_dict["minimum_level"] + 1,
             diagonal_balance=False,
             finalize=False,
         )
@@ -387,24 +306,18 @@ def test_create_octree_triangulation(tmp_path: Path, setup_test_octree):  # pyli
 
         assert octree.n_cells == 267957
 
-        params_dict = {
-            "geoh5": workspace,
-            "objects": curve,
-            "u_cell_size": cell_sizes[0],
-            "v_cell_size": cell_sizes[1],
-            "w_cell_size": cell_sizes[2],
-            "horizontal_padding": horizontal_padding,
-            "vertical_padding": vertical_padding,
-            "depth_core": depth_core,
-            "diagonal_balance": False,
-            "minimum_level": minimum_level,
-            "refinements": [
-                {
-                    "refinement_object": sphere,
-                    "levels": refinement,
-                }
-            ],
-        }
+        params_dict.update(
+            {
+                "geoh5": workspace,
+                "objects": curve,
+                "refinements": [
+                    {
+                        "refinement_object": sphere,
+                        "levels": refinement,
+                    }
+                ],
+            }
+        )
         params = OctreeOptions(**params_dict)
         params.write_ui_json(tmp_path / "testOctree.ui.json")
         driver = OctreeDriver(params)
@@ -493,16 +406,7 @@ def test_octree_diagonal_balance(  # pylint: disable=too-many-locals
 
 
 def test_refine_complement(tmp_path: Path, setup_test_octree):  # pylint: disable=too-many-locals
-    (
-        cell_sizes,
-        depth_core,
-        horizontal_padding,
-        locations,
-        minimum_level,
-        refinement,
-        _,
-        vertical_padding,
-    ) = setup_test_octree
+    (locations, refinement, _, params_dict) = setup_test_octree
 
     with Workspace.create(tmp_path / "testOctree.geoh5") as workspace:
         points = Points.create(workspace, vertices=np.c_[locations[-1, :]].T)
@@ -511,25 +415,19 @@ def test_refine_complement(tmp_path: Path, setup_test_octree):  # pylint: disabl
         curve.complement = points
         points.complement = curve
 
-        params_dict = {
-            "geoh5": workspace,
-            "objects": curve,
-            "u_cell_size": cell_sizes[0],
-            "v_cell_size": cell_sizes[1],
-            "w_cell_size": cell_sizes[2],
-            "horizontal_padding": horizontal_padding,
-            "vertical_padding": vertical_padding,
-            "depth_core": depth_core,
-            "diagonal_balance": False,
-            "minimum_level": minimum_level,
-            "refinements": [
-                {
-                    "refinement_object": curve,
-                    "levels": refinement,
-                    "horizon": False,
-                }
-            ],
-        }
+        params_dict.update(
+            {
+                "geoh5": workspace,
+                "objects": curve,
+                "refinements": [
+                    {
+                        "refinement_object": curve,
+                        "levels": refinement,
+                        "horizon": False,
+                    }
+                ],
+            }
+        )
         params = OctreeOptions(**params_dict)
         params.write_ui_json(tmp_path / "testOctree.ui.json")
         driver = OctreeDriver(params)
@@ -552,16 +450,7 @@ def test_refine_complement(tmp_path: Path, setup_test_octree):  # pylint: disabl
 
 
 def test_regular_grid(tmp_path: Path, setup_test_octree):  # pylint: disable=too-many-locals
-    (
-        cell_sizes,
-        depth_core,
-        horizontal_padding,
-        _,
-        minimum_level,
-        refinement,
-        treemesh,
-        vertical_padding,
-    ) = setup_test_octree
+    (_, refinement, _, params_dict) = setup_test_octree
 
     x, y = np.meshgrid(
         np.arange(0, 100, 5) + np.random.randn(1),
@@ -572,25 +461,19 @@ def test_regular_grid(tmp_path: Path, setup_test_octree):  # pylint: disable=too
     with Workspace.create(tmp_path / "testOctree.geoh5") as workspace:
         points = Points.create(workspace, vertices=locations)
 
-        params_dict = {
-            "geoh5": workspace,
-            "objects": points,
-            "u_cell_size": cell_sizes[0],
-            "v_cell_size": cell_sizes[1],
-            "w_cell_size": cell_sizes[2],
-            "horizontal_padding": horizontal_padding,
-            "vertical_padding": vertical_padding,
-            "depth_core": depth_core,
-            "diagonal_balance": False,
-            "minimum_level": minimum_level,
-            "refinements": [
-                {
-                    "refinement_object": points,
-                    "levels": refinement,
-                    "horizon": False,
-                }
-            ],
-        }
+        params_dict.update(
+            {
+                "geoh5": workspace,
+                "objects": points,
+                "refinements": [
+                    {
+                        "refinement_object": points,
+                        "levels": refinement,
+                        "horizon": False,
+                    }
+                ],
+            }
+        )
         params = OctreeOptions(**params_dict)
         params.write_ui_json(tmp_path / "testOctree.ui.json")
         driver = OctreeDriver(params)

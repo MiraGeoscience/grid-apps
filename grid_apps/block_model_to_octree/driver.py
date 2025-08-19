@@ -19,7 +19,6 @@ from discretize import TreeMesh
 from geoh5py.data import FloatData, ReferencedData
 from geoh5py.objects import BlockModel, Octree
 from geoh5py.ui_json.utils import fetch_active_workspace
-from octree_creation_app.utils import treemesh_2_octree
 from scipy.spatial import cKDTree
 
 from grid_apps.block_model_to_octree.options import BlockModel2OctreeOptions
@@ -28,6 +27,7 @@ from grid_apps.utils import (
     block_model_to_discretize,
     boundary_value_indices,
     tensor_mesh_ordering,
+    treemesh_2_octree,
 )
 
 

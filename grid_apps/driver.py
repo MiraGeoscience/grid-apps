@@ -14,7 +14,6 @@ import logging
 import sys
 import tempfile
 from abc import abstractmethod
-from json import load
 from pathlib import Path
 
 from geoapps_utils.driver.data import BaseData
@@ -22,7 +21,6 @@ from geoapps_utils.driver.driver import BaseDriver
 from geoh5py.groups import UIJsonGroup
 from geoh5py.objects import BlockModel, ObjectBase
 from geoh5py.shared.utils import fetch_active_workspace
-from geoh5py.ui_json import InputFile
 
 
 logger = logging.getLogger(__name__)
@@ -35,15 +33,7 @@ class BaseGridDriver(BaseDriver):
     :param parameters: Application parameters.
     """
 
-    _parameter_class: type[BaseData]
-
-    def __init__(self, parameters: BaseData | InputFile):
-        self._out_group = None
-        if isinstance(parameters, InputFile):
-            parameters = self._parameter_class.build(parameters)
-
-        # TODO need to re-type params in base class
-        super().__init__(parameters)
+    _params_class: type[BaseData]
 
     def store(self, block_model: BlockModel):
         """
@@ -82,17 +72,6 @@ class BaseGridDriver(BaseDriver):
         if not isinstance(val, BaseData):
             raise TypeError("Parameters must be a BaseData subclass.")
         self._params = val
-
-    @classmethod
-    def start(cls, filepath: str | Path, driver_class=None, **kwargs):
-        with open(filepath, encoding="utf-8") as jsonfile:
-            uijson = load(jsonfile)
-
-        if driver_class is None:
-            module = __import__(uijson["run_command"], fromlist=["Driver"])
-            driver_class = module.Driver
-
-        super().start(filepath, driver_class=driver_class, **kwargs)
 
     def add_ui_json(self, entity: ObjectBase | UIJsonGroup) -> None:
         """

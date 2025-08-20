@@ -88,7 +88,9 @@ pyyaml = '*'
 jinja2 = '*'
 packaging = '*'
 tomli = "*"
-
+sphinx = "*"
+sphinx-autodoc-typehints = "*"
+sphinx-rtd-theme = "*"
 
 [tool.conda-lock]
 platforms = ['win-64', 'linux-64']
@@ -146,7 +148,8 @@ show_column_numbers = true
 check_untyped_defs = true
 
 plugins = [
-    "numpy.typing.mypy_plugin"
+    "numpy.typing.mypy_plugin",
+    "pydantic.mypy"
 ]
 
 [tool.pytest.ini_options]

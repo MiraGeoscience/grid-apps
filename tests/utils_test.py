@@ -404,7 +404,7 @@ def test_get_neighbouring_cells():
 
 
 def test_get_octree_attributes_with_treemesh(setup_test_octree):
-    _, _, _, _, _, _, treemesh, _ = setup_test_octree
+    _, _, treemesh, _ = setup_test_octree
     treemesh.insert_cells([0, 0, 0], treemesh.max_level, finalize=True)
 
     attributes = get_octree_attributes(treemesh)
@@ -418,7 +418,7 @@ def test_get_octree_attributes_with_treemesh(setup_test_octree):
 
 
 def test_get_octree_attributes_with_octree(setup_test_octree):
-    _, _, _, _, _, _, treemesh, _ = setup_test_octree
+    _, _, treemesh, _ = setup_test_octree
     treemesh.insert_cells([0, 0, 0], treemesh.max_level, finalize=True)
 
     workspace = Workspace()

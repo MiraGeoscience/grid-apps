@@ -17,7 +17,14 @@ requires-python = '>=3.10,<4.0'
 
 description = "Grid creation and manipulation"
 license = "Proprietary"
-keywords = ["geology", "geophysics", "earth sciences"]
+keywords = [
+    "earth-science",
+    "geoh5",
+    "geology",
+    "geophysics",
+    "mining",
+    "open-science",
+]
 readme = "package.rst"
 dynamic = ["version", "dependencies", "classifiers"]
 authors = [{name = "Mira Geoscience", email = "support@mirageoscience.com"}]
@@ -26,27 +33,24 @@ maintainers = [
     { name = "Dominique Fournier", email = "dominiquef@mirageoscience.com" }
 ]
 
+dependencies = [
+    # Mira packages
+    "geoapps-utils >= 0.6.0a, == 0.6.*",
+    "geoh5py >= 0.12.0a1, == 0.12.*",
+    # other direct dependencies
+    "discretize == 0.11.*",
+    "numpy == 1.26.*",
+    "pydantic >= 2.5.2, == 2.*",
+    "scipy == 1.14.*",
+]
+
 [project.urls]
 repository = "https://github.com/MiraGeoscience/grid-apps"
-documentation  = "https://mirageoscience-grid-apps.readthedocs-hosted.com/"
 homepage = "https://www.mirageoscience.com/mining-industry-software/python-integration/"
+documentation  = "https://mirageoscience-grid-apps.readthedocs-hosted.com/"
 
 [tool.poetry]
 requires-poetry = '>=2.0,<3.0'
-
-classifiers = [
-    "Development Status :: 2 - Pre-Alpha",
-    "Intended Audience :: Science/Research",
-    "Programming Language :: Python",
-    "Topic :: Scientific/Engineering",
-    "Topic :: Scientific/Engineering :: Mathematics",
-    "Topic :: Scientific/Engineering :: Physics",
-    "Operating System :: Microsoft :: Windows",
-    "Operating System :: POSIX",
-    "Operating System :: Unix",
-    "Operating System :: MacOS",
-    "Natural Language :: English",
-]
 
 packages = [
      { include = "grid_apps" },
@@ -61,53 +65,21 @@ include = [
     { path = "docs/**/THIRD_PARTY_SOFTWARE.rst" },
 ]
 
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Natural Language :: English",
+    "Operating System :: MacOS",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX",
+    "Operating System :: Unix",
+    "Programming Language :: Python",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Topic :: Scientific/Engineering :: Physics",
+    "Topic :: Scientific/Engineering",
+]
 version = "0.0.0.dev0"
-
-[tool.poetry.dependencies]
-discretize = ">=0.11.0, <0.12.dev"
-numpy = "~1.26.0"  # also geoh5py
-pydantic = "^2.5.2"
-scipy = "~1.14.0"
-
-## pip dependencies
-#geoh5py = { version = ">=0.12.0a, <0.13.dev", source = "pypi", allow-prereleases = true}
-geoh5py = {git = "https://github.com/MiraGeoscience/geoh5py.git", rev = "develop"}
-
-#geoapps-utils = { version = ">=0.6.0a3, <0.7.dev", source = "pypi", allow-prereleases = true}
-geoapps-utils = {git = "https://github.com/MiraGeoscience/geoapps-utils.git", rev = "develop"}
-
-## about pip dependencies
-# to be specified to work with conda-lock
-# - from PyPI: my_package = { version = "1.2.3", source = "pypi" }
-# - from URL:
-#   - for a tags:   my_package = { url = "https://github.com/ORGANISATION/REPO/archive/refs/tags/VERSION_TAG.zip#sha256=" }
-#   - for a branch: my_package = { url = "https://github.com/ORGANISATION/REPO/archive/refs/heads/BRANCH.zip#sha256=" }
-# Note - conda-lock does not support the syntax: my_package = { git = ... }
-#        while poetry2conda supports only { git = "...", tag = "..." }, and not { url = ... }
-
-[tool.poetry.group.dev.dependencies]
-Pygments = "*"
-pylint = "*"
-pytest = "*"
-pytest-cov = "*"
-pyyaml = '*'
-jinja2 = '*'
-packaging = '*'
-tomli = "*"
-sphinx = "*"
-sphinx-autodoc-typehints = "*"
-sphinx-rtd-theme = "*"
-
-[tool.conda-lock]
-platforms = ['win-64', 'linux-64']
-channels = ['conda-forge']
-
-[tool.conda-lock.dependencies]
-
-## indirect dependencies, forcing them here for installation through Conda not pip
-#---------------------------------------------------------------------------------
-h5py = ">=3.2.1, <4.0.dev"  # from geoh5py
-Pillow = ">=10.3.0, <10.4.dev"  # from geoh5py
 
 [tool.poetry.requires-plugins]
 poetry-dynamic-versioning = { version = ">=1.9.1,<2.0.0", extras = ["plugin"] }
@@ -192,9 +164,6 @@ plugins = [
 [tool.coverage.run]
 branch = true
 source = ["grid_apps"]
-omit = [
-    "grid_apps/commands/hello_world.py"
-]
 
 [tool.coverage.report]
 exclude_lines = [

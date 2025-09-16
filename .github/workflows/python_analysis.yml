@@ -31,7 +31,7 @@ jobs:
       contents: read
       pull-requests: read
     with:
-      package-manager: 'conda'
+      package-manager: 'pixi'
       app-name: 'grid_apps'
       python-version: '3.10'
   call-workflow-pre-commmit:
@@ -49,7 +49,7 @@ jobs:
       contents: read
       pull-requests: read
     with:
-      package-manager: 'conda'
+      package-manager: 'pixi'
       python-versions: '["3.10", "3.11", "3.12"]'
       cache-number: 1
       os: '["ubuntu-latest", "windows-latest"]'

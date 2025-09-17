@@ -84,7 +84,7 @@ class OctreeDriver(BaseDriver):
         """Create a base TreeMesh object from extents."""
 
         entity = params.objects
-        if hasattr(entity, "complement"):
+        if hasattr(entity, "complement") and entity.complement is not None:
             vertices = np.vstack([entity.vertices, entity.complement.vertices])
         else:
             vertices = entity.vertices
@@ -129,7 +129,10 @@ class OctreeDriver(BaseDriver):
             kwargs = refinement.model_dump()
             kwargs["levels"] = [int(k) for k in kwargs["levels"].split(",")]
             refinement_object = [kwargs.pop("refinement_object")]
-            if hasattr(refinement_object[0], "complement"):
+            if (
+                hasattr(refinement_object[0], "complement")
+                and refinement_object[0].complement is not None
+            ):
                 refinement_object.append(refinement_object[0].complement)
 
             for obj in refinement_object:

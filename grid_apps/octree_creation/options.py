@@ -87,7 +87,6 @@ class OctreeOptions(BaseData):
                 )
                 warnings.warn(msg)
             values["refinements"] = refinements
-
         return values
 
     @model_serializer(mode="wrap")
@@ -204,7 +203,6 @@ def collect_refinements_from_dict(data: dict) -> list[dict | None]:
             refinements.append(None)
         else:
             refinements.append(refinement_params)
-
     return refinements
 
 

@@ -1,17 +1,25 @@
 [build-system]
-requires = ["poetry-core>=1.8.0"]
-build-backend = "poetry.core.masonry.api"
+requires = [
+  "poetry-core>=1.8.0",
+  "poetry-dynamic-versioning>=1.9.1,<2.0",
+  # list dependencies to work with PIP_NO_DEPS=1
+  "MarkupSafe>=2.0",
+  "dunamai>=1.25,<2.0",
+  "jinja2>=3.0,<4.0",
+  "packaging>=24.0",
+  "tomlkit>=0.13",
+]
+build-backend = "poetry_dynamic_versioning.backend"
 
 [project]
 name = "grid-apps"
-version = "0.1.0a1"
 requires-python = '>=3.10,<4.0'
 
 description = "Grid creation and manipulation"
 license = "Proprietary"
 keywords = ["geology", "geophysics", "earth sciences"]
 readme = "package.rst"
-dynamic = ["dependencies", "classifiers"]
+dynamic = ["version", "dependencies", "classifiers"]
 authors = [{name = "Mira Geoscience", email = "support@mirageoscience.com"}]
 maintainers = [
     { name = "Benjamin Kary", email = "benjamink@mirageoscience.com" },
@@ -53,6 +61,8 @@ include = [
     { path = "docs/**/THIRD_PARTY_SOFTWARE.rst" },
 ]
 
+version = "0.0.0.dev0"
+
 [tool.poetry.dependencies]
 discretize = ">=0.11.0, <0.12.dev"
 numpy = "~1.26.0"  # also geoh5py
@@ -65,10 +75,6 @@ geoh5py = {git = "https://github.com/MiraGeoscience/geoh5py.git", rev = "develop
 
 #geoapps-utils = { version = ">=0.6.0a3, <0.7.dev", source = "pypi", allow-prereleases = true}
 geoapps-utils = {git = "https://github.com/MiraGeoscience/geoapps-utils.git", rev = "develop"}
-
-#octree-creation-app = { version = ">=0.2.0, <0.3.dev", source = "pypi", allow-prereleases = true}
-octree-creation-app = {git = "https://github.com/MiraGeoscience/octree-creation-app.git", rev = "develop"}
-
 
 ## about pip dependencies
 # to be specified to work with conda-lock
@@ -102,6 +108,34 @@ channels = ['conda-forge']
 #---------------------------------------------------------------------------------
 h5py = ">=3.2.1, <4.0.dev"  # from geoh5py
 Pillow = ">=10.3.0, <10.4.dev"  # from geoh5py
+
+[tool.poetry.requires-plugins]
+poetry-dynamic-versioning = { version = ">=1.9.1,<2.0.0", extras = ["plugin"] }
+
+[tool.poetry-dynamic-versioning]
+bump = true
+enable = true
+fix-shallow-repository = true
+strict = true
+style = "pep440"
+vcs = "git"
+
+[tool.poetry-dynamic-versioning.substitution]
+files = ["grid_apps/_version.py", "recipe.yaml"]
+patterns = [
+    { value = '''(^__version__\s*(?::.*?)?=\s*['"])[^'"]*(['"])''', mode = "str" },
+    { value = '''(^\s*version\s*(?::.*?)?:\s*['"])[^'"]*(['"])''', mode = "str" },
+]
+
+[tool.poetry-dynamic-versioning.files."grid_apps/_version.py"]
+persistent-substitution = true
+initial-content = """
+  # Version placeholder that will be replaced during substitution
+  __version__ = "0.0.0"
+"""
+
+[tool.poetry-dynamic-versioning.files."recipe.yaml"]
+persistent-substitution = true
 
 [tool.ruff]
 target-version = "py310"

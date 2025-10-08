@@ -487,3 +487,38 @@ def test_regular_grid(tmp_path: Path, setup_test_octree):  # pylint: disable=too
     ind = treemesh.get_containing_cells(locations)
 
     np.testing.assert_allclose(treemesh.cell_centers[ind], locations)
+
+
+def test_flat_grid(tmp_path: Path, setup_test_octree):  # pylint: disable=too-many-locals
+    (_, refinement, _, params_dict) = setup_test_octree
+
+    locations = np.c_[
+        np.linspace(-100, 100, 16),
+        np.linspace(-100, 100, 16),
+        np.r_[np.ones(7) * 5, np.ones(9) * 10],
+    ]
+
+    with Workspace.create(tmp_path / f"{__name__}.geoh5") as workspace:
+        points = Points.create(workspace, vertices=locations)
+        params_dict.update(
+            {
+                "geoh5": workspace,
+                "objects": points,
+                "refinements": [
+                    {
+                        "refinement_object": points,
+                        "levels": refinement,
+                        "horizon": False,
+                    }
+                ],
+                "depth_core": 10.0,
+                "vertical_padding": 0,
+            }
+        )
+        params = OctreeOptions(**params_dict)
+        driver = OctreeDriver(params)
+        octree = driver.run()
+
+        assert (octree.origin["z"] + octree.w_cell_size * octree.w_count) > locations[
+            :, 2
+        ].max()

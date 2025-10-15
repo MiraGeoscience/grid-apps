@@ -445,7 +445,12 @@ class OctreeDriver(BaseDriver):
         offsets = []
         for ii in range(mesh.dim):
             cell_centers = mesh.origin[ii] + np.cumsum(mesh.h[ii]) - mesh.h[ii] / 2
-            nearest = np.searchsorted(cell_centers, vertices[ind_mid, ii])
+            nearest = np.min(
+                [
+                    np.searchsorted(cell_centers, vertices[ind_mid, ii]),
+                    mesh.shape_cells[ii] - 1,
+                ]
+            )
             offsets.append(vertices[ind_mid, ii] - cell_centers[nearest])
 
         return np.r_[offsets]

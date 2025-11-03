@@ -17,6 +17,10 @@ requires-python = '>=3.10,<4.0'
 
 description = "Grid creation and manipulation"
 license = "Proprietary"
+license-files = [
+    "LICENSE",
+    "docs/source/THIRD_PARTY_SOFTWARE.rst",
+]
 keywords = ["geology", "geophysics", "earth sciences"]
 readme = "package.rst"
 dynamic = ["version", "dependencies", "classifiers"]
@@ -54,10 +58,6 @@ packages = [
 ]
 
 include = [
-    { path = "COPYING" },
-    { path = "COPYING.LESSER" },
-    { path = "LICENSE" },
-    { path = "docs/**/THIRD_PARTY_SOFTWARE.rst" },
 ]
 
 version = "0.0.0.dev0"

@@ -58,6 +58,7 @@ packages = [
 ]
 
 include = [
+    { path = "grid_apps/_version.py", format = ["sdist", "wheel"] },
 ]
 
 version = "0.0.0.dev0"

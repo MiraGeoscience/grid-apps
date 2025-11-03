@@ -23,7 +23,7 @@ jobs:
       python-version: '3.10'
       source-repo-names: '["public-noremote-conda-dev"]'
       conda-channels: '["conda-forge"]'
-      publish-repo-names: '["geology-noremote-conda-dev", "geophysics-noremote-conda-dev"]'
+      publish-repo-names: '["public-noremote-conda-dev"]'
     secrets:
       JFROG_ARTIFACTORY_URL: ${{ secrets.JFROG_ARTIFACTORY_URL }}
       JFROG_ARTIFACTORY_TOKEN: ${{ secrets.JFROG_ARTIFACTORY_TOKEN }}
@@ -38,7 +38,7 @@ jobs:
       package-name: 'grid-apps'
       version-tag: ${{ github.ref_name }}
       python-version: '3.10'
-      virtual-repo-names: '["geology-pypi-dev", "geophysics-pypi-dev", "test-pypi"]'
+      virtual-repo-names: '["public-pypi-dev", "test-pypi"]'
     secrets:
       JFROG_ARTIFACTORY_URL: ${{ secrets.JFROG_ARTIFACTORY_URL }}
       JFROG_ARTIFACTORY_TOKEN: ${{ secrets.JFROG_ARTIFACTORY_TOKEN }}

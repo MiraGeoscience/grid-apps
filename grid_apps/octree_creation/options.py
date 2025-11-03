@@ -1,10 +1,9 @@
 # '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 #  Copyright (c) 2022-2025 Mira Geoscience Ltd.                                     '
-#  All rights reserved.                                                             '
 #                                                                                   '
 #  This file is part of grid-apps package.                                          '
 #                                                                                   '
-#  grid-apps is distributed under the terms and conditions of a proprietary license '
+#  grid-apps is distributed under the terms and conditions of the MIT License       '
 #  (see LICENSE file at the root of this source code package).                      '
 # '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 from __future__ import annotations
@@ -87,7 +86,6 @@ class OctreeOptions(BaseData):
                 )
                 warnings.warn(msg)
             values["refinements"] = refinements
-
         return values
 
     @model_serializer(mode="wrap")
@@ -204,7 +202,6 @@ def collect_refinements_from_dict(data: dict) -> list[dict | None]:
             refinements.append(None)
         else:
             refinements.append(refinement_params)
-
     return refinements
 
 

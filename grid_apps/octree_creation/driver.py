@@ -1,10 +1,9 @@
 # '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 #  Copyright (c) 2022-2025 Mira Geoscience Ltd.                                     '
-#  All rights reserved.                                                             '
 #                                                                                   '
 #  This file is part of grid-apps package.                                          '
 #                                                                                   '
-#  grid-apps is distributed under the terms and conditions of a proprietary license '
+#  grid-apps is distributed under the terms and conditions of the MIT License       '
 #  (see LICENSE file at the root of this source code package).                      '
 # '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
@@ -84,7 +83,7 @@ class OctreeDriver(BaseDriver):
         """Create a base TreeMesh object from extents."""
 
         entity = params.objects
-        if hasattr(entity, "complement"):
+        if hasattr(entity, "complement") and entity.complement is not None:
             vertices = np.vstack([entity.vertices, entity.complement.vertices])
         else:
             vertices = entity.vertices
@@ -129,7 +128,10 @@ class OctreeDriver(BaseDriver):
             kwargs = refinement.model_dump()
             kwargs["levels"] = [int(k) for k in kwargs["levels"].split(",")]
             refinement_object = [kwargs.pop("refinement_object")]
-            if hasattr(refinement_object[0], "complement"):
+            if (
+                hasattr(refinement_object[0], "complement")
+                and refinement_object[0].complement is not None
+            ):
                 refinement_object.append(refinement_object[0].complement)
 
             for obj in refinement_object:
@@ -442,7 +444,12 @@ class OctreeDriver(BaseDriver):
         offsets = []
         for ii in range(mesh.dim):
             cell_centers = mesh.origin[ii] + np.cumsum(mesh.h[ii]) - mesh.h[ii] / 2
-            nearest = np.searchsorted(cell_centers, vertices[ind_mid, ii])
+            nearest = np.min(
+                [
+                    np.searchsorted(cell_centers, vertices[ind_mid, ii]),
+                    mesh.shape_cells[ii] - 1,
+                ]
+            )
             offsets.append(vertices[ind_mid, ii] - cell_centers[nearest])
 
         return np.r_[offsets]

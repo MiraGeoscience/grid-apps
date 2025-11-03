@@ -1,12 +1,12 @@
 # '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 #  Copyright (c) 2022-2025 Mira Geoscience Ltd.                                     '
-#  All rights reserved.                                                             '
 #                                                                                   '
 #  This file is part of grid-apps package.                                          '
 #                                                                                   '
-#  grid-apps is distributed under the terms and conditions of a proprietary license '
+#  grid-apps is distributed under the terms and conditions of the MIT License       '
 #  (see LICENSE file at the root of this source code package).                      '
 # '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
 
 from __future__ import annotations
 
@@ -15,23 +15,16 @@ from pathlib import Path
 
 import pytest
 import yaml
-from jinja2 import Template
 from packaging.version import InvalidVersion, Version
 
 import grid_apps
 
 
 def get_conda_recipe_version():
-    path = Path(__file__).resolve().parents[1] / "recipe.yaml"
+    recipe_path = Path(__file__).resolve().parents[1] / "recipe.yaml"
 
-    with open(str(path), encoding="utf-8") as file:
-        content = file.read()
-
-    template = Template(content)
-    rendered_yaml = template.render()
-
-    recipe = yaml.safe_load(rendered_yaml)
-
+    with recipe_path.open(encoding="utf-8") as file:
+        recipe = yaml.safe_load(file)
     return recipe["context"]["version"]
 
 

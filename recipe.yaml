@@ -49,6 +49,9 @@ tests:
         - tests/
 
 about:
+  license: MIT
+  license_file:
+    - LICENSE
   repository: https://github.com/MiraGeoscience/grid-apps
 
 extra:

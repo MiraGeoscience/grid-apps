@@ -16,7 +16,7 @@ name = "grid-apps"
 requires-python = '>=3.10,<4.0'
 
 description = "Grid creation and manipulation"
-license = "Proprietary"
+license = "MIT"
 license-files = [
     "LICENSE",
     "docs/source/THIRD_PARTY_SOFTWARE.rst",

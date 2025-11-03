@@ -2,7 +2,7 @@ schema_version: 1
 
 context:
   name: "grid-apps"
-  version: "0.0.0.dev0"  # This will be replaced by the actual version in the build process
+  version: "0.1.0a1.dev60+4168153"  # This will be replaced by the actual version in the build process
   python_min: "3.10"
 
 package:

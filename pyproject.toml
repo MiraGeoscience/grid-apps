@@ -15,7 +15,7 @@ build-backend = "poetry_dynamic_versioning.backend"
 name = "grid-apps"
 requires-python = '>=3.10,<4.0'
 
-description = "Grid creation and manipulation"
+description = "Grid creation and manipulation using GEOH5 format."
 license = "MIT"
 license-files = [
     "LICENSE",

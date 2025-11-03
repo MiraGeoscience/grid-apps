@@ -49,9 +49,15 @@ tests:
         - tests/
 
 about:
+  summary: Grid creation and manipulation using GEOH5 format.
+  description: |
+    The grid-apps package offers tools for the creation and manipulation of grid objects
+    (Octree, BlockModel, Grid2D, DrapeModel) using various Python libraries
+    and `geoh5py <https://mirageoscience-geoh5py.readthedocs-hosted.com/>`_.
   license: MIT
   license_file:
     - LICENSE
+  homepage: https://www.mirageoscience.com/mining-industry-software/python-integration/
   repository: https://github.com/MiraGeoscience/grid-apps
 
 extra:

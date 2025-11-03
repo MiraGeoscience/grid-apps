@@ -79,10 +79,6 @@ class Driver(BaseGridDriver):
                 np.r_[block_model.origin.tolist()] - source_to_nearest_neighbor
             )
 
-            self.update_monitoring_directory(
-                self.params.output.out_group or block_model
-            )
-
         return block_model
 
     @staticmethod

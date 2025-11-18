@@ -16,7 +16,7 @@ import sys
 import numpy as np
 from discretize import TreeMesh
 from discretize.utils import mesh_builder_xyz
-from geoapps_utils.driver.driver import BaseDriver
+from geoapps_utils.base import Driver as BaseDriver
 from geoapps_utils.utils.locations import get_locations
 from geoh5py.objects import Curve, ObjectBase, Octree, Points, Surface
 from geoh5py.objects.surveys.direct_current import BaseElectrode
@@ -46,7 +46,8 @@ class OctreeDriver(BaseDriver):
         with fetch_active_workspace(self.params.geoh5, mode="r+"):
             logger.info("Creating octree mesh from params . . .")
             octree = self.octree_from_params(self.params)
-            self.update_monitoring_directory(octree)
+            output = self.params.out_group or octree
+            self.update_monitoring_directory(output)
             logger.info("Done.")
 
         return octree

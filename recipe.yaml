@@ -30,10 +30,10 @@ requirements:
     - geoh5py >=0.12.0b5, 0.12.*
     - geoapps-utils >=0.6.0b2, 0.6.*
     # other direct dependencies
-    - discretize >=0.11.0, <0.12.dev
-    - numpy >=1.26.0, <1.27.dev
-    - pydantic >=2.5.2, <3.0.dev
-    - scipy >=1.14.0, <1.15.dev
+    - discretize 0.11.*
+    - numpy 1.26.*
+    - pydantic >=2.5.2, 2.*
+    - scipy 1.14.*
 
 tests:
   - python:

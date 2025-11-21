@@ -39,7 +39,8 @@ requirements:
 tests:
   - python:
       imports:
-        - grid_apps
+        - ${{ module_name }}
+        - ${{ module_name }}._version
   - script:
       - pytest --ignore=tests/version_test.py
     requirements:

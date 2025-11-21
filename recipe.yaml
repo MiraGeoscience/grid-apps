@@ -4,6 +4,7 @@ context:
   name: "grid-apps"
   version: "0.0.0.dev0"  # This will be replaced by the actual version in the build process
   python_min: "3.10"
+  module_name: ${{ name|lower|replace("-", "_") }}
 
 package:
   name: ${{ name|lower }}
@@ -27,18 +28,19 @@ requirements:
   run:
     - python >=${{ python_min }}
     # Mira packages
-    - geoh5py >=0.12.0b1, <0.13.dev
-    - geoapps-utils >=0.6.0b1,<0.7.dev
+    - geoh5py >=0.12.0b5, 0.12.*
+    - geoapps-utils >=0.6.0b2, 0.6.*
     # other direct dependencies
-    - discretize >=0.11.0, <0.12.dev
-    - numpy >=1.26.0, <1.27.dev
-    - pydantic >=2.5.2, <3.0.dev
-    - scipy >=1.14.0, <1.15.dev
+    - discretize 0.11.*
+    - numpy 1.26.*
+    - pydantic >=2.5.2, 2.*
+    - scipy 1.14.*
 
 tests:
   - python:
       imports:
-        - grid_apps
+        - ${{ module_name }}
+        - ${{ module_name }}._version
   - script:
       - pytest --ignore=tests/version_test.py
     requirements:
@@ -47,6 +49,9 @@ tests:
     files:
       source:
         - tests/
+  - package_contents:
+      files:
+        - site-packages/${{ module_name }}/_version.py
 
 about:
   summary: Grid creation and manipulation using GEOH5 format.
@@ -57,6 +62,7 @@ about:
   license: MIT
   license_file:
     - LICENSE
+    - docs/source/THIRD_PARTY_SOFTWARE.rst
   homepage: https://www.mirageoscience.com/mining-industry-software/python-integration/
   repository: https://github.com/MiraGeoscience/grid-apps
 

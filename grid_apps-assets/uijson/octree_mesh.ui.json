@@ -231,10 +231,11 @@
         "value": 1000.0
     },
     "out_group": {
-        "label": "group",
+        "group": "Output preferences",
+        "label": "UIJson group",
         "value": "",
-        "groupType": "{61FBB4E8-A480-11E3-8D5A-2776BDF4F982}",
-        "visible": false,
+        "groupType": "{BB50AC61-A657-4926-9C82-067658E246A0}",
+        "visible": true,
         "optional": true,
         "enabled": false
     }

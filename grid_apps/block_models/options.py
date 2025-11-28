@@ -12,7 +12,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import ClassVar
 
-from geoapps_utils.driver.data import BaseData
+from geoapps_utils.base import Options
 from geoh5py.groups import UIJsonGroup
 from geoh5py.objects import CellObject, Points
 from geoh5py.objects.grid_object import GridObject
@@ -84,7 +84,7 @@ class BlockModelOutputOptions(BaseModel):
     out_group: UIJsonGroup | None = None
 
 
-class BlockModelOptions(BaseData):
+class BlockModelOptions(Options):
     """
     Block model parameters for use with `block_models.driver`.
 

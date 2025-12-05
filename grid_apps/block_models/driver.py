@@ -15,20 +15,19 @@ from pathlib import Path
 
 import numpy as np
 from discretize.utils import mesh_utils
-from geoapps_utils.driver.data import BaseData
+from geoapps_utils.base import Driver as BaseDriver
 from geoh5py.objects import BlockModel
 from geoh5py.shared.utils import fetch_active_workspace
 from geoh5py.workspace import Workspace
 from scipy.spatial import cKDTree
 
 from grid_apps.block_models.options import BlockModelOptions
-from grid_apps.driver import BaseGridDriver
 
 
 logger = logging.getLogger(__name__)
 
 
-class Driver(BaseGridDriver):
+class Driver(BaseDriver):
     """
     Create BlockModel from parameters.
 
@@ -36,6 +35,17 @@ class Driver(BaseGridDriver):
     """
 
     _params_class = BlockModelOptions
+
+    def run(self):
+        """Create an octree mesh from input values."""
+        with fetch_active_workspace(self.params.geoh5, mode="r+"):
+            logger.info("Creating BlockModel mesh from parameters . . .")
+            block = self.make_grid()
+            output = self.params.out_group or block
+            self.update_monitoring_directory(output)
+            logger.info("Done.")
+
+        return block
 
     def make_grid(self):
         """
@@ -189,17 +199,6 @@ class Driver(BaseGridDriver):
         )
 
         return object_out
-
-    @property
-    def params(self) -> BaseData:
-        """Application parameters."""
-        return self._params
-
-    @params.setter
-    def params(self, val: BaseData):
-        if not isinstance(val, BaseData):
-            raise TypeError("Parameters must be a BaseData subclass.")
-        self._params = val
 
 
 if __name__ == "__main__":

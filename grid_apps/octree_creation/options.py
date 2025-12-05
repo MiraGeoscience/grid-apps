@@ -14,7 +14,7 @@ from pathlib import Path
 from typing import Any, ClassVar
 
 import numpy as np
-from geoapps_utils.driver.data import BaseData
+from geoapps_utils.base import Options
 from geoh5py.groups import UIJsonGroup
 from geoh5py.objects import Points
 from pydantic import (
@@ -29,7 +29,7 @@ from pydantic import (
 from grid_apps import assets_path
 
 
-class OctreeOptions(BaseData):
+class OctreeOptions(Options):
     """
     Octree creation parameters.
 

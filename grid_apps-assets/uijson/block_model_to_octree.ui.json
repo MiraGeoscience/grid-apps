@@ -2,11 +2,10 @@
     "version": "0.1.0",
     "title": "Block Model To Octree Conversion",
     "conda_environment": "grid_apps",
+    "icon": "OctreeGrid",
     "run_command": "grid_apps.block_model_to_octree.driver",
     "geoh5": "",
     "monitoring_directory": "",
-    "workspace_geoh5": "",
-    "conda_environment_boolean": false,
     "entity": {
         "main": true,
         "meshType": [

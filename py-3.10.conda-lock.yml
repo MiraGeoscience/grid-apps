@@ -15,8 +15,8 @@
 version: 1
 metadata:
   content_hash:
-    win-64: a740ac0255aa2abf705f623234c79cbd45b3914ff5642d92a9300523e15dc377
-    linux-64: 1bcf349820c5e27fc581948d0ff45d4cab62367b9b969468692db399cbc4c415
+    win-64: 014b8fa8994939e82dd25bbf34f135ced861505cb65b29f9d5e6c34761b1d090
+    linux-64: dc01c372d122e66ae7ebc56cbeb3a69ddffc72727c05b4f6bc08b9fc25c74568
   channels:
   - url: conda-forge
     used_env_vars: []
@@ -3947,7 +3947,7 @@ package:
   category: main
   optional: false
 - name: geoapps-utils
-  version: 0.6.0rc3.dev10+068ce93
+  version: 0.6.0rc3.dev11+f473015
   manager: pip
   platform: linux-64
   dependencies:
@@ -3956,16 +3956,16 @@ package:
     numpy: '>=1.26.0,<1.27.0'
     pydantic: '>=2.12.0,<3.0.0'
     scipy: '>=1.14.0,<1.15.0'
-  url: git+https://github.com/MiraGeoscience/geoapps-utils.git@068ce937d97eee598992211b693c6140f92a986f
+  url: git+https://github.com/MiraGeoscience/geoapps-utils.git@f473015e8d09091b6bfea2158807528f8f857fa5
   hash:
-    sha256: 068ce937d97eee598992211b693c6140f92a986f
+    sha256: f473015e8d09091b6bfea2158807528f8f857fa5
   source:
     type: url
-    url: git+https://github.com/MiraGeoscience/geoapps-utils.git@068ce937d97eee598992211b693c6140f92a986f
+    url: git+https://github.com/MiraGeoscience/geoapps-utils.git@f473015e8d09091b6bfea2158807528f8f857fa5
   category: main
   optional: false
 - name: geoapps-utils
-  version: 0.6.0rc3.dev10+068ce93
+  version: 0.6.0rc3.dev11+f473015
   manager: pip
   platform: win-64
   dependencies:
@@ -3974,12 +3974,12 @@ package:
     numpy: '>=1.26.0,<1.27.0'
     pydantic: '>=2.12.0,<3.0.0'
     scipy: '>=1.14.0,<1.15.0'
-  url: git+https://github.com/MiraGeoscience/geoapps-utils.git@068ce937d97eee598992211b693c6140f92a986f
+  url: git+https://github.com/MiraGeoscience/geoapps-utils.git@f473015e8d09091b6bfea2158807528f8f857fa5
   hash:
-    sha256: 068ce937d97eee598992211b693c6140f92a986f
+    sha256: f473015e8d09091b6bfea2158807528f8f857fa5
   source:
     type: url
-    url: git+https://github.com/MiraGeoscience/geoapps-utils.git@068ce937d97eee598992211b693c6140f92a986f
+    url: git+https://github.com/MiraGeoscience/geoapps-utils.git@f473015e8d09091b6bfea2158807528f8f857fa5
   category: main
   optional: false
 - name: geoh5py

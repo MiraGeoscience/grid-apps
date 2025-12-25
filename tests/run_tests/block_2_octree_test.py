@@ -1,10 +1,9 @@
 # '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 #  Copyright (c) 2024-2025 Mira Geoscience Ltd.                                     '
-#  All rights reserved.                                                             '
 #                                                                                   '
 #  This file is part of grid-apps package.                                          '
 #                                                                                   '
-#  grid-apps is distributed under the terms and conditions of a proprietary license '
+#  grid-apps is distributed under the terms and conditions of the MIT License       '
 #  (see LICENSE file at the root of this source code package).                      '
 # '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
@@ -80,7 +79,8 @@ def test_block_model_to_octree(tmp_path):
         params.write_ui_json(ifile)
 
     ifile_class = InputFile.read_ui_json(ifile)
-    driver = BlockModelToOctreeDriver(ifile_class)
+    options = BlockModel2OctreeOptions.build(ifile_class)
+    driver = BlockModelToOctreeDriver(options)
     octree = driver.make_grid()
 
     assert octree.n_cells == 13987

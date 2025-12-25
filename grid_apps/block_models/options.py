@@ -1,10 +1,9 @@
 # '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 #  Copyright (c) 2024-2025 Mira Geoscience Ltd.                                     '
-#  All rights reserved.                                                             '
 #                                                                                   '
 #  This file is part of grid-apps package.                                          '
 #                                                                                   '
-#  grid-apps is distributed under the terms and conditions of a proprietary license '
+#  grid-apps is distributed under the terms and conditions of the MIT License       '
 #  (see LICENSE file at the root of this source code package).                      '
 # '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
@@ -13,7 +12,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import ClassVar
 
-from geoapps_utils.driver.data import BaseData
+from geoapps_utils.base import Options
 from geoh5py.groups import UIJsonGroup
 from geoh5py.objects import CellObject, Points
 from geoh5py.objects.grid_object import GridObject
@@ -85,7 +84,7 @@ class BlockModelOutputOptions(BaseModel):
     out_group: UIJsonGroup | None = None
 
 
-class BlockModelOptions(BaseData):
+class BlockModelOptions(Options):
     """
     Block model parameters for use with `block_models.driver`.
 

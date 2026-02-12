@@ -65,17 +65,17 @@ version = "0.0.0.dev0"
 
 [tool.poetry.dependencies]
 discretize = ">=0.11.0, <0.12.dev"
-numpy = "~1.26.0"  # also geoh5py
+numpy = "~2.0.0"  # also geoh5py
 pydantic = "^2.12.0"
-scipy = "~1.14.0"
+scipy = "~1.17.0"
 
 ## pip dependencies from Git repositories
 #----------------------------------------
 #geoh5py = { version = ">=0.13.0a, 0.13.*", source = "pypi", allow-prereleases = true }
-geoh5py = { git = "https://github.com/MiraGeoscience/geoh5py.git", rev = "develop" }
+geoh5py = { git = "https://github.com/MiraGeoscience/geoh5py.git", rev = "GEOPY-2661" }
 
 #geoapps-utils = { version = ">=0.7.0a, 0.7.*", source = "pypi", allow-prereleases = true }
-geoapps-utils = { git = "https://github.com/MiraGeoscience/geoapps-utils.git", rev = "develop" }
+geoapps-utils = { git = "https://github.com/MiraGeoscience/geoapps-utils.git", rev = "GEOPY-2661" }
 
 ## about pip dependencies
 # to be specified to work with conda-lock

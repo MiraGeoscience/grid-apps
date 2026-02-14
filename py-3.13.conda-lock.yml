@@ -15,8 +15,8 @@
 version: 1
 metadata:
   content_hash:
-    win-64: a66c2f4a7b860598f59ae53d8453502cfa4aee0d306adca9a527a08ff41a280b
-    linux-64: 691a2fa8f8e98e17b909541468818362e7fa9542843d67704268311ba53fa590
+    win-64: b7a08fd82d2ce7bfe93163a1887e52b749f408faa9434efd756994608a8b12fc
+    linux-64: dae65c68f07f6955209e3d4d88d541746bcac3953783b61c3db7f7de5c8ee3b2
   channels:
   - url: conda-forge
     used_env_vars: []
@@ -29,28 +29,17 @@ metadata:
   - pyproject.toml
   - environments/env-python-3.13.yml
 package:
-- name: _libgcc_mutex
-  version: '0.1'
-  manager: conda
-  platform: linux-64
-  dependencies: {}
-  url: https://repo.prefix.dev/conda-forge/linux-64/_libgcc_mutex-0.1-conda_forge.tar.bz2
-  hash:
-    md5: d7c89558ba9fa0495403155b64376d81
-    sha256: fe51de6107f9edc7aa4f786a70f4a883943bc9d39b3bb7307c04c41410990726
-  category: main
-  optional: false
 - name: _openmp_mutex
   version: '4.5'
   manager: conda
   platform: linux-64
   dependencies:
-    _libgcc_mutex: '0.1'
+    __glibc: '>=2.17,<3.0.a0'
     libgomp: '>=7.5.0'
-  url: https://repo.prefix.dev/conda-forge/linux-64/_openmp_mutex-4.5-2_gnu.tar.bz2
+  url: https://repo.prefix.dev/conda-forge/linux-64/_openmp_mutex-4.5-20_gnu.conda
   hash:
-    md5: 73aaf86a425cc6e73fcf236a5a46396d
-    sha256: fbe2c5e56a653bebb982eda4876a9178aedfc2b545f25d0ce9c4c0b508253d22
+    md5: a9f577daf3de00bca7c3c76c0ecbd1de
+    sha256: 1dd3fffd892081df9726d7eb7e0dea6198962ba775bd88842135a4ddb4deb3c9
   category: main
   optional: false
 - name: _openmp_mutex
@@ -59,11 +48,11 @@ package:
   platform: win-64
   dependencies:
     libgomp: '>=7.5.0'
-    libwinpthread: '>=12.0.0.r2.ggc561118da'
-  url: https://repo.prefix.dev/conda-forge/win-64/_openmp_mutex-4.5-2_gnu.conda
+    libwinpthread: '>=12.0.0.r4.gg4f2fc60ca'
+  url: https://repo.prefix.dev/conda-forge/win-64/_openmp_mutex-4.5-20_gnu.conda
   hash:
-    md5: 37e16618af5c4851a3f3d66dd0e11141
-    sha256: 1a62cd1f215fe0902e7004089693a78347a30ad687781dfda2289cab000e652d
+    md5: 1626967b574d1784b578b52eaeb071e7
+    sha256: 8a1cee28bd0ee7451ada1cd50b64720e57e17ff994fc62dd8329bef570d382e4
   category: main
   optional: false
 - name: alabaster
@@ -90,6 +79,32 @@ package:
     sha256: 6c4456a138919dae9edd3ac1a74b6fbe5fd66c05675f54df2f8ab8c8d0cc6cea
   category: dev
   optional: true
+- name: annotated-types
+  version: 0.7.0
+  manager: conda
+  platform: linux-64
+  dependencies:
+    python: '>=3.9'
+    typing-extensions: '>=4.0.0'
+  url: https://repo.prefix.dev/conda-forge/noarch/annotated-types-0.7.0-pyhd8ed1ab_1.conda
+  hash:
+    md5: 2934f256a8acfe48f6ebb4fce6cde29c
+    sha256: e0ea1ba78fbb64f17062601edda82097fcf815012cf52bb704150a2668110d48
+  category: main
+  optional: false
+- name: annotated-types
+  version: 0.7.0
+  manager: conda
+  platform: win-64
+  dependencies:
+    python: '>=3.9'
+    typing-extensions: '>=4.0.0'
+  url: https://repo.prefix.dev/conda-forge/noarch/annotated-types-0.7.0-pyhd8ed1ab_1.conda
+  hash:
+    md5: 2934f256a8acfe48f6ebb4fce6cde29c
+    sha256: e0ea1ba78fbb64f17062601edda82097fcf815012cf52bb704150a2668110d48
+  category: main
+  optional: false
 - name: astroid
   version: 4.0.4
   manager: conda
@@ -2496,27 +2511,27 @@ package:
   category: main
   optional: false
 - name: platformdirs
-  version: 4.5.1
+  version: 4.8.0
   manager: conda
   platform: linux-64
   dependencies:
     python: '>=3.10'
-  url: https://repo.prefix.dev/conda-forge/noarch/platformdirs-4.5.1-pyhcf101f3_0.conda
+  url: https://repo.prefix.dev/conda-forge/noarch/platformdirs-4.8.0-pyhcf101f3_0.conda
   hash:
-    md5: 1bd2e65c8c7ef24f4639ae6e850dacc2
-    sha256: 04c64fb78c520e5c396b6e07bc9082735a5cc28175dbe23138201d0a9441800b
+    md5: 8afb83f9f16ace9092cb025ed30711ce
+    sha256: b07015c9105be63f48762986978d88e10a65847a3d3dd2a996918178297a79d9
   category: dev
   optional: true
 - name: platformdirs
-  version: 4.5.1
+  version: 4.8.0
   manager: conda
   platform: win-64
   dependencies:
     python: '>=3.10'
-  url: https://repo.prefix.dev/conda-forge/noarch/platformdirs-4.5.1-pyhcf101f3_0.conda
+  url: https://repo.prefix.dev/conda-forge/noarch/platformdirs-4.8.0-pyhcf101f3_0.conda
   hash:
-    md5: 1bd2e65c8c7ef24f4639ae6e850dacc2
-    sha256: 04c64fb78c520e5c396b6e07bc9082735a5cc28175dbe23138201d0a9441800b
+    md5: 8afb83f9f16ace9092cb025ed30711ce
+    sha256: b07015c9105be63f48762986978d88e10a65847a3d3dd2a996918178297a79d9
   category: dev
   optional: true
 - name: pluggy
@@ -2568,6 +2583,73 @@ package:
   hash:
     md5: 3c8f2573569bb816483e5cf57efbbe29
     sha256: 7e446bafb4d692792310ed022fe284e848c6a868c861655a92435af7368bae7b
+  category: main
+  optional: false
+- name: pydantic
+  version: 2.12.5
+  manager: conda
+  platform: linux-64
+  dependencies:
+    annotated-types: '>=0.6.0'
+    pydantic-core: 2.41.5
+    python: '>=3.10'
+    typing-extensions: '>=4.6.1'
+    typing-inspection: '>=0.4.2'
+    typing_extensions: '>=4.14.1'
+  url: https://repo.prefix.dev/conda-forge/noarch/pydantic-2.12.5-pyhcf101f3_1.conda
+  hash:
+    md5: c3946ed24acdb28db1b5d63321dbca7d
+    sha256: 868569d9505b7fe246c880c11e2c44924d7613a8cdcc1f6ef85d5375e892f13d
+  category: main
+  optional: false
+- name: pydantic
+  version: 2.12.5
+  manager: conda
+  platform: win-64
+  dependencies:
+    annotated-types: '>=0.6.0'
+    pydantic-core: 2.41.5
+    python: '>=3.10'
+    typing-extensions: '>=4.6.1'
+    typing-inspection: '>=0.4.2'
+    typing_extensions: '>=4.14.1'
+  url: https://repo.prefix.dev/conda-forge/noarch/pydantic-2.12.5-pyhcf101f3_1.conda
+  hash:
+    md5: c3946ed24acdb28db1b5d63321dbca7d
+    sha256: 868569d9505b7fe246c880c11e2c44924d7613a8cdcc1f6ef85d5375e892f13d
+  category: main
+  optional: false
+- name: pydantic-core
+  version: 2.41.5
+  manager: conda
+  platform: linux-64
+  dependencies:
+    __glibc: '>=2.17,<3.0.a0'
+    libgcc: '>=14'
+    python: ''
+    python_abi: 3.13.*
+    typing-extensions: '>=4.6.0,!=4.7.0'
+  url: https://repo.prefix.dev/conda-forge/linux-64/pydantic-core-2.41.5-py313h843e2db_1.conda
+  hash:
+    md5: f27c39a1906771bbe56cd26a76bf0b8b
+    sha256: b15568ddc03bd33ea41610e5df951be4e245cd61957cbf8c2cfd12557f3d53b5
+  category: main
+  optional: false
+- name: pydantic-core
+  version: 2.41.5
+  manager: conda
+  platform: win-64
+  dependencies:
+    python: ''
+    python_abi: 3.13.*
+    typing-extensions: '>=4.6.0,!=4.7.0'
+    ucrt: '>=10.0.20348.0'
+    vc: '>=14.3,<15'
+    vc14_runtime: '>=14.44.35208'
+  url: https://repo.prefix.dev/conda-forge/win-64/pydantic-core-2.41.5-py313hfbe8231_1.conda
+  hash:
+    md5: 0437f87004ad7c64c98a013d1611db97
+    sha256: fb9391dc09dd01574c85e2342b9aa3b8664cd713401ef8fd6267865cc28988d8
   category: main
   optional: false
 - name: pygments
@@ -3536,6 +3618,56 @@ package:
     sha256: b35082091c8efd084e51bc3a4a2d3b07897eff232aaf58cbc0f959b6291a6a93
   category: dev
   optional: true
+- name: typing-extensions
+  version: 4.15.0
+  manager: conda
+  platform: linux-64
+  dependencies:
+    typing_extensions: ==4.15.0
+  url: https://repo.prefix.dev/conda-forge/noarch/typing-extensions-4.15.0-h396c80c_0.conda
+  hash:
+    md5: edd329d7d3a4ab45dcf905899a7a6115
+    sha256: 7c2df5721c742c2a47b2c8f960e718c930031663ac1174da67c1ed5999f7938c
+  category: main
+  optional: false
+- name: typing-extensions
+  version: 4.15.0
+  manager: conda
+  platform: win-64
+  dependencies:
+    typing_extensions: ==4.15.0
+  url: https://repo.prefix.dev/conda-forge/noarch/typing-extensions-4.15.0-h396c80c_0.conda
+  hash:
+    md5: edd329d7d3a4ab45dcf905899a7a6115
+    sha256: 7c2df5721c742c2a47b2c8f960e718c930031663ac1174da67c1ed5999f7938c
+  category: main
+  optional: false
+- name: typing-inspection
+  version: 0.4.2
+  manager: conda
+  platform: linux-64
+  dependencies:
+    python: '>=3.10'
+    typing_extensions: '>=4.12.0'
+  url: https://repo.prefix.dev/conda-forge/noarch/typing-inspection-0.4.2-pyhd8ed1ab_1.conda
+  hash:
+    md5: a0a4a3035667fc34f29bfbd5c190baa6
+    sha256: 70db27de58a97aeb7ba7448366c9853f91b21137492e0b4430251a1870aa8ff4
+  category: main
+  optional: false
+- name: typing-inspection
+  version: 0.4.2
+  manager: conda
+  platform: win-64
+  dependencies:
+    python: '>=3.10'
+    typing_extensions: '>=4.12.0'
+  url: https://repo.prefix.dev/conda-forge/noarch/typing-inspection-0.4.2-pyhd8ed1ab_1.conda
+  hash:
+    md5: a0a4a3035667fc34f29bfbd5c190baa6
+    sha256: 70db27de58a97aeb7ba7448366c9853f91b21137492e0b4430251a1870aa8ff4
+  category: main
+  optional: false
 - name: typing_extensions
   version: 4.15.0
   manager: conda
@@ -3836,161 +3968,73 @@ package:
     sha256: 368d8628424966fd8f9c8018326a9c779e06913dd39e646cf331226acc90e5b2
   category: main
   optional: false
-- name: annotated-types
-  version: 0.7.0
-  manager: pip
-  platform: linux-64
-  dependencies: {}
-  url: https://files.pythonhosted.org/packages/78/b6/6307fbef88d9b5ee7421e68d78a9f162e0da4900bc5f5793f6d3d0e34fb8/annotated_types-0.7.0-py3-none-any.whl
-  hash:
-    sha256: 1f02e8b43a8fbbc3f3e0d4f0f4bfc8131bcb4eebe8849b8e5c773f3a1c582a53
-  category: main
-  optional: false
-- name: annotated-types
-  version: 0.7.0
-  manager: pip
-  platform: win-64
-  dependencies: {}
-  url: https://files.pythonhosted.org/packages/78/b6/6307fbef88d9b5ee7421e68d78a9f162e0da4900bc5f5793f6d3d0e34fb8/annotated_types-0.7.0-py3-none-any.whl
-  hash:
-    sha256: 1f02e8b43a8fbbc3f3e0d4f0f4bfc8131bcb4eebe8849b8e5c773f3a1c582a53
-  category: main
-  optional: false
 - name: geoapps-utils
-  version: 0.7.0a2.dev16+9039f80
+  version: 0.7.0a2.dev18+3226147
   manager: pip
   platform: linux-64
   dependencies:
-    geoh5py: 0.13.0a2.dev137+84e4d20a
+    geoh5py: 0.13.0a2.dev138+ba9c28e7
     matplotlib: '>=3.10.0,<3.11.0'
+    numpy: '>=2.4.2'
     pydantic: '>=2.12.0,<3.0.0'
-  url: git+https://github.com/MiraGeoscience/geoapps-utils.git@9039f80d05d94149589480f02eaa1455a58e5970
+    scipy: '>=1.17.0'
+  url: git+https://github.com/MiraGeoscience/geoapps-utils.git@32261477bd3be01b7263f413233df0eeeb0cf137
   hash:
-    sha256: 9039f80d05d94149589480f02eaa1455a58e5970
+    sha256: 32261477bd3be01b7263f413233df0eeeb0cf137
   source:
     type: url
-    url: git+https://github.com/MiraGeoscience/geoapps-utils.git@9039f80d05d94149589480f02eaa1455a58e5970
+    url: git+https://github.com/MiraGeoscience/geoapps-utils.git@32261477bd3be01b7263f413233df0eeeb0cf137
   category: main
   optional: false
 - name: geoapps-utils
-  version: 0.7.0a2.dev16+9039f80
+  version: 0.7.0a2.dev18+3226147
   manager: pip
   platform: win-64
   dependencies:
-    geoh5py: 0.13.0a2.dev137+84e4d20a
+    geoh5py: 0.13.0a2.dev138+ba9c28e7
     matplotlib: '>=3.10.0,<3.11.0'
+    numpy: '>=2.4.2'
     pydantic: '>=2.12.0,<3.0.0'
-  url: git+https://github.com/MiraGeoscience/geoapps-utils.git@9039f80d05d94149589480f02eaa1455a58e5970
+    scipy: '>=1.17.0'
+  url: git+https://github.com/MiraGeoscience/geoapps-utils.git@32261477bd3be01b7263f413233df0eeeb0cf137
   hash:
-    sha256: 9039f80d05d94149589480f02eaa1455a58e5970
+    sha256: 32261477bd3be01b7263f413233df0eeeb0cf137
   source:
     type: url
-    url: git+https://github.com/MiraGeoscience/geoapps-utils.git@9039f80d05d94149589480f02eaa1455a58e5970
+    url: git+https://github.com/MiraGeoscience/geoapps-utils.git@32261477bd3be01b7263f413233df0eeeb0cf137
   category: main
   optional: false
 - name: geoh5py
-  version: 0.13.0a2.dev137+84e4d20a
+  version: 0.13.0a2.dev138+ba9c28e7
   manager: pip
   platform: linux-64
   dependencies:
     h5py: '>=3.15.0,<4.0.0'
-    numpy: '>=2.0.0,<2.1.0'
+    numpy: '>=2.4.0,<2.5.0'
     pillow: '>=12.1.0,<12.2.0'
     pydantic: '>=2.12.0,<3.0.0'
-  url: git+https://github.com/MiraGeoscience/geoh5py.git@84e4d20a541ac82d5579f42aea28bb2bd233fed2
+  url: git+https://github.com/MiraGeoscience/geoh5py.git@ba9c28e73432a0511d3c596c32a566763a8e50af
   hash:
-    sha256: 84e4d20a541ac82d5579f42aea28bb2bd233fed2
+    sha256: ba9c28e73432a0511d3c596c32a566763a8e50af
   source:
     type: url
-    url: git+https://github.com/MiraGeoscience/geoh5py.git@84e4d20a541ac82d5579f42aea28bb2bd233fed2
+    url: git+https://github.com/MiraGeoscience/geoh5py.git@ba9c28e73432a0511d3c596c32a566763a8e50af
   category: main
   optional: false
 - name: geoh5py
-  version: 0.13.0a2.dev137+84e4d20a
+  version: 0.13.0a2.dev138+ba9c28e7
   manager: pip
   platform: win-64
   dependencies:
     h5py: '>=3.15.0,<4.0.0'
-    numpy: '>=2.0.0,<2.1.0'
+    numpy: '>=2.4.0,<2.5.0'
     pillow: '>=12.1.0,<12.2.0'
     pydantic: '>=2.12.0,<3.0.0'
-  url: git+https://github.com/MiraGeoscience/geoh5py.git@84e4d20a541ac82d5579f42aea28bb2bd233fed2
+  url: git+https://github.com/MiraGeoscience/geoh5py.git@ba9c28e73432a0511d3c596c32a566763a8e50af
   hash:
-    sha256: 84e4d20a541ac82d5579f42aea28bb2bd233fed2
+    sha256: ba9c28e73432a0511d3c596c32a566763a8e50af
   source:
     type: url
-    url: git+https://github.com/MiraGeoscience/geoh5py.git@84e4d20a541ac82d5579f42aea28bb2bd233fed2
-  category: main
-  optional: false
-- name: pydantic
-  version: 2.12.5
-  manager: pip
-  platform: linux-64
-  dependencies:
-    annotated-types: '>=0.6.0'
-    pydantic-core: 2.41.5
-    typing-extensions: '>=4.14.1'
-    typing-inspection: '>=0.4.2'
-  url: https://files.pythonhosted.org/packages/5a/87/b70ad306ebb6f9b585f114d0ac2137d792b48be34d732d60e597c2f8465a/pydantic-2.12.5-py3-none-any.whl
-  hash:
-    sha256: e561593fccf61e8a20fc46dfc2dfe075b8be7d0188df33f221ad1f0139180f9d
-  category: main
-  optional: false
-- name: pydantic
-  version: 2.12.5
-  manager: pip
-  platform: win-64
-  dependencies:
-    annotated-types: '>=0.6.0'
-    pydantic-core: 2.41.5
-    typing-extensions: '>=4.14.1'
-    typing-inspection: '>=0.4.2'
-  url: https://files.pythonhosted.org/packages/5a/87/b70ad306ebb6f9b585f114d0ac2137d792b48be34d732d60e597c2f8465a/pydantic-2.12.5-py3-none-any.whl
-  hash:
-    sha256: e561593fccf61e8a20fc46dfc2dfe075b8be7d0188df33f221ad1f0139180f9d
-  category: main
-  optional: false
-- name: pydantic-core
-  version: 2.41.5
-  manager: pip
-  platform: linux-64
-  dependencies:
-    typing-extensions: '>=4.14.1'
-  url: https://files.pythonhosted.org/packages/cf/4e/35a80cae583a37cf15604b44240e45c05e04e86f9cfd766623149297e971/pydantic_core-2.41.5-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
-  hash:
-    sha256: 406bf18d345822d6c21366031003612b9c77b3e29ffdb0f612367352aab7d586
-  category: main
-  optional: false
-- name: pydantic-core
-  version: 2.41.5
-  manager: pip
-  platform: win-64
-  dependencies:
-    typing-extensions: '>=4.14.1'
-  url: https://files.pythonhosted.org/packages/9e/8b/341991b158ddab181cff136acd2552c9f35bd30380422a639c0671e99a91/pydantic_core-2.41.5-cp313-cp313-win_amd64.whl
-  hash:
-    sha256: 79ec52ec461e99e13791ec6508c722742ad745571f234ea6255bed38c6480f11
-  category: main
-  optional: false
-- name: typing-inspection
-  version: 0.4.2
-  manager: pip
-  platform: linux-64
-  dependencies:
-    typing-extensions: '>=4.12.0'
-  url: https://files.pythonhosted.org/packages/dc/9b/47798a6c91d8bdb567fe2698fe81e0c6b7cb7ef4d13da4114b41d239f65d/typing_inspection-0.4.2-py3-none-any.whl
-  hash:
-    sha256: 4ed1cacbdc298c220f1bd249ed5287caa16f34d44ef4e9c3d0cbad5b521545e7
-  category: main
-  optional: false
-- name: typing-inspection
-  version: 0.4.2
-  manager: pip
-  platform: win-64
-  dependencies:
-    typing-extensions: '>=4.12.0'
-  url: https://files.pythonhosted.org/packages/dc/9b/47798a6c91d8bdb567fe2698fe81e0c6b7cb7ef4d13da4114b41d239f65d/typing_inspection-0.4.2-py3-none-any.whl
-  hash:
-    sha256: 4ed1cacbdc298c220f1bd249ed5287caa16f34d44ef4e9c3d0cbad5b521545e7
+    url: git+https://github.com/MiraGeoscience/geoh5py.git@ba9c28e73432a0511d3c596c32a566763a8e50af
   category: main
   optional: false

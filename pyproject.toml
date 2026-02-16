@@ -64,10 +64,10 @@ version = "0.0.0.dev0"
 
 
 [tool.poetry.dependencies]
-discretize = ">=0.11.0, <0.12.dev"
-numpy = ">=2.4.2"
-pydantic = "^2.12.0"
-scipy = ">=1.17.0"
+discretize = ">=0.12.0, <0.13.dev"
+numpy = "~2.4.0"
+pydantic = "~2.12.0"
+scipy = "~1.17.0"
 
 ## pip dependencies from Git repositories
 #----------------------------------------
@@ -102,13 +102,13 @@ platforms = ['win-64', 'linux-64']
 channels = ['conda-forge']
 
 [tool.conda-lock.dependencies]
+libblas = "*=*mkl"
 
 ## indirect dependencies, forcing them here for installation through Conda not pip
 #---------------------------------------------------------------------------------
 matplotlib-base = ">=3.10.0, <3.11.dev"  # from geoapps-utils
-Pillow = ">=12.1.0, <13.0.dev"  # from geoh5py
+pillow = ">=12.1.0, <13.0.dev"  # from geoh5py
 h5py = ">=3.15.1, <4.0.dev"  # from geoh5py
-python_abi = ">=3.*"
 
 [tool.poetry.requires-plugins]
 poetry-dynamic-versioning = { version = ">=1.9.1,<2.0.0", extras = ["plugin"] }

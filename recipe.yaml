@@ -3,7 +3,7 @@ schema_version: 1
 context:
   name: "grid-apps"
   version: "0.0.0.dev0"  # This will be replaced by the actual version in the build process
-  python_min: "3.10"
+  python_min: "3.12"
   module_name: ${{ name|lower|replace("-", "_") }}
 
 package:
@@ -20,7 +20,7 @@ build:
 
 requirements:
   host:
-    - python 3.10.*
+    - python 3.12.*
     - poetry-core >=1.8.0
     - poetry-dynamic-versioning >=1.9, <2.0.dev
     - setuptools
@@ -31,10 +31,10 @@ requirements:
     - geoh5py >=0.13.0a, 0.13.*
     - geoapps-utils >=0.7.0a, 0.7.*
     # other direct dependencies
-    - discretize 0.11.*
-    - numpy 1.26.*
+    - discretize 0.12.*
+    - numpy 2.4.*
     - pydantic >=2.12.0, 2.*
-    - scipy 1.14.*
+    - scipy 1.17.*
 
 tests:
   - python:

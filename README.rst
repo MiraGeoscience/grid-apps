@@ -49,7 +49,7 @@ Documentation
 
 Installation
 ^^^^^^^^^^^^
-**grid-apps** is currently written for Python 3.10 or higher.
+**grid-apps** is currently written for Python 3.12 or higher.
 
 Install Conda
 -------------

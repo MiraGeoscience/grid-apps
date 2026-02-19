@@ -5,7 +5,7 @@ The **grid-apps** library offers tools for the creation and manipulation of grid
 
 Installation
 ^^^^^^^^^^^^
-**grid-apps** is currently written for Python 3.10 or higher.
+**grid-apps** is currently written for Python 3.12 or higher.
 
 Install **grid-apps** from PyPI::
 

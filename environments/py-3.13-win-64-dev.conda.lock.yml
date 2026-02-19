@@ -144,8 +144,8 @@ dependencies:
   - zlib-ng=2.3.3=h0261ad2_1
   - zstd=1.5.7=h534d264_6
   - pip:
-    - geoapps-utils @ git+https://github.com/MiraGeoscience/geoapps-utils.git@4fd452707b31bdfff9f028b2c4c183d5f90a1135
-    - geoh5py @ git+https://github.com/MiraGeoscience/geoh5py.git@972d1e386ff725115d6379ffd5ff362c4db47d5c
+    - geoapps-utils @ git+https://github.com/MiraGeoscience/geoapps-utils.git@668a9e0da5214e4a3bce466321cd910f1bb00b02
+    - geoh5py @ git+https://github.com/MiraGeoscience/geoh5py.git@9e0a86e5afadfe9c55e9811317827a4f6c2c70c4
 
 variables:
   KMP_WARNINGS: 0

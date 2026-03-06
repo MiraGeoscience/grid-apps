@@ -16,7 +16,7 @@ Installation
 Install Conda
 ~~~~~~~~~~~~~
 
-Install Conda for Python 3.10 or higher. Follow this link to download its Windows installer (~140 MB of disk space):
+Install Conda for Python 3.12 or higher. Follow this link to download its Windows installer (~140 MB of disk space):
 
 `Miniforge <https://github.com/conda-forge/miniforge#download>`_ `(Windows x86_64) <https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Windows-x86_64.exe>`_
 

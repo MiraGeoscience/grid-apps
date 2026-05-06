@@ -76,7 +76,7 @@
     "ga_group_name": {
         "group": "Basic",
         "main": true,
-        "label": "Name",
+        "label": "Output name",
         "value": "Octree mesh"
     },
     "diagonal_balance": {

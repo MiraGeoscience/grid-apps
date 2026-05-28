@@ -1,4 +1,4 @@
-# Byte-compiled / optimized / DLL files
+﻿# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
@@ -148,3 +148,4 @@ pyproject-sha.toml
 
 #version ignore
 grid_apps/_version.py
+/_version.json

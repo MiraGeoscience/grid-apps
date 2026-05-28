@@ -17,7 +17,8 @@ In its most simple form, the application creates an octree from the input block 
    :width: 500
 
 In this case the application will create an octree with the core region matching the cells of
-the block model with a small padding region where the cells are allowed to expand.
+the block model with a small padding region where the cells are allowed to expand to the closest
+octree level.
 
 .. figure:: /images/block_model_to_octree_basic_usage.png
     :width: 800

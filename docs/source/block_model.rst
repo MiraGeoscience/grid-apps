@@ -3,7 +3,7 @@
 Block Model Creation
 ====================
 
-The ``Block Model`` module has been developed as a user-interface for the creation of regular (Tensor)
+The ``Block Model Creation`` module has been developed as a user interface for the creation of regular (Tensor)
 BlockModel objects using the `discretize <https://discretize.simpeg.xyz/en/main/>`_ package.  A Block
 Model grid is a discretization of a 3D volume into a set of rectangular cells.
 

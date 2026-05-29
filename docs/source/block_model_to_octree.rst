@@ -4,7 +4,7 @@ Block Model to Octree
 =====================
 
 
-The ``Block model to Octree`` module has been developed as a user-interface for the conversion between
+The ``Block Model to Octree`` module has been developed as a user interface for the conversion between
 regular (Tensor) BlockModel objects to Octree, using the `discretize <https://discretize.simpeg.xyz/en/main/>`_
 package.
 

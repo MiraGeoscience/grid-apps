@@ -2,13 +2,14 @@ schema_version: 1
 
 context:
   name: "grid-apps"
-  version: "0.0.0.dev0"  # This will be replaced by the actual version in the build process
+  # Extract version from auto-generated _version.json
+  version: "${{ load_from_file('_version.json').version | trim }}"
   python_min: "3.12"
   module_name: ${{ name|lower|replace("-", "_") }}
 
 package:
   name: ${{ name|lower }}
-  version: ${{ version }}
+  version: "${{ version }}"
 
 source:
   path: ../${{ name }}
@@ -16,15 +17,18 @@ source:
 build:
   number: 0
   noarch: python
-  script: ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  script:
+    env:
+      POETRY_DYNAMIC_VERSIONING_BYPASS: "${{ version }}"
+    content:
+      ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
   host:
     - python ${{ python_min }}.*
+    - pip
     - poetry-core >=1.8.0
     - poetry-dynamic-versioning >=1.9, <2.0.dev
-    - setuptools
-    - pip
   run:
     - python >=${{ python_min }}
     # Mira packages
@@ -38,6 +42,7 @@ requirements:
 
 tests:
   - python:
+      python_version: ${{ python_min }}.*
       imports:
         - ${{ module_name }}
         - ${{ module_name }}._version
@@ -70,4 +75,5 @@ extra:
   recipe-maintainers:
     - andrewg-mira
     - domfournier
+    - RomFloreani
     - sebhmg

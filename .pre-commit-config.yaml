@@ -1,6 +1,6 @@
 
 default_language_version:
-    python: python3
+    python: python3.12
 exclude: ^docs/(conf.py|_ext/)
 default_stages: [pre-commit,pre-push]
 fail_fast: false
@@ -22,7 +22,7 @@ repos:
     -   id: pycln
         args: [ --config=pyproject.toml ]
 -   repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.15.2
+    rev: v0.15.15
     hooks:
     -   id: ruff-check
         args:
@@ -31,7 +31,7 @@ repos:
         # -   --unsafe-fixes
     -   id: ruff-format
 -   repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.19.1
+    rev: v2.1.0
     hooks:
     -   id: mypy
         additional_dependencies: [
@@ -70,7 +70,7 @@ repos:
         types: [python]
         exclude: ^(devtools|docs|grid_apps-assets)/
 -   repo: https://github.com/codespell-project/codespell
-    rev: v2.4.1
+    rev: v2.4.2
     hooks:
     -   id: codespell
         exclude: (-lock\.ya?ml|\benvironments/.*\.ya?ml|\.ipynb|^THIRD_PARTY_SOFTWARE\.rst)$

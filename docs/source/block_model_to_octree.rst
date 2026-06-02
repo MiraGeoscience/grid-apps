@@ -28,7 +28,7 @@ Optionally, users can select a model stored on the tensor mesh.
 .. figure:: /images/block_model_to_octree_uijson_advanced.png
    :width: 500
 
-The octree will be then be refined in areas that contain large gradients in the selected model.
+The octree will then be refined in areas that contain large gradients in the selected model.
 
 .. figure:: /images/block_model_to_octree_advanced.png
     :width: 800

@@ -31,7 +31,7 @@
     },
     "export_as": {
         "main": true,
-        "label": "Save as",
+        "label": "Output name",
         "value": "block_model"
     },
     "out_group": {

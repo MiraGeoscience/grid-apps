@@ -15,8 +15,8 @@
 version: 1
 metadata:
   content_hash:
-    win-64: 17c589e22a984480294781f0c993c28f45d3c337dd0a04b470eeb483e5057a8f
-    linux-64: e7d669181ef4c2386ea999823e7ecca20475b4b311974e14be2c695fa3b32489
+    win-64: 397c50628cc8dff2e8046756bc5147894040408dd1fce6b2b7a6b8140d6182d5
+    linux-64: 1dafb147f14260ff03c478aa59889d8ec2ac87a5441e62134e01ab9a622bb436
   channels:
   - url: conda-forge
     used_env_vars: []
@@ -4457,37 +4457,43 @@ package:
   category: main
   optional: false
 - name: geoapps-utils
-  version: 0.7.0b1
+  version: 0.8.0a1.dev3+6222ed5
   manager: pip
   platform: linux-64
   dependencies:
-    geoh5py: '>=0.13.0b1,<0.14.dev0'
+    geoh5py: 0.13.0b2.dev5+cbdabab5
     matplotlib: '>=3.10.0,<3.11.0'
     numpy: '>=2.4.2,<2.5.0'
     pydantic: '>=2.12.0,<2.13.0'
     scipy: '>=1.17.0,<1.18.0'
-  url: https://mirageoscienceltd.jfrog.io/artifactory/api/pypi/geoplus-pypi-dev/geoapps-utils/0.7.0b1/geoapps_utils-0.7.0b1-py3-none-any.whl
+  url: git+https://github.com/MiraGeoscience/geoapps-utils.git@6222ed5be1a26e8db288d91b4fbccc891e3ca5d2
   hash:
-    sha256: ff8fe4a84ade407e608cc1b4fc6ddef2234ac1a8dc18bdb3311d1b31d3a06cea
+    sha256: 6222ed5be1a26e8db288d91b4fbccc891e3ca5d2
+  source:
+    type: url
+    url: git+https://github.com/MiraGeoscience/geoapps-utils.git@6222ed5be1a26e8db288d91b4fbccc891e3ca5d2
   category: main
   optional: false
 - name: geoapps-utils
-  version: 0.7.0b1
+  version: 0.8.0a1.dev3+6222ed5
   manager: pip
   platform: win-64
   dependencies:
-    geoh5py: '>=0.13.0b1,<0.14.dev0'
+    geoh5py: 0.13.0b2.dev5+cbdabab5
     matplotlib: '>=3.10.0,<3.11.0'
     numpy: '>=2.4.2,<2.5.0'
     pydantic: '>=2.12.0,<2.13.0'
     scipy: '>=1.17.0,<1.18.0'
-  url: https://mirageoscienceltd.jfrog.io/artifactory/api/pypi/geoplus-pypi-dev/geoapps-utils/0.7.0b1/geoapps_utils-0.7.0b1-py3-none-any.whl
+  url: git+https://github.com/MiraGeoscience/geoapps-utils.git@6222ed5be1a26e8db288d91b4fbccc891e3ca5d2
   hash:
-    sha256: ff8fe4a84ade407e608cc1b4fc6ddef2234ac1a8dc18bdb3311d1b31d3a06cea
+    sha256: 6222ed5be1a26e8db288d91b4fbccc891e3ca5d2
+  source:
+    type: url
+    url: git+https://github.com/MiraGeoscience/geoapps-utils.git@6222ed5be1a26e8db288d91b4fbccc891e3ca5d2
   category: main
   optional: false
 - name: geoh5py
-  version: 0.13.0b1
+  version: 0.13.0b2.dev5+cbdabab5
   manager: pip
   platform: linux-64
   dependencies:
@@ -4496,13 +4502,16 @@ package:
     pillow: '>=12.2.0,<12.3.0'
     psutil: '>=7.2.2,<7.3.0'
     pydantic: '>=2.12.0,<2.13.0'
-  url: https://mirageoscienceltd.jfrog.io/artifactory/api/pypi/geoplus-pypi-dev/geoh5py/0.13.0b1/geoh5py-0.13.0b1-py3-none-any.whl
+  url: git+https://github.com/MiraGeoscience/geoh5py.git@cbdabab52382413a3d6176262a2bf189a9b4cd24
   hash:
-    sha256: d747f3da35d08d51a809736103832c477b242758341815904f603a4886a83397
+    sha256: cbdabab52382413a3d6176262a2bf189a9b4cd24
+  source:
+    type: url
+    url: git+https://github.com/MiraGeoscience/geoh5py.git@cbdabab52382413a3d6176262a2bf189a9b4cd24
   category: main
   optional: false
 - name: geoh5py
-  version: 0.13.0b1
+  version: 0.13.0b2.dev5+cbdabab5
   manager: pip
   platform: win-64
   dependencies:
@@ -4511,8 +4520,11 @@ package:
     pillow: '>=12.2.0,<12.3.0'
     psutil: '>=7.2.2,<7.3.0'
     pydantic: '>=2.12.0,<2.13.0'
-  url: https://mirageoscienceltd.jfrog.io/artifactory/api/pypi/geoplus-pypi-dev/geoh5py/0.13.0b1/geoh5py-0.13.0b1-py3-none-any.whl
+  url: git+https://github.com/MiraGeoscience/geoh5py.git@cbdabab52382413a3d6176262a2bf189a9b4cd24
   hash:
-    sha256: d747f3da35d08d51a809736103832c477b242758341815904f603a4886a83397
+    sha256: cbdabab52382413a3d6176262a2bf189a9b4cd24
+  source:
+    type: url
+    url: git+https://github.com/MiraGeoscience/geoh5py.git@cbdabab52382413a3d6176262a2bf189a9b4cd24
   category: main
   optional: false

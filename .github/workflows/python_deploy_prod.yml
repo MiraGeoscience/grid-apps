@@ -1,8 +1,5 @@
 name: Deploy python package in production
 
-permissions:
-  contents: read
-
 on:
   release:
     types: [published]
@@ -22,6 +19,8 @@ on:
         type: boolean
         default: true
 
+permissions: {}
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.release.tag_name || github.event.inputs.release-tag || github.run_id }}
   cancel-in-progress: true
@@ -30,27 +29,28 @@ jobs:
   call-workflow-conda-release:
     name: Publish production Conda package on JFrog Artifactory
     if: ${{ github.event_name == 'release' || github.event.inputs.publish-conda == 'true' }}
-    uses: MiraGeoscience/CI-tools/.github/workflows/reusable-python-release_conda_assets.yml@main
+    uses: MiraGeoscience/CI-tools/.github/workflows/reusable-python-release_conda_assets.yml@v3
     permissions:
-      contents: read
       id-token: write
+      contents: write
     with:
-      virtual-repo-names: '["geology-noremote-conda-prod", "geophysics-noremote-conda-prod"]'
+      virtual-repo-names: '["public-noremote-conda-prod"]'
       release-tag: ${{ github.event.release.tag_name || github.event.inputs.release-tag }}
     secrets:
       JFROG_ARTIFACTORY_URL: ${{ secrets.JFROG_ARTIFACTORY_URL }}
       JFROG_ARTIFACTORY_TOKEN: ${{ secrets.JFROG_ARTIFACTORY_TOKEN }}
   call-workflow-pypi-release:
-    name: Publish production PyPI package (JFrog Artifactory)
+    name: Publish production PyPI package (JFrog Artifactory, PyPI)
     if: ${{ github.event_name == 'release' || github.event.inputs.publish-pypi == 'true' }}
-    uses: MiraGeoscience/CI-tools/.github/workflows/reusable-python-release_pypi_assets.yml@main
+    uses: MiraGeoscience/CI-tools/.github/workflows/reusable-python-release_pypi_assets.yml@v3
     permissions:
-      contents: read
       id-token: write
+      contents: write
     with:
       package-name: 'grid-apps'
-      virtual-repo-names: '["geology-pypi-prod", "geophysics-pypi-prod"]'
+      virtual-repo-names: '["public-pypi-prod", "pypi"]'
       release-tag: ${{ github.event.release.tag_name || github.event.inputs.release-tag }}
     secrets:
       JFROG_ARTIFACTORY_URL: ${{ secrets.JFROG_ARTIFACTORY_URL }}
       JFROG_ARTIFACTORY_TOKEN: ${{ secrets.JFROG_ARTIFACTORY_TOKEN }}
+      PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}

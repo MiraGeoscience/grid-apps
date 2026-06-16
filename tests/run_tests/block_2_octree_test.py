@@ -1,16 +1,16 @@
 # '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-#  Copyright (c) 2024-2025 Mira Geoscience Ltd.                                     '
-#  All rights reserved.                                                             '
+#  Copyright (c) 2024-2026 Mira Geoscience Ltd.                                     '
 #                                                                                   '
 #  This file is part of grid-apps package.                                          '
 #                                                                                   '
-#  grid-apps is distributed under the terms and conditions of a proprietary license '
+#  grid-apps is distributed under the terms and conditions of the MIT License       '
 #  (see LICENSE file at the root of this source code package).                      '
 # '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 
 import numpy as np
 from geoh5py import Workspace
+from geoh5py.groups import UIJsonGroup
 from geoh5py.objects import BlockModel
 from geoh5py.ui_json import InputFile
 
@@ -117,6 +117,7 @@ def test_integer_refine_octree(tmp_path):
     with Workspace.create(h5file_path) as workspace:
         block_model = generate_block_model(workspace)
         wave = gaussian_wave(block_model.centroids, width=50, amplitude=100)
+        out_group = UIJsonGroup.create(workspace, name="OctreeGroup")
 
         # Repeat with reference data
         wave[wave < 25] = 1
@@ -126,10 +127,16 @@ def test_integer_refine_octree(tmp_path):
         )
 
         params = BlockModel2OctreeOptions.build(
-            **{"geoh5": workspace, "entity": block_model, "data": ref_data}
+            **{
+                "geoh5": workspace,
+                "entity": block_model,
+                "data": ref_data,
+                "out_group": out_group,
+            }
         )
 
         driver = BlockModelToOctreeDriver(params)
         octree = driver.make_grid()
 
         assert octree.n_cells == 5223
+        assert octree.parent == out_group

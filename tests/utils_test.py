@@ -1,10 +1,9 @@
 # '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-#  Copyright (c) 2024-2025 Mira Geoscience Ltd.                                     '
-#  All rights reserved.                                                             '
+#  Copyright (c) 2024-2026 Mira Geoscience Ltd.                                     '
 #                                                                                   '
 #  This file is part of grid-apps package.                                          '
 #                                                                                   '
-#  grid-apps is distributed under the terms and conditions of a proprietary license '
+#  grid-apps is distributed under the terms and conditions of the MIT License       '
 #  (see LICENSE file at the root of this source code package).                      '
 # '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
@@ -235,7 +234,9 @@ def test_not_implemented_negative():
     )
     local_mesh1.refine(3, finalize=True)
 
-    with pytest.raises(NotImplementedError, match="Negative cell sizes not supported."):
+    with pytest.raises(
+        NotImplementedError, match=r"Negative cell sizes not supported\."
+    ):
         treemesh_2_octree(workspace, local_mesh1)
 
     octree = Octree.create(
@@ -249,7 +250,9 @@ def test_not_implemented_negative():
         w_cell_size=5.0,
     )
 
-    with pytest.raises(NotImplementedError, match="Negative cell sizes not supported."):
+    with pytest.raises(
+        NotImplementedError, match=r"Negative cell sizes not supported\."
+    ):
         octree_2_treemesh(octree)
 
 
@@ -385,12 +388,12 @@ def test_get_neighbouring_cells():
     ind = mesh.get_containing_cells([95.0, 95.0, 95.0])
 
     with pytest.raises(
-        TypeError, match="Input 'indices' must be a list or numpy.ndarray of indices."
+        TypeError, match=r"Input 'indices' must be a list or numpy.ndarray of indices\."
     ):
         get_neighbouring_cells(mesh, ind)
 
     with pytest.raises(
-        TypeError, match="Input 'mesh' must be a discretize.TreeMesh object."
+        TypeError, match=r"Input 'mesh' must be a discretize.TreeMesh object\."
     ):
         get_neighbouring_cells(1, [ind])
 

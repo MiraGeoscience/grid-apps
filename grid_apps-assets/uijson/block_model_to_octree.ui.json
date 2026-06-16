@@ -1,18 +1,17 @@
 {
     "version": "0.1.0",
     "title": "Block Model To Octree Conversion",
+    "icon": "OctreeGrid",
     "conda_environment": "grid_apps",
     "run_command": "grid_apps.block_model_to_octree.driver",
     "geoh5": "",
     "monitoring_directory": "",
-    "workspace_geoh5": "",
-    "conda_environment_boolean": false,
     "entity": {
         "main": true,
         "meshType": [
             "{B020A277-90E2-4CD7-84D6-612EE3F25051}"
         ],
-        "label": "Block Model",
+        "label": "Block model",
         "value": ""
     },
     "data": {
@@ -32,7 +31,7 @@
     },
     "export_as": {
         "main": true,
-        "label": "Save as",
+        "label": "Output name",
         "value": "block_model"
     },
     "out_group": {

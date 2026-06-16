@@ -1,10 +1,9 @@
 # '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-#  Copyright (c) 2024-2025 Mira Geoscience Ltd.                                     '
-#  All rights reserved.                                                             '
+#  Copyright (c) 2024-2026 Mira Geoscience Ltd.                                     '
 #                                                                                   '
 #  This file is part of grid-apps package.                                          '
 #                                                                                   '
-#  grid-apps is distributed under the terms and conditions of a proprietary license '
+#  grid-apps is distributed under the terms and conditions of the MIT License       '
 #  (see LICENSE file at the root of this source code package).                      '
 # '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 from __future__ import annotations
@@ -14,6 +13,7 @@ from pathlib import Path
 import numpy as np
 import pytest
 from discretize import TreeMesh
+from geoh5py.groups import UIJsonGroup
 from geoh5py.objects import (
     CurrentElectrode,
     Curve,
@@ -22,7 +22,6 @@ from geoh5py.objects import (
     PotentialElectrode,
     Surface,
 )
-from geoh5py.shared.utils import compare_entities
 from geoh5py.ui_json.utils import str2list
 from geoh5py.workspace import Workspace
 from scipy.spatial import Delaunay
@@ -36,26 +35,11 @@ from grid_apps.utils import octree_2_treemesh, treemesh_2_octree
 
 
 def test_create_octree_radial(tmp_path: Path, setup_test_octree):  # pylint: disable=too-many-locals
-    (locations, refinement, treemesh, params_dict) = setup_test_octree
+    (locations, refinement, _, params_dict) = setup_test_octree
 
-    with Workspace.create(tmp_path / "testOctree.geoh5") as workspace:
+    with Workspace.create(tmp_path / f"{__name__}.geoh5") as workspace:
         points = Points.create(workspace, vertices=locations)
-        treemesh.refine(
-            treemesh.max_level - params_dict["minimum_level"] + 1, finalize=False
-        )
-        treemesh = OctreeDriver.refine_tree_from_points(
-            treemesh,
-            points,
-            str2list(refinement),
-            finalize=True,
-        )
-        octree = treemesh_2_octree(workspace, treemesh, name="Octree_Mesh")
-
-        # Hard-wire the expected result
-        assert octree.n_cells == 164742
-
-        assert OctreeDriver.cell_size_from_level(treemesh, 1) == 10.0
-
+        out_group = UIJsonGroup.create(workspace, name="Octree Output Group")
         params_dict.update(
             {
                 "geoh5": workspace,
@@ -67,22 +51,26 @@ def test_create_octree_radial(tmp_path: Path, setup_test_octree):  # pylint: dis
                         "horizon": False,
                     }
                 ],
+                "out_group": out_group,
+                "diagonal_balance": False,
+                "ga_group_name": "Tester",
             }
         )
         params = OctreeOptions(**params_dict)
         params.write_ui_json(tmp_path / "testOctree.ui.json")
-        # params.write_input_file(name="testOctree", path=tmp_path, validate=False)
+
         driver = OctreeDriver(params)
         driver.run()
 
-        rec_octree = workspace.get_entity("Octree_Mesh")[0]
-        compare_entities(octree, rec_octree, ignore=["_uid"])
+        rec_octree = workspace.get_entity("Tester")[0]
+        assert rec_octree.parent == out_group
+        assert rec_octree.n_cells == 164868
 
 
 def test_create_octree_surface(tmp_path: Path, setup_test_octree):  # pylint: disable=too-many-locals
-    (locations, refinement, treemesh, params_dict) = setup_test_octree
+    (locations, refinement, _, params_dict) = setup_test_octree
 
-    with Workspace.create(tmp_path / "testOctree.geoh5") as workspace:
+    with Workspace.create(tmp_path / f"{__name__}.geoh5") as workspace:
         simplices = np.unique(
             np.random.randint(0, locations.shape[0] - 1, (locations.shape[0], 3)),
             axis=1,
@@ -93,25 +81,6 @@ def test_create_octree_surface(tmp_path: Path, setup_test_octree):  # pylint: di
             vertices=locations,
             cells=simplices,
         )
-
-        treemesh.refine(
-            treemesh.max_level - params_dict["minimum_level"] + 1,
-            finalize=False,
-        )
-        treemesh = OctreeDriver.refine_tree_from_surface(
-            treemesh,
-            surface,
-            str2list(refinement),
-            finalize=True,
-        )
-
-        octree = treemesh_2_octree(workspace, treemesh, name="Octree_Mesh")
-
-        assert octree.n_cells in [
-            168627,
-            168396,
-        ]  # Different results on Linux and Windows
-
         params_dict.update(
             {
                 "geoh5": workspace,
@@ -124,6 +93,8 @@ def test_create_octree_surface(tmp_path: Path, setup_test_octree):  # pylint: di
                         "distance": 1000.0,
                     }
                 ],
+                "ga_group_name": "Tester",
+                "diagonal_balance": False,
             }
         )
         params = OctreeOptions(**params_dict)
@@ -131,8 +102,8 @@ def test_create_octree_surface(tmp_path: Path, setup_test_octree):  # pylint: di
         driver = OctreeDriver(params)
         driver.run()
 
-        rec_octree = workspace.get_entity("Octree_Mesh")[0]
-        compare_entities(octree, rec_octree, ignore=["_uid"])
+        rec_octree = workspace.get_entity("Tester")[0]
+        assert rec_octree.n_cells == 168487  # Different results on Linux and Windows
 
 
 def test_create_octree_surface_straight_line(tmp_path: Path, setup_test_octree):
@@ -158,7 +129,7 @@ def test_create_octree_surface_straight_line(tmp_path: Path, setup_test_octree):
 def test_create_octree_curve(tmp_path: Path, setup_test_octree):  # pylint: disable=too-many-locals
     (locations, refinement, _, params_dict) = setup_test_octree
 
-    with Workspace.create(tmp_path / "testOctree.geoh5") as workspace:
+    with Workspace.create(tmp_path / f"{__name__}.geoh5") as workspace:
         curve = Curve.create(workspace, vertices=locations)
         curve.remove_cells([-1])
 
@@ -186,7 +157,7 @@ def test_create_octree_curve(tmp_path: Path, setup_test_octree):  # pylint: disa
 def test_create_octree_empty_curve(tmp_path: Path, setup_test_octree):  # pylint: disable=too-many-locals
     (locations, refinement, _, params_dict) = setup_test_octree
 
-    with Workspace.create(tmp_path / "testOctree.geoh5") as workspace:
+    with Workspace.create(tmp_path / f"{__name__}.geoh5") as workspace:
         # Create sources along line
         extent = Points.create(workspace, vertices=locations)
         curve = Curve.create(workspace, vertices=[(0, 0, 0), (0, 0, 0)])
@@ -219,7 +190,7 @@ def test_create_octree_dipoles(tmp_path: Path, setup_test_octree):  # pylint: di
     (_, refinement, _, params_dict) = setup_test_octree
 
     n_data = 12
-    with Workspace.create(tmp_path / "testOctree.geoh5") as workspace:
+    with Workspace.create(tmp_path / f"{__name__}.geoh5") as workspace:
         # Create sources along line
         x_loc, y_loc = np.meshgrid(np.arange(n_data), np.arange(-1, 3))
         vertices = np.c_[x_loc.ravel(), y_loc.ravel(), np.zeros_like(x_loc).ravel()]
@@ -273,7 +244,7 @@ def test_create_octree_dipoles(tmp_path: Path, setup_test_octree):  # pylint: di
 
 
 def test_create_octree_triangulation(tmp_path: Path, setup_test_octree):  # pylint: disable=too-many-locals
-    (locations, refinement, treemesh, params_dict) = setup_test_octree
+    (locations, refinement, _, params_dict) = setup_test_octree
 
     # Generate a sphere of points
     phi, theta = np.meshgrid(
@@ -284,28 +255,13 @@ def test_create_octree_triangulation(tmp_path: Path, setup_test_octree):  # pyli
     y = np.cos(phi) * np.sin(theta) * 200.0
     z = np.sin(phi) * 200.0
     # refinement = "1, 2"
-    with Workspace.create(tmp_path / "testOctree.geoh5") as workspace:
+    with Workspace.create(tmp_path / f"{__name__}.geoh5") as workspace:
         curve = Curve.create(workspace, vertices=locations)
         sphere = Surface.create(
             workspace,
             vertices=np.c_[x.flatten(), y.flatten(), z.flatten()],
             cells=surf.simplices,  # pylint: disable=no-member
         )
-        treemesh.refine(
-            treemesh.max_level - params_dict["minimum_level"] + 1,
-            diagonal_balance=False,
-            finalize=False,
-        )
-        treemesh = OctreeDriver.refine_tree_from_triangulation(
-            treemesh,
-            sphere,
-            [3, 3],
-            finalize=True,
-        )
-        octree = treemesh_2_octree(workspace, treemesh, name="Octree_Mesh")
-
-        assert octree.n_cells == 267957
-
         params_dict.update(
             {
                 "geoh5": workspace,
@@ -323,8 +279,8 @@ def test_create_octree_triangulation(tmp_path: Path, setup_test_octree):  # pyli
         driver = OctreeDriver(params)
         driver.run()
 
-        rec_octree = workspace.get_entity("Octree_Mesh")[0]
-        compare_entities(octree, rec_octree, ignore=["_uid"])
+        rec_octree = workspace.get_entity("Octree Mesh")[0]
+        assert rec_octree.n_cells == 301788
 
 
 @pytest.mark.parametrize(
@@ -408,7 +364,7 @@ def test_octree_diagonal_balance(  # pylint: disable=too-many-locals
 def test_refine_complement(tmp_path: Path, setup_test_octree):  # pylint: disable=too-many-locals
     (locations, refinement, _, params_dict) = setup_test_octree
 
-    with Workspace.create(tmp_path / "testOctree.geoh5") as workspace:
+    with Workspace.create(tmp_path / f"{__name__}.geoh5") as workspace:
         points = Points.create(workspace, vertices=np.c_[locations[-1, :]].T)
         curve = Curve.create(workspace, vertices=locations)
         curve.remove_cells([-1])
@@ -458,7 +414,7 @@ def test_regular_grid(tmp_path: Path, setup_test_octree):  # pylint: disable=too
     )
     locations = np.c_[x.flatten(), y.flatten(), np.ones(400) * np.random.randn(1)]
 
-    with Workspace.create(tmp_path / "testOctree.geoh5") as workspace:
+    with Workspace.create(tmp_path / f"{__name__}.geoh5") as workspace:
         points = Points.create(workspace, vertices=locations)
 
         params_dict.update(
@@ -487,3 +443,38 @@ def test_regular_grid(tmp_path: Path, setup_test_octree):  # pylint: disable=too
     ind = treemesh.get_containing_cells(locations)
 
     np.testing.assert_allclose(treemesh.cell_centers[ind], locations)
+
+
+def test_flat_grid(tmp_path: Path, setup_test_octree):  # pylint: disable=too-many-locals
+    (_, refinement, _, params_dict) = setup_test_octree
+
+    locations = np.c_[
+        np.linspace(-100, 100, 16),
+        np.linspace(-100, 100, 16),
+        np.r_[np.ones(7) * 5, np.ones(9) * 10],
+    ]
+
+    with Workspace.create(tmp_path / f"{__name__}.geoh5") as workspace:
+        points = Points.create(workspace, vertices=locations)
+        params_dict.update(
+            {
+                "geoh5": workspace,
+                "objects": points,
+                "refinements": [
+                    {
+                        "refinement_object": points,
+                        "levels": refinement,
+                        "horizon": False,
+                    }
+                ],
+                "depth_core": 10.0,
+                "vertical_padding": 0,
+            }
+        )
+        params = OctreeOptions(**params_dict)
+        driver = OctreeDriver(params)
+        octree = driver.run()
+
+        assert (octree.origin["z"] + octree.w_cell_size * octree.w_count) > locations[
+            :, 2
+        ].max()

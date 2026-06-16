@@ -1,10 +1,9 @@
 # '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-#  Copyright (c) 2022-2025 Mira Geoscience Ltd.                                     '
-#  All rights reserved.                                                             '
+#  Copyright (c) 2022-2026 Mira Geoscience Ltd.                                     '
 #                                                                                   '
 #  This file is part of grid-apps package.                                          '
 #                                                                                   '
-#  grid-apps is distributed under the terms and conditions of a proprietary license '
+#  grid-apps is distributed under the terms and conditions of the MIT License       '
 #  (see LICENSE file at the root of this source code package).                      '
 # '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 from __future__ import annotations
@@ -15,7 +14,7 @@ from pathlib import Path
 from typing import Any, ClassVar
 
 import numpy as np
-from geoapps_utils.driver.data import BaseData
+from geoapps_utils.base import Options
 from geoh5py.groups import UIJsonGroup
 from geoh5py.objects import Points
 from pydantic import (
@@ -30,7 +29,7 @@ from pydantic import (
 from grid_apps import assets_path
 
 
-class OctreeOptions(BaseData):
+class OctreeOptions(Options):
     """
     Octree creation parameters.
 
@@ -87,7 +86,6 @@ class OctreeOptions(BaseData):
                 )
                 warnings.warn(msg)
             values["refinements"] = refinements
-
         return values
 
     @model_serializer(mode="wrap")
@@ -204,7 +202,6 @@ def collect_refinements_from_dict(data: dict) -> list[dict | None]:
             refinements.append(None)
         else:
             refinements.append(refinement_params)
-
     return refinements
 
 

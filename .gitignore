@@ -125,6 +125,7 @@ venv.bak/
 
 #pycharm
 /.idea/*
+!/.idea/*.iml
 !/.idea/scopes/
 !/.idea/copyright/
 
@@ -147,6 +148,7 @@ pyproject-sha.toml
 
 # auto-generated version file
 grid_apps/_version.py
+/_version.json
 
 # not using poetry to lock, but pixi
 poetry.lock

@@ -1,10 +1,9 @@
 # '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-#  Copyright (c) 2024-2025 Mira Geoscience Ltd.                                     '
-#  All rights reserved.                                                             '
+#  Copyright (c) 2024-2026 Mira Geoscience Ltd.                                     '
 #                                                                                   '
 #  This file is part of grid-apps package.                                          '
 #                                                                                   '
-#  grid-apps is distributed under the terms and conditions of a proprietary license '
+#  grid-apps is distributed under the terms and conditions of the MIT License       '
 #  (see LICENSE file at the root of this source code package).                      '
 # '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
@@ -16,13 +15,13 @@ from pathlib import Path
 
 import numpy as np
 from discretize import TreeMesh
+from geoapps_utils.base import Driver as BaseDriver
 from geoh5py.data import FloatData, ReferencedData
 from geoh5py.objects import BlockModel, Octree
 from geoh5py.ui_json.utils import fetch_active_workspace
 from scipy.spatial import cKDTree
 
 from grid_apps.block_model_to_octree.options import BlockModel2OctreeOptions
-from grid_apps.driver import BaseGridDriver
 from grid_apps.utils import (
     block_model_to_discretize,
     boundary_value_indices,
@@ -34,12 +33,23 @@ from grid_apps.utils import (
 logger = logging.getLogger(__name__)
 
 
-class Driver(BaseGridDriver):
+class Driver(BaseDriver):
     """
     Convert a BlockModel object to Octree with various refinement strategies.
     """
 
     _params_class = BlockModel2OctreeOptions
+
+    def run(self):
+        """Create an octree mesh from input values."""
+        with fetch_active_workspace(self.params.geoh5, mode="r+"):
+            logger.info("Converting BlockModel to Octree mesh . . .")
+            octree = self.make_grid()
+            output = self.params.out_group or octree
+            self.update_monitoring_directory(output)
+            logger.info("Done.")
+
+        return octree
 
     @staticmethod
     def block_model_to_treemesh(

@@ -1,7 +1,8 @@
 {
-    "version": "0.1.0",
+    "version": "0.2.0",
     "title": "Block Model To Octree Conversion",
     "icon": "OctreeGrid",
+    "documentation": "https://mirageoscience-grid-apps.readthedocs-hosted.com/en/latest/",
     "conda_environment": "grid_apps",
     "run_command": "grid_apps.block_model_to_octree.driver",
     "geoh5": "",

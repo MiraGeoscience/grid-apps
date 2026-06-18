@@ -3,7 +3,7 @@
     "title": "Octree Mesh Designer",
     "icon": "octreegrid",
     "documentation": "https://mirageoscience-grid-apps.readthedocs-hosted.com/en/latest/",
-    "conda_environment": "grid_apps",
+    "conda_environment": "grid-apps",
     "run_command": "grid_apps.octree_creation.driver",
     "geoh5": "",
     "monitoring_directory": "",

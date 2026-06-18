@@ -3,7 +3,7 @@
     "title": "Block Model To Octree Conversion",
     "icon": "OctreeGrid",
     "documentation": "https://mirageoscience-grid-apps.readthedocs-hosted.com/en/latest/",
-    "conda_environment": "grid_apps",
+    "conda_environment": "grid-apps",
     "run_command": "grid_apps.block_model_to_octree.driver",
     "geoh5": "",
     "monitoring_directory": "",

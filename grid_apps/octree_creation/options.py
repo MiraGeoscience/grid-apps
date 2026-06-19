@@ -196,9 +196,12 @@ def collect_refinements_from_dict(data: dict) -> list[dict | None]:
         for param in ["object", "levels", "horizon", "distance"]:
             name = f"refinement_{param}" if param == "object" else param
             refinement_name = f"Refinement {identifier} {param}"
-            refinement_params[name] = data.get(refinement_name, None)
+            value = data.get(refinement_name, None)
 
-        if refinement_params["refinement_object"] is None:
+            if value is not None:
+                refinement_params[name] = valueenv
+
+        if refinement_params.get("refinement_object", None) is None:
             refinements.append(None)
         else:
             refinements.append(refinement_params)

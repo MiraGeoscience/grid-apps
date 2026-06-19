@@ -199,7 +199,7 @@ def collect_refinements_from_dict(data: dict) -> list[dict | None]:
             value = data.get(refinement_name, None)
 
             if value is not None:
-                refinement_params[name] = valueenv
+                refinement_params[name] = value
 
         if refinement_params.get("refinement_object", None) is None:
             refinements.append(None)

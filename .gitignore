@@ -149,3 +149,5 @@ pyproject-sha.toml
 #version ignore
 grid_apps/_version.py
 /_version.json
+
+devtools/conda_env_pylint.bat

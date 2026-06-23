@@ -12,7 +12,7 @@ import pytest
 from geoh5py import Workspace
 from geoh5py.groups import UIJsonGroup
 from geoh5py.objects import Points
-from geoh5py.ui_json import InputFile
+from geoh5py.ui_json import BaseUIJson, InputFile
 
 from grid_apps import assets_path
 from grid_apps.octree_creation.driver import OctreeDriver
@@ -139,3 +139,20 @@ def test_treemesh_from_params(tmp_path):
         assert mesh.u_cell_size == 25.0
         assert mesh.v_cell_size == 25.0
         assert mesh.w_cell_size == 25.0
+
+
+def test_params_from_uijson(tmp_path):
+
+    uijson = BaseUIJson.read(OctreeOptions.default_ui_json)
+
+    with Workspace.create(tmp_path / f"{__name__}.geoh5") as ws:
+        points = Points.create(ws, name="test", vertices=np.random.rand(100, 3))
+
+        kwargs = {
+            "geoh5": ws,
+            "objects": points,
+            "Refinement A object": points,
+        }
+        uijson.set_values(**kwargs)
+        params = OctreeOptions.build(**uijson.to_params(workspace=ws))
+        assert params.refinements is not None

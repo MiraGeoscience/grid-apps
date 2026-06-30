@@ -77,7 +77,6 @@ class Driver(BaseDriver):
             # Find nearest cells
             if block_model.centroids is None:
                 raise ValueError("Block model has no centroids.")
-                # TODO: Remove once GEOPY-1602 is merged
 
             neighbor_distances, neighbor_indices = tree.query(block_model.centroids)
             nearest_neighbor = np.argmin(neighbor_distances)

@@ -62,7 +62,7 @@ class OctreeOptions(Options):
     conda_environment: str = "grid_apps"
     objects: Points
     depth_core: float = 500.0
-    ga_group_name: str = "Octree Mesh"  # TODO: Alias this in uijson (mesh_name)
+    ga_group_name: str = "Octree Mesh"
     diagonal_balance: bool = True
     minimum_level: int = 8
     u_cell_size: float = 25.0

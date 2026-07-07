@@ -18,7 +18,7 @@ from pytest import raises
 
 from grid_apps.block_models.driver import Driver as BlockModelDriver
 from grid_apps.utils import (
-    block_model_to_discretize,
+    block_model_to_tensor,
     boundary_value_indices,
     collocate_octrees,
     create_octree_from_octrees,
@@ -135,9 +135,9 @@ def test_block_model_to_discretize(tmp_path):
         )
 
         with raises(TypeError):
-            block_model_to_discretize("abc")
+            block_model_to_tensor("abc")
 
-        tensor = block_model_to_discretize(block_model)
+        tensor = block_model_to_tensor(block_model)
         indices = tensor_mesh_ordering(block_model)
 
         # Check the shape of the discretized points
@@ -155,7 +155,7 @@ def test_tensor_boundary_value_indices(tmp_path):
             z_cell_delimiters=np.cumsum(np.ones(16)),
         )
 
-        tensor = block_model_to_discretize(block)
+        tensor = block_model_to_tensor(block)
 
         values = np.ones(tensor.n_cells)
         values[int(tensor.n_cells / 2)] = 2

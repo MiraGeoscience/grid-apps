@@ -20,9 +20,9 @@ from scipy.interpolate import interp1d
 from scipy.spatial import cKDTree
 
 
-def block_model_to_discretize(
+def block_model_to_tensor(
     entity: BlockModel,
-) -> TensorMesh | tuple[TensorMesh, np.ndarray]:
+) -> TensorMesh:
     """
     Convert a block model to a discretize.TensorMesh.
 
@@ -45,6 +45,28 @@ def block_model_to_discretize(
         x0=origin,
     )
     return mesh
+
+
+def tensor_to_block_model(
+    workspace: Workspace, mesh: TensorMesh, **kwargs
+) -> BlockModel:
+    """
+    Convert a tensor mesh to a block model.
+
+    :param workspace: Workspace to create the block model.
+    :param mesh: Tensor mesh object from discretize
+    :param kwargs: Extra parameters to pass to the block model.
+    :return: BlockModel entity.
+    """
+    block_model = BlockModel.create(
+        workspace,
+        origin=[mesh.x0[0], mesh.x0[1], mesh.x0[2] + mesh.h[2].sum()],
+        u_cell_delimiters=mesh.nodes_x - mesh.x0[0],
+        v_cell_delimiters=mesh.nodes_y - mesh.x0[1],
+        z_cell_delimiters=-(mesh.x0[2] + mesh.h[2].sum() - mesh.nodes_z[::-1]),
+        **kwargs,
+    )
+    return block_model
 
 
 def boundary_value_indices(

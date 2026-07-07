@@ -23,7 +23,7 @@ from scipy.spatial import cKDTree
 
 from grid_apps.block_model_to_octree.options import BlockModel2OctreeOptions
 from grid_apps.utils import (
-    block_model_to_discretize,
+    block_model_to_tensor,
     boundary_value_indices,
     tensor_mesh_ordering,
     treemesh_2_octree,
@@ -209,7 +209,7 @@ class Driver(BaseDriver):
         if not isinstance(entity, BlockModel):
             raise TypeError("The parent of 'data' must be an instance of BlockModel.")
 
-        tensor = block_model_to_discretize(entity)
+        tensor = block_model_to_tensor(entity)
         indices = tensor_mesh_ordering(entity)
 
         gradients = np.abs(tensor.cell_gradient @ data.values[indices])

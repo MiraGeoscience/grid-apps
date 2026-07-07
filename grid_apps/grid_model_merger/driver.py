@@ -21,8 +21,13 @@ from geoh5py.shared.utils import fetch_active_workspace
 from scipy.sparse import find
 from scipy.spatial import cKDTree
 
+from grid_apps.block_model_to_octree.driver import Driver as BMODriver
 from grid_apps.grid_model_merger.options import GridModelMergerOptions
-from grid_apps.utils import tensor_to_block_model, treemesh_2_octree
+from grid_apps.utils import (
+    refine_tree_by_mesh,
+    tensor_to_block_model,
+    treemesh_2_octree,
+)
 
 
 logger = logging.getLogger(__name__)
@@ -112,6 +117,15 @@ class Driver(BaseDriver):
                         mesh.insert_cells(
                             selection.grid.centroids, levels, finalize=False
                         )
+                    else:
+                        treemesh = BMODriver.block_model_to_treemesh(
+                            selection.grid, finalize=False
+                        )
+                        treemesh = BMODriver.refine_by_cell_volumes(
+                            treemesh, selection.grid
+                        )
+                        treemesh_2_octree(self.params.geoh5, treemesh)
+                        mesh = refine_tree_by_mesh(mesh, treemesh, finalize=False)
 
                 mesh.finalize()
                 output_grid = treemesh_2_octree(

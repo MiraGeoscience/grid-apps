@@ -77,7 +77,7 @@ class Driver(BaseDriver):
             octree_cells.append(cell_sizes_octree)
 
             # Colocate the center of the octree with the center of the block model
-            ind_core = np.where(cell_sizes == h_core)[0]
+            ind_core = np.where(np.isclose(cell_sizes, h_core, atol=1e-1))[0]
             center = (
                 entity.origin[ii]
                 + entity.local_axis_centers(ax)[ind_core[len(ind_core) // 2]]
@@ -89,9 +89,11 @@ class Driver(BaseDriver):
         treemesh = TreeMesh(
             octree_cells,
             x0=origin,
-            finalize=finalize,
             diagonal_balance=diagonal_balance,
         )
+
+        if finalize:
+            treemesh.finalize()
 
         return treemesh
 

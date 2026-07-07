@@ -182,27 +182,43 @@ def create_octree_from_octrees(meshes: list[Octree | TreeMesh]) -> TreeMesh:
     treemesh = TreeMesh(cells, origin=origin, diagonal_balance=False)
 
     for mesh in meshes:
-        if isinstance(mesh, Octree) and mesh.octree_cells is not None:
-            centers = mesh.centroids
-            levels = treemesh.max_level - np.log2(mesh.octree_cells["NCells"])
-        elif isinstance(mesh, TreeMesh) and mesh.cell_centers is not None:
-            centers = mesh.cell_centers
-            levels = (
-                treemesh.max_level
-                - mesh.max_level
-                + mesh.cell_levels_by_index(np.arange(mesh.nC))
-            )
-        else:
-            raise TypeError(
-                f"All meshes must be Octree or TreeMesh, not {type(mesh)} "
-                "and must have octree cells defined."
-            )
-
-        treemesh.insert_cells(centers, levels, finalize=False)
+        treemesh = refine_tree_by_mesh(mesh, treemesh, finalize=False)
 
     treemesh.finalize()
 
     return treemesh
+
+
+def refine_tree_by_mesh(
+    tree: TreeMesh, mesh: TreeMesh | Octree, finalize: bool = False
+) -> TreeMesh:
+    """
+    Given a TreeMesh, insert cells at the corresponding octree level.
+
+    :param tree: TreeMesh to be refined.
+    :param mesh: Input TreeMesh or Octree mesh to refine with.
+    :param finalize: Whether to finalize the refined mesh.
+    :return: Refined mesh.
+    """
+    if isinstance(mesh, Octree) and mesh.octree_cells is not None:
+        centers = mesh.centroids
+        levels = tree.max_level - np.log2(mesh.octree_cells["NCells"])
+    elif isinstance(mesh, TreeMesh) and mesh.cell_centers is not None:
+        centers = mesh.cell_centers
+        levels = (
+            tree.max_level
+            - mesh.max_level
+            + mesh.cell_levels_by_index(np.arange(mesh.nC))
+        )
+    else:
+        raise TypeError(
+            f"All meshes must be Octree or TreeMesh, not {type(mesh)} "
+            "and must have octree cells defined."
+        )
+
+    tree.insert_cells(centers, levels, finalize=finalize)
+
+    return tree
 
 
 def densify_curve(curve: Curve, increment: float) -> np.ndarray:

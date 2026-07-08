@@ -14,9 +14,11 @@ from logging import warning
 import numpy as np
 from discretize import TensorMesh, TreeMesh
 from geoh5py import Workspace
+from geoh5py.data import FloatData, ReferencedData
 from geoh5py.objects import BlockModel, Curve, ObjectBase, Octree, Points
 from geoh5py.ui_json.utils import fetch_active_workspace
 from scipy.interpolate import interp1d
+from scipy.sparse import find
 from scipy.spatial import cKDTree
 
 
@@ -67,6 +69,52 @@ def tensor_to_block_model(
         **kwargs,
     )
     return block_model
+
+
+def block_model_to_treemesh(
+    entity: BlockModel, diagonal_balance=True, finalize=True
+) -> TreeMesh:
+    """
+    Convert a block model to an octree mesh with the same base cell size and
+    centered.
+
+    :param entity: BlockModel object to be converted
+    :param diagonal_balance: Whether to balance the mesh diagonally.
+    :param finalize: Whether to finalize the treemesh after creation.
+
+    :return: TreeMesh object.
+    """
+    origin = []
+    octree_cells = []
+    for ii, ax in zip("xyz", "uvz", strict=True):
+        cell_sizes = np.abs(getattr(entity, f"{ax}_cells"))
+        h_core = cell_sizes.min()
+
+        # Compute number of octree cells to span the extent
+        n_c = np.ceil(np.log2(np.sum(cell_sizes) / h_core))
+        cell_sizes_octree = np.ones(int(2**n_c)) * h_core
+        octree_cells.append(cell_sizes_octree)
+
+        # Colocate the center of the octree with the center of the block model
+        ind_core = np.where(np.isclose(cell_sizes, h_core, atol=1e-1))[0]
+        center = (
+            entity.origin[ii]
+            + entity.local_axis_centers(ax)[ind_core[len(ind_core) // 2]]
+        )
+
+        axis_center = len(cell_sizes_octree) // 2
+        origin.append(center - np.sum(cell_sizes_octree[:axis_center]) - h_core / 2)
+
+    treemesh = TreeMesh(
+        octree_cells,
+        x0=origin,
+        diagonal_balance=diagonal_balance,
+    )
+
+    if finalize:
+        treemesh.finalize()
+
+    return treemesh
 
 
 def boundary_value_indices(
@@ -190,7 +238,7 @@ def create_octree_from_octrees(meshes: list[Octree | TreeMesh]) -> TreeMesh:
 
 
 def refine_tree_by_mesh(
-    tree: TreeMesh, mesh: TreeMesh | Octree, finalize: bool = False
+    tree: TreeMesh, mesh: TreeMesh | Octree | BlockModel, finalize: bool = False
 ) -> TreeMesh:
     """
     Given a TreeMesh, insert cells at the corresponding octree level.
@@ -200,9 +248,14 @@ def refine_tree_by_mesh(
     :param finalize: Whether to finalize the refined mesh.
     :return: Refined mesh.
     """
+    if isinstance(mesh, BlockModel):
+        treemesh = block_model_to_treemesh(mesh, finalize=False)
+        mesh = refine_by_cell_volumes(treemesh, mesh)
+
     if isinstance(mesh, Octree) and mesh.octree_cells is not None:
         centers = mesh.centroids
         levels = tree.max_level - np.log2(mesh.octree_cells["NCells"])
+
     elif isinstance(mesh, TreeMesh) and mesh.cell_centers is not None:
         centers = mesh.cell_centers
         levels = (
@@ -219,6 +272,94 @@ def refine_tree_by_mesh(
     tree.insert_cells(centers, levels, finalize=finalize)
 
     return tree
+
+
+def refine_by_cell_volumes(
+    mesh: TreeMesh,
+    entity: BlockModel,
+    finalize: bool = True,
+    mask: np.ndarray | None = None,
+) -> TreeMesh:
+    """
+    Refine the octree mesh by the cell volumes of the block model.
+
+    :param mesh: TreeMesh object to be refined.
+    :param entity: BlockModel object to be used for refinement.
+    :param finalize: Whether to finalize the treemesh after refinement.
+    :param mask: Optional mask on the block model centroids to apply the refinement over.
+
+    :return: TreeMesh object with refined levels.
+    """
+    if not isinstance(entity, BlockModel):
+        raise TypeError("entity must be an instance of BlockModel.")
+
+    tensor_oct_level = []
+    for ax in "uvz":
+        cell_sizes = np.abs(getattr(entity, f"{ax}_cells"))
+        h_core = cell_sizes.min()
+        # Find the core region
+        tensor_oct_level.append(np.log2(cell_sizes / h_core).astype(int))
+
+    e_x, e_y, e_z = np.meshgrid(*tensor_oct_level)
+    max_level = np.c_[np.ravel(e_x), np.ravel(e_y), np.ravel(e_z)].max(axis=1)
+
+    locations = entity.centroids
+    if mask is not None:
+        locations = locations[mask]
+        max_level = max_level[mask]
+
+    mesh.insert_cells(locations, mesh.max_level - max_level, finalize=finalize)
+
+    return mesh
+
+
+def refine_by_values(
+    mesh: TreeMesh, data: FloatData | ReferencedData, finalize=True
+) -> TreeMesh:
+    """
+    Increase the mesh resolution based on the gradient of data values.
+
+    :param mesh: Input TreeMesh object.
+    :param data: FloatData or ReferencedData object containing the values to
+        be used for refinement.
+    :param finalize: Whether to finalize the treemesh after refinement.
+
+    :return: TreeMesh object with refined levels.
+    """
+    if not isinstance(data, FloatData | ReferencedData):
+        raise TypeError(
+            "Argument 'data' must be an instance of FloatData or ReferencedData."
+        )
+
+    entity = data.parent
+    if not isinstance(entity, BlockModel):
+        raise TypeError("The parent of 'data' must be an instance of BlockModel.")
+
+    tensor = block_model_to_tensor(entity)
+    indices = tensor_mesh_ordering(entity)
+
+    gradients = np.abs(tensor.cell_gradient @ data.values[indices])
+    levels = np.zeros(gradients.shape, dtype=int)
+    isnan = np.isnan(gradients)
+
+    if isinstance(data, FloatData):
+        actives = gradients[~isnan]
+        bins = np.percentile(actives[actives > 0], np.linspace(5, 95, mesh.max_level))
+        levels[~isnan] = np.searchsorted(bins, actives)
+    else:
+        levels[gradients > 0] = mesh.max_level
+
+    # Refine on the value/nan interface, without boundary cells
+    if any(isnan):
+        horizon = boundary_value_indices(tensor, data.values[indices], data.nan_value)
+        mesh = refine_by_cell_volumes(
+            mesh, entity, finalize=False, mask=horizon[np.argsort(indices)]
+        )
+
+    locs = tensor.average_cell_to_face @ tensor.cell_centers
+    mesh.insert_cells(locs[~isnan], levels[~isnan].astype(int), finalize=finalize)
+
+    return mesh
 
 
 def densify_curve(curve: Curve, increment: float) -> np.ndarray:
@@ -271,6 +412,29 @@ def find_endpoints(points: np.ndarray) -> np.ndarray:
                 endpoints.append(points[is_endy][0])
 
     return np.array(endpoints)
+
+
+def get_boundary_active_cells(
+    mesh: TreeMesh | TensorMesh, actives: np.ndarray
+) -> np.ndarray:
+    """
+    Given a mesh and a set of active cells, return the active cells that are on the boundary of the active domain.
+
+    :param mesh: Tree or TensorMesh object.
+    :param actives: Bool array of active cells.
+    :return: Bool array of boundary cells of the active domain.
+    """
+    is_face = np.zeros_like(actives, dtype=bool)
+    # Find actives horizontal mesh boundary cells
+    for face in mesh.cell_boundary_indices:
+        is_face[face] = True
+
+    # Find horizontal boundary model cells
+    face_diff = ~np.isclose(mesh.stencil_cell_gradient @ actives, 0, atol=0.1)
+    _, cols, _ = find(mesh.stencil_cell_gradient[face_diff, :])
+    is_face[cols] = True
+
+    return is_face & actives
 
 
 def get_neighbouring_cells(mesh: TreeMesh, indices: list | np.ndarray) -> tuple:

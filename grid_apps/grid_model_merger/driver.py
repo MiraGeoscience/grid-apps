@@ -16,14 +16,14 @@ from pathlib import Path
 import numpy as np
 from discretize.utils import mesh_utils
 from geoapps_utils.base import Driver as BaseDriver
+from geoapps_utils.utils.plotting import inv_symlog, symlog
 from geoh5py.objects import Octree
 from geoh5py.shared.utils import fetch_active_workspace
-from scipy.sparse import find
 from scipy.spatial import cKDTree
 
-from grid_apps.block_model_to_octree.driver import Driver as BMODriver
-from grid_apps.grid_model_merger.options import GridModelMergerOptions
+from grid_apps.grid_model_merger.options import GridModelMergerOptions, ScalingTypeEnum
 from grid_apps.utils import (
+    get_boundary_active_cells,
     refine_tree_by_mesh,
     tensor_to_block_model,
     treemesh_2_octree,
@@ -50,15 +50,51 @@ class Driver(BaseDriver):
     def run(self):
         """Create an octree mesh from input values."""
         with fetch_active_workspace(self.params.geoh5, mode="r+"):
-            logger.info("Merging grids and models from selection . . .")
             self.output_grid = self.get_output_grid()
-
             self.interpolate_models_to_output_grid()
             output = self.params.out_group or self.output_grid
             self.update_monitoring_directory(output)
             logger.info("Done.")
 
         return self.output_grid
+
+    def get_global_mesh_specs(self) -> tuple[np.ndarray, np.ndarray]:
+        """
+        Loop through selections to get global mesh specifications for output grid.
+
+        :return: Array of outer extent and core cell dimensions.
+        """
+        extent = np.vstack([[np.inf] * 3, [-np.inf] * 3])
+        cell_size = np.hstack([np.inf] * 3)
+
+        for selection in self.params.selections:
+            grid = selection.grid
+
+            extent[0, :] = np.min([extent[0, :], grid.extent[0, :]], axis=0)
+            extent[1, :] = np.max([extent[1, :], grid.extent[1, :]], axis=0)
+
+            if isinstance(grid, Octree):
+                cell_size = np.min(
+                    [
+                        cell_size,
+                        np.r_[grid.u_cell_size, grid.v_cell_size, grid.w_cell_size],
+                    ],
+                    axis=0,
+                )
+            else:
+                cell_size = np.min(
+                    [
+                        cell_size,
+                        np.r_[
+                            grid.u_cells.min(),
+                            grid.v_cells.min(),
+                            grid.z_cells.min(),
+                        ],
+                    ],
+                    axis=0,
+                )
+
+        return extent, np.abs(cell_size)
 
     def get_output_grid(self):
         """
@@ -68,64 +104,23 @@ class Driver(BaseDriver):
             if self.params.output_grid is not None:
                 return self.params.output_grid
 
-            extent = np.vstack([[np.inf] * 3, [-np.inf] * 3])
-            cell_size = np.hstack([np.inf] * 3)
-            mesh_type = None
-            for selection in self.params.selections:
-                grid = selection.grid
+            extent, cell_size = self.get_global_mesh_specs()
 
-                extent[0, :] = np.min([extent[0, :], grid.extent[0, :]], axis=0)
-                extent[1, :] = np.max([extent[1, :], grid.extent[1, :]], axis=0)
+            # Use type of the first entry
+            mesh_type = type(self.params.selections[0].grid)
 
-                if isinstance(grid, Octree):
-                    cell_size = np.min(
-                        [
-                            cell_size,
-                            np.r_[grid.u_cell_size, grid.v_cell_size, grid.w_cell_size],
-                        ],
-                        axis=0,
-                    )
-                else:
-                    cell_size = np.min(
-                        [
-                            cell_size,
-                            np.r_[
-                                grid.u_cells.min(),
-                                grid.v_cells.min(),
-                                grid.z_cells.min(),
-                            ],
-                        ],
-                        axis=0,
-                    )
-
-                if mesh_type is None:
-                    mesh_type = type(grid)
+            logger.info(f"Merging selected grids to '{mesh_type.__name__}' . . .")
 
             mesh = mesh_utils.mesh_builder_xyz(
                 extent,
-                np.abs(cell_size),
+                cell_size,
                 mesh_type="tree" if mesh_type is Octree else "tensor",
                 tree_diagonal_balance=True,
             )
 
             if mesh_type is Octree:
                 for selection in self.params.selections:
-                    if isinstance(selection.grid, Octree):
-                        levels = mesh.max_level - np.log2(
-                            selection.grid.octree_cells["NCells"]
-                        )
-                        mesh.insert_cells(
-                            selection.grid.centroids, levels, finalize=False
-                        )
-                    else:
-                        treemesh = BMODriver.block_model_to_treemesh(
-                            selection.grid, finalize=False
-                        )
-                        treemesh = BMODriver.refine_by_cell_volumes(
-                            treemesh, selection.grid
-                        )
-                        treemesh_2_octree(self.params.geoh5, treemesh)
-                        mesh = refine_tree_by_mesh(mesh, treemesh, finalize=False)
+                    mesh = refine_tree_by_mesh(mesh, selection.grid, finalize=False)
 
                 mesh.finalize()
                 output_grid = treemesh_2_octree(
@@ -145,42 +140,39 @@ class Driver(BaseDriver):
         with fetch_active_workspace(self.params.geoh5, mode="r+"):
             out_model = np.full(self.output_grid.n_cells, np.nan, dtype=float)
             weights = np.full(self.output_grid.n_cells, np.nan, dtype=float)
+            threshold = None
 
             for selection in self.params.selections:
                 mesh, model = selection.to_discretize()
 
-                if model is None:
+                if model is None or not np.any(~np.isnan(model)):
                     continue
 
-                logger.info(
-                    f"Interpolating model {selection.model.name} from grid {selection.grid.name} to output grid {self.output_grid.name} . . ."
-                )
-
                 active = ~np.isnan(model)
-                is_face = np.zeros_like(active, dtype=bool)
-                # Find active horizontal mesh boundary cells
-                for face in mesh.cell_boundary_indices[:-2]:
-                    is_face[face] = True
 
-                # Find horizontal boundary model cells
-                face_diff = ~np.isclose(
-                    mesh.stencil_cell_gradient @ active, 0, atol=0.1
+                logger.info(
+                    f"Interpolating model '{selection.model.name}' from grid '{selection.grid.name}' to output grid '{self.output_grid.name}' . . ."
                 )
-                _, cols, _ = find(mesh.stencil_cell_gradient[face_diff, :])
-                is_face[cols] = True
-                active_boundary = is_face & active
 
-                # Compute weights based on distance to boundary
+                if self.params.scaling_type == ScalingTypeEnum.log:
+                    if threshold is None:
+                        threshold = np.percentile(np.abs(model[active]), 10)
+
+                    model = symlog(model, threshold=threshold)
+
+                active_boundary = get_boundary_active_cells(mesh, active)
+
+                # Compute weights based on distance to boundary cells
                 tree = cKDTree(mesh.cell_centers[active_boundary])
-                rad, _ = tree.query(mesh.cell_centers[active])
+                rad, _ = tree.query(mesh.cell_centers[active], workers=-1)
                 cosine_tapper = -0.5 * np.cos(-rad / rad.max() * np.pi) + 0.5
                 weight_model = np.full(active.shape[0], np.nan, dtype=float)
                 weight_model[active] = cosine_tapper
 
-                # Find nearest neighbour and apply weighted model
+                # Find nearest neighbors and apply weighted model
                 del tree
                 tree = cKDTree(mesh.cell_centers)
-                _, ind = tree.query(self.output_grid.centroids)
+                _, ind = tree.query(self.output_grid.centroids, workers=-1)
                 out_model = np.nansum(
                     [out_model, weight_model[ind] * model[ind]], axis=0
                 )
@@ -188,8 +180,12 @@ class Driver(BaseDriver):
                 del tree
 
             # Normalizes weighted sum
-            not_nan = ~np.isnan(out_model)
-            out_model[not_nan] /= weights[not_nan]
+            non_zero = weights > 0
+            out_model[non_zero] /= weights[non_zero]
+            out_model[~non_zero] = np.nan
+
+            if self.params.scaling_type == ScalingTypeEnum.log:
+                out_model = inv_symlog(out_model, threshold=threshold)
 
             if np.any(~np.isnan(out_model)):
                 self.output_grid.add_data(

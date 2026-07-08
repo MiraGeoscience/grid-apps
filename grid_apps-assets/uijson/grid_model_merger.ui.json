@@ -18,6 +18,16 @@
         "tooltip": "Grid object to transfer models onto.",
         "main": true
     },
+    "scaling_type": {
+        "choiceList": [
+            "linear",
+            "log"
+        ],
+        "main": true,
+        "label": "Scaling type",
+        "tooltip": "Select a scaling to apply to the models before merging.",
+        "value": "log"
+    },
     "input_a_grid": {
         "groupOptional": true,
         "enabled": false,

@@ -10,6 +10,7 @@
 from __future__ import annotations
 
 import string
+from enum import StrEnum
 from pathlib import Path
 from typing import Any, ClassVar
 
@@ -29,6 +30,11 @@ from grid_apps.utils import (
 )
 
 
+class ScalingTypeEnum(StrEnum):
+    linear = "linear"
+    log = "log"
+
+
 class GridModelMergerOptions(Options):
     """
     Block model parameters for use with `block_models.driver`.
@@ -38,11 +44,12 @@ class GridModelMergerOptions(Options):
 
     name: ClassVar[str] = "grid_model_merger"
     default_ui_json: ClassVar[Path] = assets_path() / "uijson/grid_model_merger.ui.json"
-    title: ClassVar[str] = "Grid Model Merger"
-    run_command: ClassVar[str] = "grid_apps.grid_model_merger.driver"
+    title: str = "Grid Model Merger"
+    run_command: str = "grid_apps.grid_model_merger.driver"
 
     conda_environment: str = "grid_apps"
     output_grid: GridObject | None = None
+    scaling_type: ScalingTypeEnum = ScalingTypeEnum.log
     selections: list[MeshModelSelection | None] | None = None
 
     @model_validator(mode="before")

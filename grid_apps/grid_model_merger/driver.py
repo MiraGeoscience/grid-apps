@@ -109,7 +109,7 @@ class Driver(BaseDriver):
             # Use type of the first entry
             mesh_type = type(self.params.selections[0].grid)
 
-            logger.info(f"Merging selected grids to '{mesh_type.__name__}' . . .")
+            logger.info("Merging selected grids to '%s' . . .", {mesh_type.__name__})
 
             mesh = mesh_utils.mesh_builder_xyz(
                 extent,
@@ -151,10 +151,13 @@ class Driver(BaseDriver):
                 active = ~np.isnan(model)
 
                 logger.info(
-                    f"Interpolating model '{selection.model.name}' from grid '{selection.grid.name}' to output grid '{self.output_grid.name}' . . ."
+                    "Interpolating model '%s' from grid '%s' to output grid '%s' . . .",
+                    selection.model.name,
+                    selection.grid.name,
+                    self.output_grid.name,
                 )
 
-                if self.params.scaling_type == ScalingTypeEnum.log:
+                if self.params.scaling_type == ScalingTypeEnum.LOG:
                     if threshold is None:
                         threshold = np.percentile(np.abs(model[active]), 10)
 
@@ -186,7 +189,7 @@ class Driver(BaseDriver):
             out_model[non_zero] /= weights[non_zero]
             out_model[~non_zero] = np.nan
 
-            if self.params.scaling_type == ScalingTypeEnum.log:
+            if self.params.scaling_type == ScalingTypeEnum.LOG:
                 out_model = inv_symlog(out_model, threshold=threshold)
 
             if np.any(~np.isnan(out_model)):

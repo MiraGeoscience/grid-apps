@@ -31,8 +31,8 @@ from grid_apps.utils import (
 
 
 class ScalingTypeEnum(StrEnum):
-    linear = "linear"
-    log = "log"
+    LINEAR = "linear"
+    LOG = "log"
 
 
 class GridModelMergerOptions(Options):
@@ -49,7 +49,7 @@ class GridModelMergerOptions(Options):
 
     conda_environment: str = "grid_apps"
     output_grid: GridObject | None = None
-    scaling_type: ScalingTypeEnum = ScalingTypeEnum.log
+    scaling_type: ScalingTypeEnum = ScalingTypeEnum.LOG
     selections: list[MeshModelSelection | None] | None = None
 
     @model_validator(mode="before")

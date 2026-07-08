@@ -14,20 +14,16 @@ import sys
 from pathlib import Path
 
 import numpy as np
-from discretize import TreeMesh
 from geoapps_utils.base import Driver as BaseDriver
-from geoh5py.data import FloatData, ReferencedData
-from geoh5py.objects import BlockModel, Octree
+from geoh5py.objects import Octree
 from geoh5py.ui_json.utils import fetch_active_workspace
 from scipy.spatial import cKDTree
 
 from grid_apps.block_model_to_octree.options import BlockModel2OctreeOptions
 from grid_apps.utils import (
-    block_model_to_tensor,
     block_model_to_treemesh,
     refine_by_cell_volumes,
     refine_by_values,
-    tensor_mesh_ordering,
     treemesh_2_octree,
 )
 

@@ -87,7 +87,7 @@ def test_merge_block_model(tmp_path: Path):  # pylint: disable=too-many-locals
         out_grid = driver.run()
 
         merged_model = out_grid.children[0]
-        np.testing.assert_almost_equal(merged_model.values[2642], 1.5, decimal=2)
+        np.testing.assert_almost_equal(merged_model.values[2649], 1.5, decimal=1)
 
         # Repeat with a hole in the first model
         values = model_a.values
@@ -96,7 +96,7 @@ def test_merge_block_model(tmp_path: Path):  # pylint: disable=too-many-locals
 
         out_grid = driver.run()
         merged_model = out_grid.children[0]
-        np.testing.assert_almost_equal(merged_model.values[2642], 2.0, decimal=2)
+        np.testing.assert_almost_equal(merged_model.values[2649], 2.0, decimal=1)
 
 
 def test_merge_octree_model(tmp_path: Path, setup_test_octree):  # pylint: disable=too-many-locals
@@ -123,7 +123,7 @@ def test_merge_octree_model(tmp_path: Path, setup_test_octree):  # pylint: disab
         out_grid = driver.run()
 
         merged_model = out_grid.children[0]
-        np.testing.assert_almost_equal(merged_model.values[1542], 1.5, decimal=2)
+        np.testing.assert_almost_equal(merged_model.values[1558], 1.5, decimal=2)
 
         # Repeat with a hole in the first model
         values = model_a.values

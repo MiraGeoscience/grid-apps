@@ -25,7 +25,6 @@ from grid_apps.block_model_to_octree.options import BlockModel2OctreeOptions
 from grid_apps.utils import (
     block_model_to_tensor,
     block_model_to_treemesh,
-    boundary_value_indices,
     refine_by_cell_volumes,
     refine_by_values,
     tensor_mesh_ordering,

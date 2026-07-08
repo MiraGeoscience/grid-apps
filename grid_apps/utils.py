@@ -117,35 +117,6 @@ def block_model_to_treemesh(
     return treemesh
 
 
-def boundary_value_indices(
-    mesh: TensorMesh | TreeMesh, values: np.ndarray, target: float | int
-) -> np.ndarray:
-    """
-    Get a mask of the boundary cells in a mesh based on a target value.
-
-    :param mesh: The discretize mesh.
-    :param values: The values associated with the cells.
-    :param target: The target value to identify boundary cells.
-
-    :return: Mask of boundary cells.
-    """
-    if not isinstance(mesh, TensorMesh | TreeMesh):
-        raise TypeError("Mesh must be an instance of TensorMesh or TreeMesh.")
-
-    if not isinstance(values, np.ndarray):
-        raise TypeError("Values must be a numpy array.")
-
-    if target is np.nan:
-        is_target = np.isnan(values)
-    else:
-        is_target = values == target
-
-    on_face = (mesh.cell_gradient @ is_target).astype(bool)
-    boundary_cells = (mesh.average_face_to_cell @ on_face).astype(bool)
-
-    return boundary_cells
-
-
 def collocate_octrees(global_mesh: Octree, local_meshes: list[Octree]):
     """
     Collocate a list of octree meshes into a global octree mesh.
@@ -230,7 +201,7 @@ def create_octree_from_octrees(meshes: list[Octree | TreeMesh]) -> TreeMesh:
     treemesh = TreeMesh(cells, origin=origin, diagonal_balance=False)
 
     for mesh in meshes:
-        treemesh = refine_tree_by_mesh(mesh, treemesh, finalize=False)
+        treemesh = refine_tree_by_mesh(treemesh, mesh)
 
     treemesh.finalize()
 
@@ -351,7 +322,9 @@ def refine_by_values(
 
     # Refine on the value/nan interface, without boundary cells
     if any(isnan):
-        horizon = boundary_value_indices(tensor, data.values[indices], data.nan_value)
+        horizon = get_boundary_active_cells(
+            tensor, data.values[indices] == data.nan_value
+        )
         mesh = refine_by_cell_volumes(
             mesh, entity, finalize=False, mask=horizon[np.argsort(indices)]
         )
@@ -415,7 +388,10 @@ def find_endpoints(points: np.ndarray) -> np.ndarray:
 
 
 def get_boundary_active_cells(
-    mesh: TreeMesh | TensorMesh, actives: np.ndarray
+    mesh: TreeMesh | TensorMesh,
+    actives: np.ndarray,
+    horizontal_egdes: bool = False,
+    vertical_egdes: bool = False,
 ) -> np.ndarray:
     """
     Given a mesh and a set of active cells, return the active cells that are on the boundary of the active domain.
@@ -424,12 +400,24 @@ def get_boundary_active_cells(
     :param actives: Bool array of active cells.
     :return: Bool array of boundary cells of the active domain.
     """
-    is_face = np.zeros_like(actives, dtype=bool)
-    # Find actives horizontal mesh boundary cells
-    for face in mesh.cell_boundary_indices:
-        is_face[face] = True
+    if not isinstance(mesh, TensorMesh | TreeMesh):
+        raise TypeError("Mesh must be an instance of TensorMesh or TreeMesh.")
 
-    # Find horizontal boundary model cells
+    if not isinstance(actives, np.ndarray) or actives.dtype != bool:
+        raise TypeError("Input array 'actives' must be a numpy array of type bool.")
+
+    is_face = np.zeros_like(actives, dtype=bool)
+
+    # Find actives horizontal mesh boundary cells
+    if horizontal_egdes:
+        for face in mesh.cell_boundary_indices[:-2]:
+            is_face[face] = True
+
+    if vertical_egdes:
+        for face in mesh.cell_boundary_indices[-2:]:
+            is_face[face] = True
+
+    # Find boundary active cells
     face_diff = ~np.isclose(mesh.stencil_cell_gradient @ actives, 0, atol=0.1)
     _, cols, _ = find(mesh.stencil_cell_gradient[face_diff, :])
     is_face[cols] = True

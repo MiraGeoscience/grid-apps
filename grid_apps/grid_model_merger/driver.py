@@ -160,7 +160,9 @@ class Driver(BaseDriver):
 
                     model = symlog(model, threshold=threshold)
 
-                active_boundary = get_boundary_active_cells(mesh, active)
+                active_boundary = get_boundary_active_cells(
+                    mesh, active, horizontal_egdes=True
+                )
 
                 # Compute weights based on distance to boundary cells
                 tree = cKDTree(mesh.cell_centers[active_boundary])

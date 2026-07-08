@@ -29,6 +29,8 @@ def block_model_to_tensor(
     Convert a block model to a discretize.TensorMesh.
 
     :param entity: The block model to convert.
+
+    :return: An equivalent TensorMesh object.
     """
     if not isinstance(entity, BlockModel):
         raise TypeError("entity must be an instance of BlockModel.")
@@ -58,6 +60,7 @@ def tensor_to_block_model(
     :param workspace: Workspace to create the block model.
     :param mesh: Tensor mesh object from discretize
     :param kwargs: Extra parameters to pass to the block model.
+
     :return: BlockModel entity.
     """
     block_model = BlockModel.create(
@@ -168,7 +171,7 @@ def create_octree_from_octrees(meshes: list[Octree | TreeMesh]) -> TreeMesh:
 
     :param meshes: List of Octree or TreeMesh meshes.
 
-    :return octree: A global Octree.
+    :return: An all-encompassing TreeMesh object
     """
     cell_size = []
     dimensions = None
@@ -370,6 +373,8 @@ def find_endpoints(points: np.ndarray) -> np.ndarray:
     Find the endpoints of a co-linear array of points.
 
     :param points: locations array of shape (n, 3).
+
+    :return: Array of shape (n, 2) containing the endpoints.
     """
 
     xmin = points[:, 0].min()
@@ -390,14 +395,18 @@ def find_endpoints(points: np.ndarray) -> np.ndarray:
 def get_boundary_active_cells(
     mesh: TreeMesh | TensorMesh,
     actives: np.ndarray,
-    horizontal_egdes: bool = False,
-    vertical_egdes: bool = False,
+    horizontal_edges: bool = False,
+    vertical_edges: bool = False,
 ) -> np.ndarray:
     """
-    Given a mesh and a set of active cells, return the active cells that are on the boundary of the active domain.
+    Given a mesh and a set of active cells, return the active cells
+    that are on the boundary of the active domain.
 
     :param mesh: Tree or TensorMesh object.
     :param actives: Bool array of active cells.
+    :param horizontal_edges: Include the cells on the horizontal edges of the mesh.
+    :param vertical_edges: Include the cells on the top and bottom edges of the mesh.
+
     :return: Bool array of boundary cells of the active domain.
     """
     if not isinstance(mesh, TensorMesh | TreeMesh):
@@ -406,14 +415,17 @@ def get_boundary_active_cells(
     if not isinstance(actives, np.ndarray) or actives.dtype != bool:
         raise TypeError("Input array 'actives' must be a numpy array of type bool.")
 
+    if actives.ndim != 1 or actives.shape[0] != mesh.n_cells:
+        raise ValueError("Input array 'actives' must have length mesh.n_cells.")
+
     is_face = np.zeros_like(actives, dtype=bool)
 
     # Find actives horizontal mesh boundary cells
-    if horizontal_egdes:
+    if horizontal_edges:
         for face in mesh.cell_boundary_indices[:-2]:
             is_face[face] = True
 
-    if vertical_egdes:
+    if vertical_edges:
         for face in mesh.cell_boundary_indices[-2:]:
             is_face[face] = True
 
@@ -462,6 +474,7 @@ def get_octree_attributes(mesh: Octree | TreeMesh) -> dict[str, list]:
     Get mesh attributes.
 
     :param mesh: Input Octree or TreeMesh object.
+
     :return mesh_attributes: Dictionary of mesh attributes.
     """
     if not isinstance(mesh, Octree | TreeMesh):
@@ -587,6 +600,8 @@ def surface_strip(
         strip.  The surrounding strip will be 2*width wider and longer than
         the input points.
     :param name: Name of the new Points objects.
+
+    :return: New points object
     """
 
     assert points.locations is not None

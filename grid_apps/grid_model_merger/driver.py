@@ -170,9 +170,11 @@ class Driver(BaseDriver):
                 # Compute weights based on distance to boundary cells
                 tree = cKDTree(mesh.cell_centers[active_boundary])
                 rad, _ = tree.query(mesh.cell_centers[active], workers=-1)
-                cosine_tapper = -0.5 * np.cos(-rad / rad.max() * np.pi) + 0.5
+
+                rad_max = rad.max() + 1e-8  # Avoid zero division
+                cosine_taper = -0.5 * np.cos(-rad / rad_max * np.pi) + 0.5
                 weight_model = np.full(active.shape[0], np.nan, dtype=float)
-                weight_model[active] = cosine_tapper
+                weight_model[active] = cosine_taper
 
                 # Find nearest neighbors and apply weighted model
                 del tree

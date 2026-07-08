@@ -50,7 +50,7 @@ class GridModelMergerOptions(Options):
     conda_environment: str = "grid_apps"
     output_grid: GridObject | None = None
     scaling_type: ScalingTypeEnum = ScalingTypeEnum.LOG
-    selections: list[MeshModelSelection | None] | None = None
+    selections: list[MeshModelSelection]
 
     @model_validator(mode="before")
     @classmethod
@@ -119,7 +119,8 @@ class MeshModelSelection(BaseModel):
             model = self.model.values
 
         if isinstance(self.grid, BlockModel):
-            model = model[tensor_mesh_ordering(self.grid)]
+            if model is not None:
+                model = model[tensor_mesh_ordering(self.grid)]
             mesh = block_model_to_tensor(self.grid)
 
         elif isinstance(self.grid, Octree):

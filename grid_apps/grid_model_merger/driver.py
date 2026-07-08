@@ -164,7 +164,7 @@ class Driver(BaseDriver):
                     model = symlog(model, threshold=threshold)
 
                 active_boundary = get_boundary_active_cells(
-                    mesh, active, horizontal_egdes=True
+                    mesh, active, horizontal_edges=True
                 )
 
                 # Compute weights based on distance to boundary cells

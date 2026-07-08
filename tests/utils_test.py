@@ -199,11 +199,11 @@ def test_octree_get_boundary_active_cells(tmp_path):
     assert indices.sum() == 169
 
     # Repeat with horizontal boundary cells
-    indices_he = get_boundary_active_cells(treemesh, values == 2, horizontal_egdes=True)
+    indices_he = get_boundary_active_cells(treemesh, values == 2, horizontal_edges=True)
     assert indices_he.sum() == 260
 
     # Repeat with vertical boundary cells
-    indices_ve = get_boundary_active_cells(treemesh, values == 2, vertical_egdes=True)
+    indices_ve = get_boundary_active_cells(treemesh, values == 2, vertical_edges=True)
     assert indices_ve.sum() == 218
 
     h5file_path = tmp_path / f"{__name__}.geoh5"

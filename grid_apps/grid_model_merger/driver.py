@@ -109,7 +109,7 @@ class Driver(BaseDriver):
             # Use type of the first entry
             mesh_type = type(self.params.selections[0].grid)
 
-            logger.info("Merging selected grids to '%s' . . .", {mesh_type.__name__})
+            logger.info("Merging selected grids to '%s' . . .", mesh_type.__name__)
 
             mesh = mesh_utils.mesh_builder_xyz(
                 extent,

@@ -39,6 +39,9 @@ class GridModelMergerOptions(Options):
     """
     Block model parameters for use with `block_models.driver`.
 
+    :param output_grid: Grid object to hold the merged model.
+    :param scaling_type: Scaling type for the merged model, either linear or log.
+        Interpolation performed in log scale attenuates extreme values.
     :param selections: List of grid and model selections.
     """
 

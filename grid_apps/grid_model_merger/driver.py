@@ -37,7 +37,7 @@ class Driver(BaseDriver):
     """
     Merge multiple grids and models from selection.
 
-    :param parameters: GridModelMergerOptions or InputFile containing the parameters.
+    :param params: Options for merging multiple grids and models.
     """
 
     _params_class = GridModelMergerOptions

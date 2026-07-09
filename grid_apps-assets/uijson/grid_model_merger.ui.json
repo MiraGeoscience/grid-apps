@@ -39,7 +39,7 @@
             "{4ea87376-3ece-438b-bf12-3479733ded46}"
         ],
         "value": "",
-        "tooltip": "Grid object to be merged.",
+        "tooltip": "Grid object to be merged.  The first grid type decides the type of the output grid.",
         "main": true
     },
     "input_a_model": {

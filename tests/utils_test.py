@@ -14,6 +14,7 @@ import pytest
 from discretize import TreeMesh
 from geoh5py import Workspace
 from geoh5py.objects import BlockModel, Curve, Octree, Points
+from pydantic import ValidationError
 from pytest import raises
 
 from grid_apps.block_models.driver import Driver as BlockModelDriver
@@ -134,7 +135,7 @@ def test_block_model_to_discretize(tmp_path):
             name="TestBlockModel",
         )
 
-        with raises(TypeError):
+        with raises(ValidationError):
             block_model_to_tensor("abc")
 
         tensor = block_model_to_tensor(block_model)
@@ -186,12 +187,10 @@ def test_octree_get_boundary_active_cells(tmp_path):
     first_quadrant = np.all(treemesh.cell_centers > 0.5, axis=1)
     values[first_quadrant] = 2
 
-    with pytest.raises(TypeError, match="Mesh must be an instance"):
-        indices = get_boundary_active_cells("abc", values == 2)
+    with pytest.raises(ValidationError):
+        get_boundary_active_cells("abc", values == 2)
 
-    with pytest.raises(
-        TypeError, match="Input array 'actives' must be a numpy array of type bool"
-    ):
+    with pytest.raises(ValidationError):
         indices = get_boundary_active_cells(treemesh, True)
 
     indices = get_boundary_active_cells(treemesh, values == 2)
@@ -413,14 +412,10 @@ def test_get_neighbouring_cells():
     mesh.insert_cells([100, 100, 100], mesh.max_level, finalize=True)
     ind = mesh.get_containing_cells([95.0, 95.0, 95.0])
 
-    with pytest.raises(
-        TypeError, match=r"Input 'indices' must be a list or numpy.ndarray of indices\."
-    ):
+    with pytest.raises(ValidationError):
         get_neighbouring_cells(mesh, ind)
 
-    with pytest.raises(
-        TypeError, match=r"Input 'mesh' must be a discretize.TreeMesh object\."
-    ):
+    with pytest.raises(ValidationError):
         get_neighbouring_cells(1, [ind])
 
     neighbours = get_neighbouring_cells(mesh, [ind])

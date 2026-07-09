@@ -17,11 +17,13 @@ from geoh5py import Workspace
 from geoh5py.data import FloatData, ReferencedData
 from geoh5py.objects import BlockModel, Curve, ObjectBase, Octree, Points
 from geoh5py.ui_json.utils import fetch_active_workspace
+from pydantic import ConfigDict, validate_call
 from scipy.interpolate import interp1d
 from scipy.sparse import find
 from scipy.spatial import cKDTree
 
 
+@validate_call(config=ConfigDict(arbitrary_types_allowed=True))
 def block_model_to_tensor(
     entity: BlockModel,
 ) -> TensorMesh:
@@ -32,9 +34,6 @@ def block_model_to_tensor(
 
     :return: An equivalent TensorMesh object.
     """
-    if not isinstance(entity, BlockModel):
-        raise TypeError("entity must be an instance of BlockModel.")
-
     origin = [
         entity.origin["x"] + entity.u_cells[entity.u_cells < 0].sum(),
         entity.origin["y"] + entity.v_cells[entity.v_cells < 0].sum(),
@@ -51,6 +50,7 @@ def block_model_to_tensor(
     return mesh
 
 
+@validate_call(config=ConfigDict(arbitrary_types_allowed=True))
 def tensor_to_block_model(
     workspace: Workspace, mesh: TensorMesh, **kwargs
 ) -> BlockModel:
@@ -74,6 +74,7 @@ def tensor_to_block_model(
     return block_model
 
 
+@validate_call(config=ConfigDict(arbitrary_types_allowed=True))
 def block_model_to_treemesh(
     entity: BlockModel, diagonal_balance=True, finalize=True
 ) -> TreeMesh:
@@ -120,6 +121,7 @@ def block_model_to_treemesh(
     return treemesh
 
 
+@validate_call(config=ConfigDict(arbitrary_types_allowed=True))
 def collocate_octrees(global_mesh: Octree, local_meshes: list[Octree]):
     """
     Collocate a list of octree meshes into a global octree mesh.
@@ -165,6 +167,7 @@ def collocate_octrees(global_mesh: Octree, local_meshes: list[Octree]):
                 workspace.update_attribute(local_mesh, "attributes")
 
 
+@validate_call(config=ConfigDict(arbitrary_types_allowed=True))
 def create_octree_from_octrees(meshes: list[Octree | TreeMesh]) -> TreeMesh:
     """
     Create an all encompassing octree mesh from a list of meshes.
@@ -211,6 +214,7 @@ def create_octree_from_octrees(meshes: list[Octree | TreeMesh]) -> TreeMesh:
     return treemesh
 
 
+@validate_call(config=ConfigDict(arbitrary_types_allowed=True))
 def refine_tree_by_mesh(
     tree: TreeMesh, mesh: TreeMesh | Octree | BlockModel, finalize: bool = False
 ) -> TreeMesh:
@@ -230,17 +234,12 @@ def refine_tree_by_mesh(
         centers = mesh.centroids
         levels = tree.max_level - np.log2(mesh.octree_cells["NCells"])
 
-    elif isinstance(mesh, TreeMesh) and mesh.cell_centers is not None:
+    else:
         centers = mesh.cell_centers
         levels = (
             tree.max_level
             - mesh.max_level
             + mesh.cell_levels_by_index(np.arange(mesh.nC))
-        )
-    else:
-        raise TypeError(
-            f"All meshes must be Octree or TreeMesh, not {type(mesh)} "
-            "and must have octree cells defined."
         )
 
     tree.insert_cells(centers, levels, finalize=finalize)
@@ -248,6 +247,7 @@ def refine_tree_by_mesh(
     return tree
 
 
+@validate_call(config=ConfigDict(arbitrary_types_allowed=True))
 def refine_by_cell_volumes(
     mesh: TreeMesh,
     entity: BlockModel,
@@ -264,9 +264,6 @@ def refine_by_cell_volumes(
 
     :return: TreeMesh object with refined levels.
     """
-    if not isinstance(entity, BlockModel):
-        raise TypeError("entity must be an instance of BlockModel.")
-
     tensor_oct_level = []
     for ax in "uvz":
         cell_sizes = np.abs(getattr(entity, f"{ax}_cells"))
@@ -287,6 +284,7 @@ def refine_by_cell_volumes(
     return mesh
 
 
+@validate_call(config=ConfigDict(arbitrary_types_allowed=True))
 def refine_by_values(
     mesh: TreeMesh, data: FloatData | ReferencedData, finalize=True
 ) -> TreeMesh:
@@ -300,12 +298,8 @@ def refine_by_values(
 
     :return: TreeMesh object with refined levels.
     """
-    if not isinstance(data, FloatData | ReferencedData):
-        raise TypeError(
-            "Argument 'data' must be an instance of FloatData or ReferencedData."
-        )
-
     entity = data.parent
+
     if not isinstance(entity, BlockModel):
         raise TypeError("The parent of 'data' must be an instance of BlockModel.")
 
@@ -338,6 +332,7 @@ def refine_by_values(
     return mesh
 
 
+@validate_call(config=ConfigDict(arbitrary_types_allowed=True))
 def densify_curve(curve: Curve, increment: float) -> np.ndarray:
     """
     Refine a curve by adding points along the curve at a given increment.
@@ -392,6 +387,7 @@ def find_endpoints(points: np.ndarray) -> np.ndarray:
     return np.array(endpoints)
 
 
+@validate_call(config=ConfigDict(arbitrary_types_allowed=True))
 def get_boundary_active_cells(
     mesh: TreeMesh | TensorMesh,
     actives: np.ndarray,
@@ -409,12 +405,6 @@ def get_boundary_active_cells(
 
     :return: Bool array of boundary cells of the active domain.
     """
-    if not isinstance(mesh, TensorMesh | TreeMesh):
-        raise TypeError("Mesh must be an instance of TensorMesh or TreeMesh.")
-
-    if not isinstance(actives, np.ndarray) or actives.dtype != bool:
-        raise TypeError("Input array 'actives' must be a numpy array of type bool.")
-
     if actives.ndim != 1 or actives.shape[0] != mesh.n_cells:
         raise ValueError("Input array 'actives' must have length mesh.n_cells.")
 
@@ -437,6 +427,7 @@ def get_boundary_active_cells(
     return is_face & actives
 
 
+@validate_call(config=ConfigDict(arbitrary_types_allowed=True))
 def get_neighbouring_cells(mesh: TreeMesh, indices: list | np.ndarray) -> tuple:
     """
     Get the indices of neighbouring cells along a given axis for a given list of
@@ -450,12 +441,6 @@ def get_neighbouring_cells(mesh: TreeMesh, indices: list | np.ndarray) -> tuple:
         axis[1] = (south, north)
         axis[2] = (down, up)
     """
-    if not isinstance(indices, list | np.ndarray):
-        raise TypeError("Input 'indices' must be a list or numpy.ndarray of indices.")
-
-    if not isinstance(mesh, TreeMesh):
-        raise TypeError("Input 'mesh' must be a discretize.TreeMesh object.")
-
     neighbors: dict[int, list] = {ax: [[], []] for ax in range(mesh.dim)}
 
     for ind in indices:
@@ -469,6 +454,7 @@ def get_neighbouring_cells(mesh: TreeMesh, indices: list | np.ndarray) -> tuple:
     )
 
 
+@validate_call(config=ConfigDict(arbitrary_types_allowed=True))
 def get_octree_attributes(mesh: Octree | TreeMesh) -> dict[str, list]:
     """
     Get mesh attributes.
@@ -477,9 +463,6 @@ def get_octree_attributes(mesh: Octree | TreeMesh) -> dict[str, list]:
 
     :return mesh_attributes: Dictionary of mesh attributes.
     """
-    if not isinstance(mesh, Octree | TreeMesh):
-        raise TypeError(f"All meshes must be Octree or TreeMesh, not {type(mesh)}")
-
     cell_size = []
     cell_count = []
     dimensions = []
@@ -511,6 +494,7 @@ def get_octree_attributes(mesh: Octree | TreeMesh) -> dict[str, list]:
     }
 
 
+@validate_call(config=ConfigDict(arbitrary_types_allowed=True))
 def octree_2_treemesh(  # pylint: disable=too-many-locals
     mesh: Octree,
 ) -> TreeMesh | None:
@@ -635,6 +619,7 @@ def surface_strip(
     return Points.create(points.workspace, vertices=vertices, name=name)
 
 
+@validate_call(config=ConfigDict(arbitrary_types_allowed=True))
 def tensor_mesh_ordering(
     entity: BlockModel,
 ) -> np.ndarray:
@@ -645,9 +630,6 @@ def tensor_mesh_ordering(
 
     :return indices: Array of indices to reorder cell-based values.
     """
-    if not isinstance(entity, BlockModel):
-        raise TypeError("mesh must be an instance of BlockModel.")
-
     indices = np.arange(entity.n_cells)
     indices = indices.reshape(
         (
@@ -666,6 +648,7 @@ def tensor_mesh_ordering(
     return indices
 
 
+@validate_call(config=ConfigDict(arbitrary_types_allowed=True))
 def treemesh_2_octree(workspace: Workspace, treemesh: TreeMesh, **kwargs) -> Octree:
     """
     Converts a :obj:`discretize.TreeMesh` to :obj:`geoh5py.objects.Octree` entity.

@@ -166,18 +166,13 @@ class Driver(BaseDriver):
                 active_boundary = get_boundary_active_cells(
                     mesh, active, horizontal_edges=True
                 )
-
-                # Compute weights based on distance to boundary cells
-                tree = cKDTree(mesh.cell_centers[active_boundary])
-                rad, _ = tree.query(mesh.cell_centers[active], workers=-1)
-
-                rad_max = rad.max() + 1e-8  # Avoid zero division
-                cosine_taper = -0.5 * np.cos(-rad / rad_max * np.pi) + 0.5
+                cosine_taper = self.cosine_taper_weights(
+                    mesh.cell_centers[active_boundary], mesh.cell_centers[active]
+                )
                 weight_model = np.full(active.shape[0], np.nan, dtype=float)
                 weight_model[active] = cosine_taper
 
                 # Find nearest neighbors and apply weighted model
-                del tree
                 tree = cKDTree(mesh.cell_centers)
                 _, ind = tree.query(self.output_grid.centroids, workers=-1)
                 out_model = np.nansum(
@@ -202,6 +197,20 @@ class Driver(BaseDriver):
                         }
                     }
                 )
+
+    @staticmethod
+    def cosine_taper_weights(edge_locations: np.ndarray, target_locations: np.ndarray):
+        # Compute weights based on distance to boundary cells
+        tree = cKDTree(edge_locations)
+        rad, _ = tree.query(target_locations, workers=-1)
+
+        rad_max = rad.max() + 1e-8  # Avoid zero division
+        cosine_taper = -0.5 * np.cos(-rad / rad_max * np.pi) + 0.5
+
+        # Find nearest neighbors and apply weighted model
+        del tree
+
+        return cosine_taper
 
 
 if __name__ == "__main__":

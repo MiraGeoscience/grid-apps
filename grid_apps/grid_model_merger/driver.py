@@ -18,7 +18,7 @@ from discretize.utils import mesh_utils
 from geoapps_utils.base import Driver as BaseDriver
 from geoapps_utils.utils.plotting import inv_symlog, symlog
 from geoh5py.objects import Octree
-from geoh5py.shared.utils import fetch_active_workspace, mask_by_extent
+from geoh5py.shared.utils import fetch_active_workspace
 from scipy.spatial import cKDTree
 
 from grid_apps.grid_model_merger.options import GridModelMergerOptions, ScalingTypeEnum

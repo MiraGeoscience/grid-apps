@@ -103,6 +103,11 @@ class Driver(BaseDriver):
         """
         with fetch_active_workspace(self.params.geoh5, mode="r+"):
             if self.params.output_grid is not None:
+                if self.out_group is not None:
+                    return self.params.output_grid.copy(
+                        parent=self.out_group, copy_children=False
+                    )
+
                 return self.params.output_grid
 
             extent, cell_size = self.get_global_mesh_specs()

@@ -23,7 +23,10 @@ from scipy.sparse import find
 from scipy.spatial import cKDTree
 
 
-@validate_call(config=ConfigDict(arbitrary_types_allowed=True))
+typed_call = validate_call(config=ConfigDict(arbitrary_types_allowed=True))
+
+
+@typed_call
 def block_model_to_tensor(
     entity: BlockModel,
 ) -> TensorMesh:
@@ -50,7 +53,7 @@ def block_model_to_tensor(
     return mesh
 
 
-@validate_call(config=ConfigDict(arbitrary_types_allowed=True))
+@typed_call
 def tensor_to_block_model(
     workspace: Workspace, mesh: TensorMesh, **kwargs
 ) -> BlockModel:
@@ -74,7 +77,7 @@ def tensor_to_block_model(
     return block_model
 
 
-@validate_call(config=ConfigDict(arbitrary_types_allowed=True))
+@typed_call
 def block_model_to_treemesh(
     entity: BlockModel, diagonal_balance=True, finalize=True
 ) -> TreeMesh:
@@ -121,7 +124,7 @@ def block_model_to_treemesh(
     return treemesh
 
 
-@validate_call(config=ConfigDict(arbitrary_types_allowed=True))
+@typed_call
 def collocate_octrees(global_mesh: Octree, local_meshes: list[Octree]):
     """
     Collocate a list of octree meshes into a global octree mesh.
@@ -167,7 +170,37 @@ def collocate_octrees(global_mesh: Octree, local_meshes: list[Octree]):
                 workspace.update_attribute(local_mesh, "attributes")
 
 
-@validate_call(config=ConfigDict(arbitrary_types_allowed=True))
+@typed_call
+def containing_cell_indices(mesh: TreeMesh | TensorMesh, locations: np.ndarray):
+    """
+    Return indices of cells containing the list of locations.
+
+    Points that do not intersect return -1.
+
+    :param mesh: Input discretize mesh object.
+    :param locations: Input locations array.
+
+    :return: Array of indices
+    """
+    if isinstance(mesh, TreeMesh):
+        indices = mesh.get_containing_cells(locations)
+
+    else:
+        in_x = np.searchsorted(mesh.nodes_x, locations[:, 0]) - 1
+        in_y = np.searchsorted(mesh.nodes_y, locations[:, 1]) - 1
+        in_z = np.searchsorted(mesh.nodes_z, locations[:, 2]) - 1
+        indices = (
+            in_x
+            + mesh.shape_cells[0] * in_y
+            + in_z * mesh.shape_cells[0] * mesh.shape_cells[1]
+        ).astype(int)
+
+    indices[~mesh.is_inside(locations)] = -1
+
+    return indices
+
+
+@typed_call
 def create_octree_from_octrees(meshes: list[Octree | TreeMesh]) -> TreeMesh:
     """
     Create an all encompassing octree mesh from a list of meshes.
@@ -214,7 +247,7 @@ def create_octree_from_octrees(meshes: list[Octree | TreeMesh]) -> TreeMesh:
     return treemesh
 
 
-@validate_call(config=ConfigDict(arbitrary_types_allowed=True))
+@typed_call
 def refine_tree_by_mesh(
     tree: TreeMesh, mesh: TreeMesh | Octree | BlockModel, finalize: bool = False
 ) -> TreeMesh:
@@ -247,7 +280,7 @@ def refine_tree_by_mesh(
     return tree
 
 
-@validate_call(config=ConfigDict(arbitrary_types_allowed=True))
+@typed_call
 def refine_by_cell_volumes(
     mesh: TreeMesh,
     entity: BlockModel,
@@ -284,7 +317,7 @@ def refine_by_cell_volumes(
     return mesh
 
 
-@validate_call(config=ConfigDict(arbitrary_types_allowed=True))
+@typed_call
 def refine_by_values(
     mesh: TreeMesh, data: FloatData | ReferencedData, finalize=True
 ) -> TreeMesh:
@@ -332,7 +365,7 @@ def refine_by_values(
     return mesh
 
 
-@validate_call(config=ConfigDict(arbitrary_types_allowed=True))
+@typed_call
 def densify_curve(curve: Curve, increment: float) -> np.ndarray:
     """
     Refine a curve by adding points along the curve at a given increment.
@@ -387,7 +420,7 @@ def find_endpoints(points: np.ndarray) -> np.ndarray:
     return np.array(endpoints)
 
 
-@validate_call(config=ConfigDict(arbitrary_types_allowed=True))
+@typed_call
 def get_boundary_active_cells(
     mesh: TreeMesh | TensorMesh,
     actives: np.ndarray,
@@ -427,7 +460,7 @@ def get_boundary_active_cells(
     return is_face & actives
 
 
-@validate_call(config=ConfigDict(arbitrary_types_allowed=True))
+@typed_call
 def get_neighbouring_cells(mesh: TreeMesh, indices: list | np.ndarray) -> tuple:
     """
     Get the indices of neighbouring cells along a given axis for a given list of
@@ -454,7 +487,7 @@ def get_neighbouring_cells(mesh: TreeMesh, indices: list | np.ndarray) -> tuple:
     )
 
 
-@validate_call(config=ConfigDict(arbitrary_types_allowed=True))
+@typed_call
 def get_octree_attributes(mesh: Octree | TreeMesh) -> dict[str, list]:
     """
     Get mesh attributes.
@@ -494,7 +527,7 @@ def get_octree_attributes(mesh: Octree | TreeMesh) -> dict[str, list]:
     }
 
 
-@validate_call(config=ConfigDict(arbitrary_types_allowed=True))
+@typed_call
 def octree_2_treemesh(  # pylint: disable=too-many-locals
     mesh: Octree,
 ) -> TreeMesh | None:
@@ -619,7 +652,7 @@ def surface_strip(
     return Points.create(points.workspace, vertices=vertices, name=name)
 
 
-@validate_call(config=ConfigDict(arbitrary_types_allowed=True))
+@typed_call
 def tensor_mesh_ordering(
     entity: BlockModel,
 ) -> np.ndarray:
@@ -648,7 +681,7 @@ def tensor_mesh_ordering(
     return indices
 
 
-@validate_call(config=ConfigDict(arbitrary_types_allowed=True))
+@typed_call
 def treemesh_2_octree(workspace: Workspace, treemesh: TreeMesh, **kwargs) -> Octree:
     """
     Converts a :obj:`discretize.TreeMesh` to :obj:`geoh5py.objects.Octree` entity.

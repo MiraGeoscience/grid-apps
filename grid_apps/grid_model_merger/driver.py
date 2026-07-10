@@ -23,6 +23,7 @@ from scipy.spatial import cKDTree
 
 from grid_apps.grid_model_merger.options import GridModelMergerOptions, ScalingTypeEnum
 from grid_apps.utils import (
+    containing_cell_indices,
     get_boundary_active_cells,
     refine_tree_by_mesh,
     tensor_to_block_model,
@@ -166,24 +167,22 @@ class Driver(BaseDriver):
                 active_boundary = get_boundary_active_cells(
                     mesh, active, horizontal_edges=True
                 )
-                cosine_taper = self.cosine_taper_weights(
+                weight_model = np.full(active.shape[0], np.nan, dtype=float)
+                weight_model[active] = self.cosine_taper_weights(
                     mesh.cell_centers[active_boundary], mesh.cell_centers[active]
                 )
-                weight_model = np.full(active.shape[0], np.nan, dtype=float)
-                weight_model[active] = cosine_taper
 
                 # Find nearest neighbors and apply weighted model
-                tree = cKDTree(mesh.cell_centers)
-                _, ind = tree.query(self.output_grid.centroids, workers=-1)
+                cell_id = containing_cell_indices(mesh, self.output_grid.centroids)
 
                 # Trim weights for cells outside the extent of the input mesh
-                cell_weights = weight_model[ind]
-                mask = mask_by_extent(self.output_grid.centroids, selection.grid.extent)
-                cell_weights[~mask] = np.nan
+                cell_weights = np.full(self.output_grid.n_cells, np.nan, dtype=float)
+                cell_weights[cell_id != -1] = weight_model[cell_id][cell_id != -1]
 
-                out_model = np.nansum([out_model, cell_weights * model[ind]], axis=0)
+                out_model = np.nansum(
+                    [out_model, cell_weights * model[cell_id]], axis=0
+                )
                 weights = np.nansum([weights, cell_weights], axis=0)
-                del tree
 
             # Normalizes weighted sum
             non_zero = weights > 0
@@ -198,7 +197,7 @@ class Driver(BaseDriver):
                     {
                         "merged_model": {
                             "values": out_model,
-                            "entity_type": selection.model.entity_type,
+                            "entity_type": self.params.selections[0].model.entity_type,
                         }
                     }
                 )

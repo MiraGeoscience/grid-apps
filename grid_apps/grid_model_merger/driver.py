@@ -18,7 +18,7 @@ from discretize.utils import mesh_utils
 from geoapps_utils.base import Driver as BaseDriver
 from geoapps_utils.utils.plotting import inv_symlog, symlog
 from geoh5py.objects import Octree
-from geoh5py.shared.utils import fetch_active_workspace
+from geoh5py.shared.utils import fetch_active_workspace, mask_by_extent
 from scipy.spatial import cKDTree
 
 from grid_apps.grid_model_merger.options import GridModelMergerOptions, ScalingTypeEnum
@@ -175,10 +175,14 @@ class Driver(BaseDriver):
                 # Find nearest neighbors and apply weighted model
                 tree = cKDTree(mesh.cell_centers)
                 _, ind = tree.query(self.output_grid.centroids, workers=-1)
-                out_model = np.nansum(
-                    [out_model, weight_model[ind] * model[ind]], axis=0
-                )
-                weights = np.nansum([weights, weight_model[ind]], axis=0)
+
+                # Trim weights for cells outside the extent of the input mesh
+                cell_weights = weight_model[ind]
+                mask = mask_by_extent(self.output_grid.centroids, selection.grid.extent)
+                cell_weights[~mask] = np.nan
+
+                out_model = np.nansum([out_model, cell_weights * model[ind]], axis=0)
+                weights = np.nansum([weights, cell_weights], axis=0)
                 del tree
 
             # Normalizes weighted sum
@@ -194,6 +198,7 @@ class Driver(BaseDriver):
                     {
                         "merged_model": {
                             "values": out_model,
+                            "entity_type": selection.model.entity_type,
                         }
                     }
                 )

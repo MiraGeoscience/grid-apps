@@ -14,16 +14,17 @@ import pytest
 from discretize import TreeMesh
 from geoh5py import Workspace
 from geoh5py.objects import BlockModel, Curve, Octree, Points
+from pydantic import ValidationError
 from pytest import raises
 
 from grid_apps.block_models.driver import Driver as BlockModelDriver
 from grid_apps.utils import (
-    block_model_to_discretize,
-    boundary_value_indices,
+    block_model_to_tensor,
     collocate_octrees,
     create_octree_from_octrees,
     densify_curve,
     find_endpoints,
+    get_boundary_active_cells,
     get_neighbouring_cells,
     get_octree_attributes,
     octree_2_treemesh,
@@ -134,17 +135,17 @@ def test_block_model_to_discretize(tmp_path):
             name="TestBlockModel",
         )
 
-        with raises(TypeError):
-            block_model_to_discretize("abc")
+        with raises(ValidationError):
+            block_model_to_tensor("abc")
 
-        tensor = block_model_to_discretize(block_model)
+        tensor = block_model_to_tensor(block_model)
         indices = tensor_mesh_ordering(block_model)
 
         # Check the shape of the discretized points
         np.testing.assert_allclose(block_model.centroids[indices], tensor.cell_centers)
 
 
-def test_tensor_boundary_value_indices(tmp_path):
+def test_tensor_get_boundary_active_cells(tmp_path):
     # Create a test block model
     h5file_path = tmp_path / f"{__name__}.geoh5"
     with Workspace.create(h5file_path) as workspace:
@@ -155,50 +156,74 @@ def test_tensor_boundary_value_indices(tmp_path):
             z_cell_delimiters=np.cumsum(np.ones(16)),
         )
 
-        tensor = block_model_to_discretize(block)
+        tensor = block_model_to_tensor(block)
 
         values = np.ones(tensor.n_cells)
-        values[int(tensor.n_cells / 2)] = 2
 
-        indices = boundary_value_indices(tensor, values, 2)
+        first_quadrant = np.all(tensor.cell_centers > 8, axis=1)
+        values[first_quadrant] = 2
 
-        assert indices.sum() == 7
+        indices = get_boundary_active_cells(tensor, values == 2)
 
         # Just for visual validation
         block.add_data(
             {
+                "model": {
+                    "values": values[np.argsort(tensor_mesh_ordering(block))],
+                },
                 "boundary_indices": {
                     "values": indices[np.argsort(tensor_mesh_ordering(block))],
-                }
+                },
             }
         )
+        assert indices.sum() == 127
 
 
-def test_octree_boundary_value_indices(tmp_path):
+def test_octree_get_boundary_active_cells(tmp_path):
     treemesh = TreeMesh([16, 16, 16])
     treemesh.refine(4, finalize=True)
     values = np.ones(treemesh.n_cells)
-    values[7] = 2
 
-    with pytest.raises(TypeError, match="Mesh must be an instance"):
-        indices = boundary_value_indices("abc", values, 2)
+    first_quadrant = np.all(treemesh.cell_centers > 0.5, axis=1)
+    values[first_quadrant] = 2
 
-    with pytest.raises(TypeError, match="Values must be a numpy array"):
-        indices = boundary_value_indices(treemesh, 123, 2)
+    with pytest.raises(ValidationError):
+        get_boundary_active_cells("abc", values == 2)
 
-    indices = boundary_value_indices(treemesh, values, 2)
+    with pytest.raises(ValidationError):
+        indices = get_boundary_active_cells(treemesh, True)
+
+    indices = get_boundary_active_cells(treemesh, values == 2)
+
+    assert indices.sum() == 169
+
+    # Repeat with horizontal boundary cells
+    indices_he = get_boundary_active_cells(treemesh, values == 2, horizontal_edges=True)
+    assert indices_he.sum() == 260
+
+    # Repeat with vertical boundary cells
+    indices_ve = get_boundary_active_cells(treemesh, values == 2, vertical_edges=True)
+    assert indices_ve.sum() == 218
+
     h5file_path = tmp_path / f"{__name__}.geoh5"
     with Workspace.create(h5file_path) as workspace:
         octree = treemesh_2_octree(workspace, treemesh, name="TestOctree")
         octree.add_data(
             {
+                "model": {
+                    "values": values,
+                },
                 "boundary_indices": {
                     "values": indices,
-                }
+                },
+                "horizontal_boundary": {
+                    "values": indices_he,
+                },
+                "vertical_boundary": {
+                    "values": indices_ve,
+                },
             }
         )
-
-    assert indices.sum() == 7
 
 
 def test_find_endpoints():
@@ -387,14 +412,10 @@ def test_get_neighbouring_cells():
     mesh.insert_cells([100, 100, 100], mesh.max_level, finalize=True)
     ind = mesh.get_containing_cells([95.0, 95.0, 95.0])
 
-    with pytest.raises(
-        TypeError, match=r"Input 'indices' must be a list or numpy.ndarray of indices\."
-    ):
+    with pytest.raises(ValidationError):
         get_neighbouring_cells(mesh, ind)
 
-    with pytest.raises(
-        TypeError, match=r"Input 'mesh' must be a discretize.TreeMesh object\."
-    ):
+    with pytest.raises(ValidationError):
         get_neighbouring_cells(1, [ind])
 
     neighbours = get_neighbouring_cells(mesh, [ind])

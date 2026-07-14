@@ -15,30 +15,12 @@ import numpy as np
 from geoh5py.objects import BlockModel, Octree, Points
 from geoh5py.workspace import Workspace
 
-from grid_apps.block_models.driver import Driver as BlockModelDriver
 from grid_apps.grid_model_merger.driver import Driver
 from grid_apps.grid_model_merger.options import GridModelMergerOptions
 from grid_apps.octree_creation.driver import OctreeDriver
 from grid_apps.octree_creation.options import OctreeOptions
 
-
-def setup_block_model(workspace) -> BlockModel:
-    # padding in the W/E/N/S directions should make create locs at least as
-    # far as the core hull plus the padding distances
-    top = 500
-    depth_core = 300.0
-    height = 300
-    width = 1000
-    n = 100
-
-    x_grid, y_grid = np.meshgrid(np.arange(0, width, n), np.arange(0, height, n))
-    z_grid = np.around((top / 2) * np.sin(x_grid) + (top / 2), -1)
-    locs = np.c_[x_grid.ravel(), y_grid.ravel(), z_grid.ravel()]
-    pads = [100, 150, 200, 300, 0, 0]
-    mesh = BlockModelDriver.get_block_model(
-        workspace, locs, [50, 50, 50], depth_core, pads, 1.1, name="test"
-    )
-    return mesh
+from ..conftest import setup_block_model
 
 
 def setup_octree(workspace, locations, refinement, params_dict) -> Octree:

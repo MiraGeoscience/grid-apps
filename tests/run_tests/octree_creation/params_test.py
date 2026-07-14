@@ -12,7 +12,7 @@ import pytest
 from geoh5py import Workspace
 from geoh5py.groups import UIJsonGroup
 from geoh5py.objects import Points
-from geoh5py.ui_json import BaseUIJson, InputFile
+from geoh5py.ui_json import UIJson
 
 from grid_apps import assets_path
 from grid_apps.octree_creation.driver import OctreeDriver
@@ -123,18 +123,18 @@ def test_treemesh_from_params(tmp_path):
     with Workspace.create(tmp_path / f"{__name__}.geoh5") as ws:
         points = Points.create(ws, name="test", vertices=np.random.rand(100, 3))
         uijson_path = assets_path() / "uijson/octree_mesh.ui.json"
-        ifile = InputFile.read_ui_json(uijson_path, validate=False)
-        ifile.update_ui_values(
-            {
+        ifile = UIJson.read(uijson_path)
+        ifile.set_values(
+            **{
                 "geoh5": ws,
                 "objects": points,
                 "Refinement A object": points,
-                "Refinement A levels": [4, 2],
+                "Refinement A levels": "4, 2",
                 "Refinement A horizon": False,
                 "Refinement A distance": 1000,
             }
         )
-        params = OctreeOptions.build(ifile)
+        params = OctreeOptions.build(ifile, workspace=ws)
         mesh = OctreeDriver.octree_from_params(params)
         assert mesh.u_cell_size == 25.0
         assert mesh.v_cell_size == 25.0
@@ -143,7 +143,7 @@ def test_treemesh_from_params(tmp_path):
 
 def test_params_from_uijson(tmp_path):
 
-    uijson = BaseUIJson.read(OctreeOptions.default_ui_json)
+    uijson = UIJson.read(OctreeOptions.default_ui_json)
 
     with Workspace.create(tmp_path / f"{__name__}.geoh5") as ws:
         points = Points.create(ws, name="test", vertices=np.random.rand(100, 3))

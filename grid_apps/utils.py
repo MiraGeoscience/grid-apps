@@ -15,7 +15,7 @@ import numpy as np
 from discretize import TensorMesh, TreeMesh
 from geoh5py import Workspace
 from geoh5py.data import FloatData, ReferencedData
-from geoh5py.objects import BlockModel, Curve, ObjectBase, Octree, Points
+from geoh5py.objects import BlockModel, Curve, Grid2D, ObjectBase, Octree, Points
 from geoh5py.ui_json.utils import fetch_active_workspace
 from pydantic import ConfigDict, validate_call
 from scipy.interpolate import interp1d
@@ -75,6 +75,31 @@ def tensor_to_block_model(
         **kwargs,
     )
     return block_model
+
+
+@typed_call
+def tensor_to_grid2d(
+    workspace: Workspace, mesh: TensorMesh, elevation: float = 0.0, **kwargs
+) -> Grid2D:
+    """
+    Convert a tensor mesh to a 2D grid object.
+
+    :param workspace: Workspace to create the block model.
+    :param mesh: Tensor mesh object from discretize
+    :param kwargs: Extra parameters to pass to the block model.
+
+    :return: Grid2D entity.
+    """
+    grid = Grid2D.create(
+        workspace,
+        origin=[mesh.x0[0], mesh.x0[1], elevation],
+        u_cell_size=np.mean(mesh.h[0]),
+        v_cell_size=np.mean(mesh.h[1]),
+        u_count=len(mesh.h[0]),
+        v_count=len(mesh.h[1]),
+        **kwargs,
+    )
+    return grid
 
 
 @typed_call
@@ -717,3 +742,36 @@ def treemesh_2_octree(workspace: Workspace, treemesh: TreeMesh, **kwargs) -> Oct
     )
 
     return mesh_object
+
+
+@typed_call
+def grid2d_to_tensor(
+    entity: Grid2D,
+) -> TensorMesh:
+    """
+    Convert a block model to a discretize.TensorMesh.
+
+    :param entity: The block model to convert.
+
+    :return: An equivalent TensorMesh object.
+    """
+
+    if entity.rotation != 0.0 or entity.dip != 0.0:
+        raise NotImplementedError(
+            "Conversion of rotated or dipping 2D grid not supported."
+        )
+
+    origin = [
+        entity.origin["x"] + entity.u_cells[entity.u_cells < 0].sum(),
+        entity.origin["y"] + entity.v_cells[entity.v_cells < 0].sum(),
+        -np.inf,
+    ]
+    mesh = TensorMesh(
+        [
+            np.full(entity.u_count, entity.u_cell_size),
+            np.full(entity.v_count, entity.v_cell_size),
+            np.full(1, np.inf),
+        ],
+        x0=origin,
+    )
+    return mesh

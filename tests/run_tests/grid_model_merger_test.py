@@ -12,7 +12,7 @@ from __future__ import annotations
 from pathlib import Path
 
 import numpy as np
-from geoh5py.objects import BlockModel, Octree, Points
+from geoh5py.objects import BlockModel, Grid2D, Octree, Points
 from geoh5py.workspace import Workspace
 
 from grid_apps.block_models.driver import Driver as BlockModelDriver
@@ -37,6 +37,18 @@ def setup_block_model(workspace) -> BlockModel:
     pads = [100, 150, 200, 300, 0, 0]
     mesh = BlockModelDriver.get_block_model(
         workspace, locs, [50, 50, 50], depth_core, pads, 1.1, name="test"
+    )
+    return mesh
+
+
+def setup_grid2d_model(workspace) -> BlockModel:
+    mesh = Grid2D.create(
+        workspace,
+        origin=[0, 0, 0],
+        u_cell_size=20.0,
+        v_cell_size=20.0,
+        u_count=10,
+        v_count=15,
     )
     return mesh
 
@@ -97,6 +109,28 @@ def test_merge_block_model(tmp_path: Path):  # pylint: disable=too-many-locals
         out_grid = driver.run()
         merged_model = out_grid.children[0]
         np.testing.assert_almost_equal(merged_model.values[2649], 2.0, decimal=1)
+
+
+def test_merge_grid2d_model(tmp_path: Path):  # pylint: disable=too-many-locals
+
+    with Workspace.create(tmp_path / f"{__name__}.geoh5") as ws:
+        mesh = setup_grid2d_model(ws)
+        other = mesh.copy(origin=(515, 10, 500))
+        model_b = other.add_data({"values": {"values": np.full(mesh.n_cells, 2.0)}})
+        model_a = mesh.add_data({"values": {"values": np.full(mesh.n_cells, 1.0)}})
+
+        options = GridModelMergerOptions.build(
+            {
+                "geoh5": ws,
+                "input_a_grid": mesh,
+                "input_b_grid": other,
+                "input_a_model": model_a,
+                "input_b_model": model_b,
+            }
+        )
+
+        driver = Driver(options)
+        driver.run()
 
 
 def test_merge_octree_model(tmp_path: Path, setup_test_octree):  # pylint: disable=too-many-locals

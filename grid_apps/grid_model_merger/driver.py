@@ -17,7 +17,7 @@ import numpy as np
 from discretize.utils import mesh_utils
 from geoapps_utils.base import Driver as BaseDriver
 from geoapps_utils.utils.plotting import inv_symlog, symlog
-from geoh5py.objects import Octree
+from geoh5py.objects import Grid2D, Octree
 from geoh5py.shared.utils import fetch_active_workspace
 from scipy.spatial import cKDTree
 
@@ -27,6 +27,7 @@ from grid_apps.utils import (
     get_boundary_active_cells,
     refine_tree_by_mesh,
     tensor_to_block_model,
+    tensor_to_grid2d,
     treemesh_2_octree,
 )
 
@@ -82,6 +83,14 @@ class Driver(BaseDriver):
                     ],
                     axis=0,
                 )
+            elif isinstance(grid, Grid2D):
+                cell_size = np.min(
+                    [
+                        cell_size,
+                        np.r_[grid.u_cell_size, grid.v_cell_size, np.inf],
+                    ],
+                    axis=0,
+                )
             else:
                 cell_size = np.min(
                     [
@@ -115,6 +124,10 @@ class Driver(BaseDriver):
             # Use type of the first entry
             mesh_type = type(self.params.selections[0].grid)
 
+            if mesh_type is Grid2D:
+                extent = extent[:, :2]
+                cell_size = cell_size[:2]
+
             logger.info("Merging selected grids to '%s' . . .", mesh_type.__name__)
 
             mesh = mesh_utils.mesh_builder_xyz(
@@ -131,6 +144,13 @@ class Driver(BaseDriver):
                 mesh.finalize()
                 output_grid = treemesh_2_octree(
                     self.params.geoh5, mesh, parent=self.params.out_group
+                )
+            elif mesh_type is Grid2D:
+                output_grid = tensor_to_grid2d(
+                    self.params.geoh5,
+                    mesh,
+                    elevation=np.mean(extent[:, 2]),
+                    parent=self.params.out_group,
                 )
             else:
                 output_grid = tensor_to_block_model(

@@ -138,12 +138,10 @@ def test_create_octree_curve(tmp_path: Path, setup_test_octree):  # pylint: disa
                 "geoh5": workspace,
                 "objects": curve,
                 "refinements": [
-                    {"refinement_object": curve, "levels": (8, 8), "horizon": True},
                     {
                         "refinement_object": curve,
                         "levels": refinement,
-                        "horizon": False,
-                    },
+                    }
                 ],
             }
         )

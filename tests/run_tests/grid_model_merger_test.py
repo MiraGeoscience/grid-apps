@@ -42,7 +42,7 @@ def setup_block_model(workspace) -> BlockModel:
     return mesh
 
 
-def setup_grid2d_model(workspace) -> BlockModel:
+def setup_grid2d_model(workspace) -> Grid2D:
     mesh = Grid2D.create(
         workspace,
         origin=[0, 0, 0],
@@ -191,7 +191,7 @@ def test_merge_mixed_model(
 
     def make_octree_model(workspace):
         (locations, refinement, _, params_dict) = setup_test_octree
-        return setup_octree(ws, locations, refinement, params_dict)
+        return setup_octree(workspace, locations, refinement, params_dict)
 
     dict_builder = {
         BlockModel: setup_block_model,

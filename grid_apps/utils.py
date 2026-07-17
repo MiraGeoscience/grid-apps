@@ -84,9 +84,9 @@ def tensor_to_grid2d(
     """
     Convert a tensor mesh to a 2D grid object.
 
-    :param workspace: Workspace to create the block model.
+    :param workspace: Workspace to create the Grid2D object.
     :param mesh: Tensor mesh object from discretize
-    :param kwargs: Extra parameters to pass to the block model.
+    :param kwargs: Extra parameters to pass to the Grid2D object.
 
     :return: Grid2D entity.
     """
@@ -296,7 +296,7 @@ def refine_tree_by_mesh(
     elif isinstance(mesh, Grid2D):
         centers = mesh.centroids
         octree_level = np.max(
-            [0, np.min([mesh.u_cell_size, mesh.v_cell_size]) // np.min(tree.h) - 1]
+            [0, int(np.min([mesh.u_cell_size, mesh.v_cell_size]) // np.min(tree.h)) - 1]
         )
         levels = np.full(mesh.n_cells, tree.max_level - octree_level, dtype=int)
 
@@ -757,9 +757,9 @@ def grid2d_to_tensor(
     entity: Grid2D,
 ) -> TensorMesh:
     """
-    Convert a block model to a discretize.TensorMesh.
+    Convert a Grid2D object to a discretize.TensorMesh.
 
-    :param entity: The block model to convert.
+    :param entity: The Grid2D object to convert.
 
     :return: An equivalent TensorMesh object.
     """

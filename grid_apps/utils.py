@@ -213,14 +213,13 @@ def containing_cell_indices(mesh: TreeMesh | TensorMesh, locations: np.ndarray):
     else:
         in_x = np.searchsorted(mesh.nodes_x, locations[:, 0]) - 1
         in_y = np.searchsorted(mesh.nodes_y, locations[:, 1]) - 1
-        in_z = np.searchsorted(mesh.nodes_z, locations[:, 2]) - 1
-        indices = (
-            in_x
-            + mesh.shape_cells[0] * in_y
-            + in_z * mesh.shape_cells[0] * mesh.shape_cells[1]
-        ).astype(int)
+        indices = (in_x + mesh.shape_cells[0] * in_y).astype(int)
 
-    indices[~mesh.is_inside(locations)] = -1
+        if mesh.dim > 2:
+            in_z = np.searchsorted(mesh.nodes_z, locations[:, 2]) - 1
+            indices += in_z * mesh.shape_cells[0] * mesh.shape_cells[1]
+
+    indices[~mesh.is_inside(locations[:, : mesh.dim])] = -1
 
     return indices
 
@@ -274,7 +273,9 @@ def create_octree_from_octrees(meshes: list[Octree | TreeMesh]) -> TreeMesh:
 
 @typed_call
 def refine_tree_by_mesh(
-    tree: TreeMesh, mesh: TreeMesh | Octree | BlockModel, finalize: bool = False
+    tree: TreeMesh,
+    mesh: TreeMesh | Octree | BlockModel | Grid2D,
+    finalize: bool = False,
 ) -> TreeMesh:
     """
     Given a TreeMesh, insert cells at the corresponding octree level.
@@ -291,6 +292,13 @@ def refine_tree_by_mesh(
     if isinstance(mesh, Octree) and mesh.octree_cells is not None:
         centers = mesh.centroids
         levels = tree.max_level - np.log2(mesh.octree_cells["NCells"])
+
+    elif isinstance(mesh, Grid2D):
+        centers = mesh.centroids
+        octree_level = np.max(
+            [0, np.min([mesh.u_cell_size, mesh.v_cell_size]) // np.min(tree.h) - 1]
+        )
+        levels = np.full(mesh.n_cells, tree.max_level - octree_level, dtype=int)
 
     else:
         centers = mesh.cell_centers
@@ -470,10 +478,10 @@ def get_boundary_active_cells(
 
     # Find actives horizontal mesh boundary cells
     if horizontal_edges:
-        for face in mesh.cell_boundary_indices[:-2]:
+        for face in mesh.cell_boundary_indices[0:4]:
             is_face[face] = True
 
-    if vertical_edges:
+    if vertical_edges and mesh.dim > 2:
         for face in mesh.cell_boundary_indices[-2:]:
             is_face[face] = True
 
@@ -762,15 +770,13 @@ def grid2d_to_tensor(
         )
 
     origin = [
-        entity.origin["x"] + entity.u_cells[entity.u_cells < 0].sum(),
-        entity.origin["y"] + entity.v_cells[entity.v_cells < 0].sum(),
-        -np.inf,
+        entity.origin["x"],
+        entity.origin["y"],
     ]
     mesh = TensorMesh(
         [
             np.full(entity.u_count, entity.u_cell_size),
             np.full(entity.v_count, entity.v_cell_size),
-            np.full(1, np.inf),
         ],
         x0=origin,
     )

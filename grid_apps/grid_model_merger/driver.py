@@ -124,7 +124,9 @@ class Driver(BaseDriver):
             # Use type of the first entry
             mesh_type = type(self.params.selections[0].grid)
 
+            elevation = 0.0
             if mesh_type is Grid2D:
+                elevation = np.mean(extent[:, 2])
                 extent = extent[:, :2]
                 cell_size = cell_size[:2]
 
@@ -149,7 +151,7 @@ class Driver(BaseDriver):
                 output_grid = tensor_to_grid2d(
                     self.params.geoh5,
                     mesh,
-                    elevation=np.mean(extent[:, 2]),
+                    elevation=elevation,
                     parent=self.params.out_group,
                 )
             else:
@@ -175,7 +177,6 @@ class Driver(BaseDriver):
                     continue
 
                 active = ~np.isnan(model)
-
                 logger.info(
                     "Interpolating model '%s' from grid '%s' to output grid '%s' . . .",
                     selection.model.name,
@@ -234,7 +235,9 @@ class Driver(BaseDriver):
         rad, _ = tree.query(target_locations, workers=-1)
 
         rad_max = rad.max() + 1e-8  # Avoid zero division
-        cosine_taper = -0.5 * np.cos(-rad / rad_max * np.pi) + 0.5
+        cosine_taper = (
+            -0.5 * np.cos(-rad / rad_max * np.pi) + 0.501
+        )  # Weights from [0.001 to 1.001]
 
         # Find nearest neighbors and apply weighted model
         del tree

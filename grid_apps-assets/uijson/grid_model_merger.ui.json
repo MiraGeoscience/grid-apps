@@ -1,7 +1,7 @@
 {
-    "version": "0.1.0",
+    "version": "0.2.0",
     "title": "Grid Model Merger",
-    "conda_environment": "grid_apps",
+    "conda_environment": "grid-apps",
     "run_command": "grid_apps.grid_model_merger.driver",
     "geoh5": "",
     "monitoring_directory": "",

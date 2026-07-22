@@ -70,7 +70,7 @@
     "export_as": {
         "group": "Output",
         "main": true,
-        "label": "Save as",
+        "label": "Name",
         "value": "block_model"
     },
     "out_group": {

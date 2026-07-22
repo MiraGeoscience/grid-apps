@@ -2,13 +2,14 @@ schema_version: 1
 
 context:
   name: "grid-apps"
-  version: "0.0.0.dev0"  # This will be replaced by the actual version in the build process
-  python_min: "3.10"
+  # Extract version from auto-generated _version.json
+  version: "${{ load_from_file('_version.json').version | trim }}"
+  python_min: "3.12"
   module_name: ${{ name|lower|replace("-", "_") }}
 
 package:
   name: ${{ name|lower }}
-  version: ${{ version }}
+  version: "${{ version }}"
 
 source:
   path: ../${{ name }}
@@ -16,28 +17,32 @@ source:
 build:
   number: 0
   noarch: python
-  script: ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  script:
+    env:
+      POETRY_DYNAMIC_VERSIONING_BYPASS: "${{ version }}"
+    content:
+      ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
   host:
-    - python 3.10.*
+    - python ${{ python_min }}.*
+    - pip
     - poetry-core >=1.8.0
     - poetry-dynamic-versioning >=1.9, <2.0.dev
-    - setuptools
-    - pip
   run:
     - python >=${{ python_min }}
     # Mira packages
-    - geoh5py >=0.12.0b5, 0.12.*
-    - geoapps-utils >=0.6.0b2, 0.6.*
+    - geoh5py >=0.13.0b1, 0.13.*
+    - geoapps-utils >=0.7.0b1, 0.7.*
     # other direct dependencies
-    - discretize 0.11.*
-    - numpy 1.26.*
-    - pydantic >=2.5.2, 2.*
-    - scipy 1.14.*
+    - discretize 0.12.*
+    - numpy 2.4.*
+    - pydantic 2.12.*
+    - scipy 1.17.*
 
 tests:
   - python:
+      python_version: ${{ python_min }}.*
       imports:
         - ${{ module_name }}
         - ${{ module_name }}._version
@@ -69,4 +74,6 @@ about:
 extra:
   recipe-maintainers:
     - andrewg-mira
+    - domfournier
+    - RomFloreani
     - sebhmg

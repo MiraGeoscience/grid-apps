@@ -1,9 +1,9 @@
 {
-    "version": "0.1.0",
+    "version": "0.2.0",
     "title": "Octree Mesh Designer",
     "icon": "octreegrid",
     "documentation": "https://mirageoscience-grid-apps.readthedocs-hosted.com/en/latest/",
-    "conda_environment": "grid_apps",
+    "conda_environment": "grid-apps",
     "run_command": "grid_apps.octree_creation.driver",
     "geoh5": "",
     "monitoring_directory": "",
@@ -76,7 +76,7 @@
     "ga_group_name": {
         "group": "Basic",
         "main": true,
-        "label": "Name",
+        "label": "Output name",
         "value": "Octree mesh"
     },
     "diagonal_balance": {
@@ -231,10 +231,11 @@
         "value": 1000.0
     },
     "out_group": {
-        "label": "group",
+        "group": "Output preferences",
+        "label": "UIJson group",
         "value": "",
-        "groupType": "{61FBB4E8-A480-11E3-8D5A-2776BDF4F982}",
-        "visible": false,
+        "groupType": "{BB50AC61-A657-4926-9C82-067658E246A0}",
+        "visible": true,
         "optional": true,
         "enabled": false
     }

@@ -125,6 +125,7 @@ venv.bak/
 
 #pycharm
 /.idea/*
+!/.idea/*.iml
 !/.idea/scopes/
 !/.idea/copyright/
 
@@ -147,3 +148,4 @@ pyproject-sha.toml
 
 #version ignore
 grid_apps/_version.py
+/_version.json

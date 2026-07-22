@@ -18,6 +18,7 @@ The result is exported directly to ``geoh5`` format for visualization in
    usage
    applications
    api/grid_apps
+   release_notes
    THIRD_PARTY_SOFTWARE
 
 

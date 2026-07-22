@@ -221,4 +221,4 @@ def test_merge_mixed_model(
         driver = Driver(options)
         out_grid = driver.run()
 
-        assert type(out_grid) is type_a
+        assert isinstance(out_grid, type_a)

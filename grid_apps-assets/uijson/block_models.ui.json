@@ -1,7 +1,7 @@
 {
-    "version": "0.1.0",
+    "version": "0.2.0",
     "title": "Block Model Creation",
-    "conda_environment": "grid_apps",
+    "conda_environment": "grid-apps",
     "run_command": "grid_apps.block_models.driver",
     "geoh5": "",
     "monitoring_directory": "",

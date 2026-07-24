@@ -25,23 +25,21 @@ New features
 - Update input variables in github shared workflows
 - Relock on geoapps-utils@release/0.4.0, allow py 3.12
 - Automatically publish python package on Artifactory
-- Add a test to check consistency between conda and pip ve…
+- Add a test to check consistency between conda and pip
 - Update copyright date to 2025
 - Build conda package faster with rattler-build
 - Specify jira component in issue_to_jira
 - Complete package readme and description
-- align license terms in grid-apps
-- environment for coming pre-release
+- Align license terms in grid-apps
+- Environment for coming pre-release
 - Add BlockModel to TensorMesh utility in grid-apps
 - Convert BlockModel to octree
 - Refinement not working on float values
-- Refinement not working on float values
 - Change label on 'objects' for Block Model
-- add workflow for zizmor and apply recommendations
+- Add workflow for zizmor and apply recommendations
 - Use Poetry 2 and have pyproject.toml checked by pre-commit
 - Migrate octree-creation-app to grid-app
-- Migrate octree-creation-app to grid-app
-- auto versioning of python packages
+- Auto versioning of python packages
 - Crash on MT survey as input for mesh creation
 - Possible crash with auto-meshing for potential fields inversion
 - Configure newer zizmor workflows

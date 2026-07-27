@@ -12,15 +12,27 @@ from __future__ import annotations
 from pathlib import Path
 
 import numpy as np
-from geoh5py.objects import BlockModel, Octree, Points
+from geoh5py.objects import BlockModel, Grid2D, Octree, Points
 from geoh5py.workspace import Workspace
+from pytest import mark
 
 from grid_apps.grid_model_merger.driver import Driver
 from grid_apps.grid_model_merger.options import GridModelMergerOptions
 from grid_apps.octree_creation.driver import OctreeDriver
 from grid_apps.octree_creation.options import OctreeOptions
+from tests.conftest import setup_block_model
 
-from ..conftest import setup_block_model
+
+def setup_grid2d_model(workspace) -> Grid2D:
+    mesh = Grid2D.create(
+        workspace,
+        origin=[0, 0, 0],
+        u_cell_size=50.0,
+        v_cell_size=50.0,
+        u_count=10,
+        v_count=15,
+    )
+    return mesh
 
 
 def setup_octree(workspace, locations, refinement, params_dict) -> Octree:
@@ -51,7 +63,7 @@ def test_merge_block_model(tmp_path: Path):  # pylint: disable=too-many-locals
 
     with Workspace.create(tmp_path / f"{__name__}.geoh5") as ws:
         mesh = setup_block_model(ws)
-        other = mesh.copy(origin=(515, 10, 500))
+        other = mesh.copy(origin=(515, 10, 300))
         model_b = other.add_data({"values": {"values": np.full(mesh.n_cells, 2.0)}})
         model_a = mesh.add_data({"values": {"values": np.full(mesh.n_cells, 1.0)}})
 
@@ -69,7 +81,7 @@ def test_merge_block_model(tmp_path: Path):  # pylint: disable=too-many-locals
         out_grid = driver.run()
 
         merged_model = out_grid.children[0]
-        np.testing.assert_almost_equal(merged_model.values[2649], 1.5, decimal=1)
+        np.testing.assert_almost_equal(merged_model.values[3406], 1.5, decimal=1)
 
         # Repeat with a hole in the first model
         values = model_a.values
@@ -78,7 +90,33 @@ def test_merge_block_model(tmp_path: Path):  # pylint: disable=too-many-locals
 
         out_grid = driver.run()
         merged_model = out_grid.children[0]
-        np.testing.assert_almost_equal(merged_model.values[2649], 2.0, decimal=1)
+        np.testing.assert_almost_equal(merged_model.values[3406], 2.0, decimal=1)
+
+
+def test_merge_grid2d_model(tmp_path: Path):  # pylint: disable=too-many-locals
+
+    with Workspace.create(tmp_path / f"{__name__}.geoh5") as ws:
+        mesh = setup_grid2d_model(ws)
+        other = mesh.copy(origin=(150, 100, 60))
+        model_b = other.add_data({"values": {"values": np.full(mesh.n_cells, 2.0)}})
+        model_a = mesh.add_data({"values": {"values": np.full(mesh.n_cells, 1.0)}})
+
+        options = GridModelMergerOptions.build(
+            {
+                "geoh5": ws,
+                "input_a_grid": mesh,
+                "input_b_grid": other,
+                "input_a_model": model_a,
+                "input_b_model": model_b,
+            }
+        )
+
+        driver = Driver(options)
+        out_grid = driver.run()
+
+        assert out_grid.origin["z"] == 30.0
+        merged_model = out_grid.children[0]
+        np.testing.assert_almost_equal(merged_model.values[110], 1.5, decimal=1)
 
 
 def test_merge_octree_model(tmp_path: Path, setup_test_octree):  # pylint: disable=too-many-locals
@@ -117,23 +155,45 @@ def test_merge_octree_model(tmp_path: Path, setup_test_octree):  # pylint: disab
         np.testing.assert_almost_equal(merged_model.values[1568], 2.0, decimal=2)
 
 
-def test_merge_mixed_model(tmp_path: Path, setup_test_octree):  # pylint: disable=too-many-locals
-    (locations, refinement, _, params_dict) = setup_test_octree
+@mark.parametrize(
+    "type_a, type_b",
+    [
+        (BlockModel, Octree),
+        (BlockModel, Grid2D),
+        (Grid2D, BlockModel),
+        (Grid2D, Octree),
+        (Octree, BlockModel),
+        (Octree, Grid2D),
+    ],
+)
+def test_merge_mixed_model(
+    tmp_path: Path, setup_test_octree, type_a: type, type_b: type
+):  # pylint: disable=too-many-locals
 
-    with Workspace.create(tmp_path / f"{__name__}.geoh5") as ws:
-        octree = setup_octree(ws, locations, refinement, params_dict)
-        block_model = setup_block_model(ws)
+    def make_octree_model(workspace):
+        (locations, refinement, _, params_dict) = setup_test_octree
+        return setup_octree(workspace, locations, refinement, params_dict)
 
-        model_a = octree.add_data({"values": {"values": np.full(octree.n_cells, 1.0)}})
-        model_b = block_model.add_data(
-            {"values": {"values": np.full(block_model.n_cells, 2.0)}}
-        )
+    dict_builder = {
+        BlockModel: setup_block_model,
+        Octree: make_octree_model,
+        Grid2D: setup_grid2d_model,
+    }
+
+    with Workspace.create(
+        tmp_path / f"{type_a.__name__}_and_{type_b.__name__}.geoh5"
+    ) as ws:
+        mesh_a = dict_builder[type_a](ws)
+        mesh_b = dict_builder[type_b](ws)
+
+        model_a = mesh_a.add_data({"values": {"values": np.full(mesh_a.n_cells, 1.0)}})
+        model_b = mesh_b.add_data({"values": {"values": np.full(mesh_b.n_cells, 2.0)}})
 
         options = GridModelMergerOptions.build(
             {
                 "geoh5": ws,
-                "input_a_grid": octree,
-                "input_b_grid": block_model,
+                "input_a_grid": mesh_a,
+                "input_b_grid": mesh_b,
                 "input_a_model": model_a,
                 "input_b_model": model_b,
             }
@@ -142,19 +202,4 @@ def test_merge_mixed_model(tmp_path: Path, setup_test_octree):  # pylint: disabl
         driver = Driver(options)
         out_grid = driver.run()
 
-        assert isinstance(out_grid, Octree)
-
-        options = GridModelMergerOptions.build(
-            {
-                "geoh5": ws,
-                "input_b_grid": octree,
-                "input_a_grid": block_model,
-                "input_b_model": model_a,
-                "input_a_model": model_b,
-            }
-        )
-
-        driver = Driver(options)
-        out_grid = driver.run()
-
-        assert isinstance(out_grid, BlockModel)
+        assert isinstance(out_grid, type_a)

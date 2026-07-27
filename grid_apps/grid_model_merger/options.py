@@ -18,13 +18,14 @@ import numpy as np
 from discretize import TensorMesh, TreeMesh
 from geoapps_utils.base import Options
 from geoh5py.data import NumericData
-from geoh5py.objects import BlockModel, Octree
+from geoh5py.objects import BlockModel, Grid2D, Octree
 from geoh5py.objects.grid_object import GridObject
 from pydantic import BaseModel, ConfigDict, model_serializer, model_validator
 
 from grid_apps import assets_path
 from grid_apps.utils import (
     block_model_to_tensor,
+    grid2d_to_tensor,
     octree_2_treemesh,
     tensor_mesh_ordering,
 )
@@ -128,6 +129,9 @@ class MeshModelSelection(BaseModel):
 
         elif isinstance(self.grid, Octree):
             mesh = octree_2_treemesh(self.grid)
+
+        elif isinstance(self.grid, Grid2D):
+            mesh = grid2d_to_tensor(self.grid)
 
         if mesh is None:
             raise TypeError(f"Mesh type {type(self.grid)} currently not supported.")

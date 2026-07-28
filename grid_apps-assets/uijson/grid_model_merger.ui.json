@@ -47,8 +47,7 @@
             "Cell"
         ],
         "dataType": [
-            "Float",
-            "Integer"
+            "Float"
         ],
         "group": "Input A",
         "main": true,
@@ -77,8 +76,7 @@
             "Cell"
         ],
         "dataType": [
-            "Float",
-            "Integer"
+            "Float"
         ],
         "group": "Input B",
         "main": true,
@@ -107,8 +105,7 @@
             "Cell"
         ],
         "dataType": [
-            "Float",
-            "Integer"
+            "Float"
         ],
         "group": "Input C",
         "main": true,
@@ -137,8 +134,7 @@
             "Cell"
         ],
         "dataType": [
-            "Float",
-            "Integer"
+            "Float"
         ],
         "group": "Input D",
         "main": true,
@@ -167,8 +163,7 @@
             "Cell"
         ],
         "dataType": [
-            "Float",
-            "Integer"
+            "Float"
         ],
         "group": "Input E",
         "main": true,
@@ -197,8 +192,7 @@
             "Cell"
         ],
         "dataType": [
-            "Float",
-            "Integer"
+            "Float"
         ],
         "group": "Input F",
         "main": true,

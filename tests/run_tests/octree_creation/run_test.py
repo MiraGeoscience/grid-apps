@@ -328,7 +328,7 @@ def test_octree_diagonal_balance(  # pylint: disable=too-many-locals
 
     with workspace.open(mode="r"):
         results = []
-        mesh_obj = workspace.get_entity("Octree mesh")[0]
+        mesh_obj = next(obj for obj in workspace.objects if isinstance(obj, Octree))
 
         assert isinstance(mesh_obj, Octree)
 

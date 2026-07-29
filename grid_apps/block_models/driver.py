@@ -22,6 +22,7 @@ from geoh5py.workspace import Workspace
 from scipy.spatial import cKDTree
 
 from grid_apps.block_models.options import BlockModelOptions
+from grid_apps.utils import tensor_to_block_model
 
 
 logger = logging.getLogger(__name__)
@@ -188,14 +189,7 @@ class Driver(BaseDriver):
             expansion_factor=expansion_factor,
         )
 
-        object_out = BlockModel.create(
-            workspace,
-            origin=[mesh.x0[0], mesh.x0[1], mesh.x0[2] + mesh.h[2].sum()],
-            u_cell_delimiters=mesh.nodes_x - mesh.x0[0],
-            v_cell_delimiters=mesh.nodes_y - mesh.x0[1],
-            z_cell_delimiters=-(mesh.x0[2] + mesh.h[2].sum() - mesh.nodes_z[::-1]),
-            name=name,
-        )
+        object_out = tensor_to_block_model(workspace, mesh, name=name)
 
         return object_out
 

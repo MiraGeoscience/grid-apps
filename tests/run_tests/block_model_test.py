@@ -32,9 +32,12 @@ def test_get_block_model(tmp_path: Path):  # pylint: disable=too-many-locals
             pads=pads,
         )
         points: Points = ws.get_entity("Points")[0]
-    np.testing.assert_allclose(grid.origin["z"], points.vertices[:, 2].max())
-    assert grid.origin["x"] < points.vertices[:, 0].min()
-    assert grid.origin["y"] < points.vertices[:, 1].min()
+
+        assert (grid.origin["z"] + grid.z_cell_delimiters).max() == top
+        assert grid.origin["x"] <= points.vertices[:, 0].min() - pads[0]
+        assert grid.origin["y"] <= points.vertices[:, 1].min() - pads[2]
+        assert grid.u_cell_delimiters.max() >= points.vertices[:, 0].max() + pads[0] + pads[1]  # type: ignore
+        assert grid.v_cell_delimiters.max() >= points.vertices[:, 1].max() + pads[2] + pads[3]  # type: ignore
 
 
 def test_padding(tmp_path: Path):
@@ -53,7 +56,8 @@ def test_padding(tmp_path: Path):
             cell_size=cell_size,
         )
 
-    assert np.abs(np.sum(grid.z_cells)) >= (depth_core + pads[4])
+    depth_delimiters = grid.origin["z"] + grid.z_cell_delimiters
+    assert top - (depth_core + cell_size[2] + pads[4]) >= np.min(depth_delimiters)
 
 
 def test_padding_up_to(tmp_path: Path):

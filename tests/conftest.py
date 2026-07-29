@@ -77,7 +77,7 @@ def setup_block_model(
     cell_size=(50, 50, 50),
     expansion_factor=1.1,
 ) -> BlockModel:
-    # padding in the W/E/N/S directions should make create locs at least as
+    # padding in the W/E/N/S directions should create locations at least as
     # far as the core hull plus the padding distances
     height = 300
     width = 1000

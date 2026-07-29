@@ -9,6 +9,7 @@
 
 from __future__ import annotations
 
+import logging
 from pathlib import Path
 
 import numpy as np
@@ -20,19 +21,7 @@ from grid_apps.grid_model_merger.driver import Driver
 from grid_apps.grid_model_merger.options import GridModelMergerOptions
 from grid_apps.octree_creation.driver import OctreeDriver
 from grid_apps.octree_creation.options import OctreeOptions
-from tests.conftest import setup_block_model
-
-
-def setup_grid2d_model(workspace) -> Grid2D:
-    mesh = Grid2D.create(
-        workspace,
-        origin=[0, 0, 0],
-        u_cell_size=50.0,
-        v_cell_size=50.0,
-        u_count=10,
-        v_count=15,
-    )
-    return mesh
+from tests.conftest import setup_block_model, setup_grid2d_model
 
 
 def setup_octree(workspace, locations, refinement, params_dict) -> Octree:
@@ -81,7 +70,7 @@ def test_merge_block_model(tmp_path: Path):  # pylint: disable=too-many-locals
         out_grid = driver.run()
 
         merged_model = out_grid.children[0]
-        np.testing.assert_almost_equal(merged_model.values[3406], 1.5, decimal=1)
+        np.testing.assert_almost_equal(merged_model.values[3937], 1.5, decimal=1)
 
         # Repeat with a hole in the first model
         values = model_a.values
@@ -90,7 +79,28 @@ def test_merge_block_model(tmp_path: Path):  # pylint: disable=too-many-locals
 
         out_grid = driver.run()
         merged_model = out_grid.children[0]
-        np.testing.assert_almost_equal(merged_model.values[3406], 2.0, decimal=1)
+        np.testing.assert_almost_equal(merged_model.values[3937], 2.0, decimal=1)
+
+
+def test_merge_all_nan(tmp_path: Path, caplog):  # pylint: disable=too-many-locals
+
+    with Workspace.create(tmp_path / f"{__name__}.geoh5") as ws:
+        mesh = setup_block_model(ws)
+        model_a = mesh.add_data({"values": {"values": np.full(mesh.n_cells, np.nan)}})
+
+        options = GridModelMergerOptions.build(
+            {
+                "geoh5": ws,
+                "input_a_grid": mesh,
+                "input_a_model": model_a,
+            }
+        )
+
+        driver = Driver(options)
+        with caplog.at_level(logging.WARNING):
+            driver.run()
+
+        assert "No valid model values found" in caplog.text
 
 
 def test_merge_grid2d_model(tmp_path: Path):  # pylint: disable=too-many-locals

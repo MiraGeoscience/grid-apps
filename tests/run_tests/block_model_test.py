@@ -14,77 +14,73 @@ from pathlib import Path
 import numpy as np
 from geoh5py.workspace import Workspace
 
-from grid_apps.block_models.driver import Driver as BlockModelDriver
+from tests.conftest import setup_block_model
 
 
 def test_get_block_model(tmp_path: Path):  # pylint: disable=too-many-locals
     # padding in the W/E/N/S directions should make create locs at least as
     # far as the core hull plus the padding distances
-    top = 500
-    depth_core = 300.0
-    height = 300
-    width = 1000
-    n = 100
 
-    x_grid, y_grid = np.meshgrid(np.arange(0, width, n), np.arange(0, height, n))
-    z_grid = np.around((top / 2) * np.sin(x_grid) + (top / 2), -1)
-    locs = np.c_[x_grid.ravel(), y_grid.ravel(), z_grid.ravel()]
     pads = [100, 150, 200, 300, 0, 0]
-    ws = Workspace(tmp_path / "block_model.geoh5")
-    obj = BlockModelDriver.get_block_model(
-        ws, locs, [50, 50, 50], depth_core, pads, 1.1, name="test"
-    )
+    top = 500
+    with Workspace(tmp_path / f"{__name__}.geoh5") as ws:
+        obj = setup_block_model(
+            ws,
+            top=top,
+            depth_core=300.0,
+            pads=pads,
+        )
     assert (obj.origin["z"] + obj.z_cell_delimiters).max() == top
     assert obj.origin["x"] < -pads[0]
     assert obj.origin["y"] < -pads[2]
-    assert obj.u_cell_delimiters.max() >= locs[:, 0].max() + pads[1] + pads[0]  # type: ignore
-    assert obj.v_cell_delimiters.max() >= locs[:, 1].max() + pads[3] + pads[2]  # type: ignore
+    assert obj.u_cell_delimiters.max() >= 1000 + pads[1] + pads[0]
+    assert obj.v_cell_delimiters.max() >= 300 + pads[3] + pads[2]
 
+
+def test_padding(tmp_path: Path):
     # padding in the down direction should create locs at least as deep as the top
     # minus the sum of depth_core, h[2], and bottom padding.
     top = 500
-    depth_core = 300.0
-    height = 300
-    width = 1000
-    n = 100
-
-    x_grid, y_grid = np.meshgrid(np.arange(0, width, n), np.arange(0, height, n))
-    z_grid = np.around((top / 2) * np.sin(x_grid) + (top / 2), -1)
-    locs = np.c_[x_grid.ravel(), y_grid.ravel(), z_grid.ravel()]
     pads = [0, 0, 0, 0, 100, 0]  # padding on the bottom
-    h = [50, 50, 50]
+    depth_core = 300.0
+    cell_size = (50, 50, 50)
+    with Workspace(tmp_path / f"{__name__}.geoh5") as ws:
+        obj = obj = setup_block_model(
+            ws,
+            top=top,
+            depth_core=depth_core,
+            pads=pads,
+            cell_size=cell_size,
+        )
 
-    obj = BlockModelDriver.get_block_model(
-        ws, locs, h, depth_core, pads, 1.1, name="test2"
-    )
-
-    assert top - (depth_core + h[2] + pads[4]) >= np.min(
+    assert top - (depth_core + obj.z_cells[0] + pads[4]) >= np.min(
         obj.origin["z"] + obj.z_cell_delimiters
     )
 
+
+def test_padding_up_to(tmp_path: Path):
     # padding in the up direction should shift the origin so that the core area
     # envelopes the locs (adjusted by depth_core).
     top = 500
+    pads = [0, 0, 0, 0, 0, 100]  # padding on the bottom
     depth_core = 300.0
-    height = 300
-    width = 1000
-    n = 100
-    expansion_rate = 1.1
-
-    x_grid, y_grid = np.meshgrid(np.arange(0, width, n), np.arange(0, height, n))
-    z_grid = np.around((top / 2) * np.sin(x_grid) + (top / 2), -1)
-    locs = np.c_[x_grid.ravel(), y_grid.ravel(), z_grid.ravel()]
-    pads = [0, 0, 0, 0, 0, 100]  # padding on the top
-    h = [50, 50, 50]
-
-    obj = BlockModelDriver.get_block_model(
-        ws, locs, h, depth_core, pads, expansion_rate, name="test2"
-    )
+    expansion_factor = 1.1
+    cell_size = (50, 50, 50)
+    with Workspace(tmp_path / f"{__name__}.geoh5") as ws:
+        obj = obj = setup_block_model(
+            ws,
+            top=top,
+            depth_core=depth_core,
+            pads=pads,
+            expansion_factor=expansion_factor,
+            cell_size=cell_size,
+        )
 
     assert obj.origin["z"] >= top + pads[-1]
     depth_delimiters = obj.origin["z"] + obj.z_cell_delimiters
     core_top_ind = np.argwhere(depth_delimiters == 500).flatten()[0]
-    assert np.abs(np.diff(depth_delimiters))[core_top_ind] == h[2]
+    assert np.abs(np.diff(depth_delimiters))[core_top_ind] == cell_size[2]
     assert np.isclose(
-        np.abs(np.diff(depth_delimiters))[core_top_ind - 1], h[2] * expansion_rate
+        np.abs(np.diff(depth_delimiters))[core_top_ind - 1],
+        cell_size[2] * expansion_factor,
     )

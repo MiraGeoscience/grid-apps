@@ -36,8 +36,14 @@ def test_get_block_model(tmp_path: Path):  # pylint: disable=too-many-locals
         assert (grid.origin["z"] + grid.z_cell_delimiters).max() == top
         assert grid.origin["x"] <= points.vertices[:, 0].min() - pads[0]
         assert grid.origin["y"] <= points.vertices[:, 1].min() - pads[2]
-        assert grid.u_cell_delimiters.max() >= points.vertices[:, 0].max() + pads[0] + pads[1]  # type: ignore
-        assert grid.v_cell_delimiters.max() >= points.vertices[:, 1].max() + pads[2] + pads[3]  # type: ignore
+        assert (
+            grid.u_cell_delimiters.max()
+            >= points.vertices[:, 0].max() + pads[0] + pads[1]
+        )  # type: ignore
+        assert (
+            grid.v_cell_delimiters.max()
+            >= points.vertices[:, 1].max() + pads[2] + pads[3]
+        )  # type: ignore
 
 
 def test_padding(tmp_path: Path):

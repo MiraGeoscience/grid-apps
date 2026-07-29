@@ -295,8 +295,13 @@ def refine_tree_by_mesh(
 
     elif isinstance(mesh, Grid2D):
         centers = mesh.centroids
-        octree_level = np.max(
-            [0, int(np.min([mesh.u_cell_size, mesh.v_cell_size]) // np.min(tree.h)) - 1]
+        octree_level = np.maximum(
+            0,
+            int(
+                np.min([mesh.u_cell_size, mesh.v_cell_size])
+                // np.min(np.hstack(tree.h[:2]))
+            )
+            - 1,
         )
         levels = np.full(mesh.n_cells, tree.max_level - octree_level, dtype=int)
 

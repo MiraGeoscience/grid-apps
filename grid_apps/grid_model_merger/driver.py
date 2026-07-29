@@ -210,7 +210,7 @@ class Driver(BaseDriver):
                 )
                 weights = np.nansum([weights, cell_weights], axis=0)
 
-            if not np.any(~np.isnan(model)):
+            if not np.any(weights > 0):
                 logger.warning(
                     "No valid model values found in any selection. No output model will be created."
                 )

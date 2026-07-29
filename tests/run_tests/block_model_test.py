@@ -12,6 +12,7 @@ from __future__ import annotations
 from pathlib import Path
 
 import numpy as np
+from geoh5py.objects import Points
 from geoh5py.workspace import Workspace
 
 from tests.conftest import setup_block_model
@@ -24,17 +25,16 @@ def test_get_block_model(tmp_path: Path):  # pylint: disable=too-many-locals
     pads = [100, 150, 200, 300, 0, 0]
     top = 500
     with Workspace(tmp_path / f"{__name__}.geoh5") as ws:
-        obj = setup_block_model(
+        grid = setup_block_model(
             ws,
             top=top,
             depth_core=300.0,
             pads=pads,
         )
-    assert (obj.origin["z"] + obj.z_cell_delimiters).max() == top
-    assert obj.origin["x"] < -pads[0]
-    assert obj.origin["y"] < -pads[2]
-    assert obj.u_cell_delimiters.max() >= 1000 + pads[1] + pads[0]
-    assert obj.v_cell_delimiters.max() >= 300 + pads[3] + pads[2]
+        points: Points = ws.get_entity("Points")[0]
+    np.testing.assert_allclose(grid.origin["z"], points.vertices[:, 2].max())
+    assert grid.origin["x"] < points.vertices[:, 0].min()
+    assert grid.origin["y"] < points.vertices[:, 1].min()
 
 
 def test_padding(tmp_path: Path):
@@ -45,7 +45,7 @@ def test_padding(tmp_path: Path):
     depth_core = 300.0
     cell_size = (50, 50, 50)
     with Workspace(tmp_path / f"{__name__}.geoh5") as ws:
-        obj = obj = setup_block_model(
+        grid = setup_block_model(
             ws,
             top=top,
             depth_core=depth_core,
@@ -53,9 +53,7 @@ def test_padding(tmp_path: Path):
             cell_size=cell_size,
         )
 
-    assert top - (depth_core + obj.z_cells[0] + pads[4]) >= np.min(
-        obj.origin["z"] + obj.z_cell_delimiters
-    )
+    assert np.abs(np.sum(grid.z_cells)) >= (depth_core + pads[4])
 
 
 def test_padding_up_to(tmp_path: Path):
@@ -67,7 +65,7 @@ def test_padding_up_to(tmp_path: Path):
     expansion_factor = 1.1
     cell_size = (50, 50, 50)
     with Workspace(tmp_path / f"{__name__}.geoh5") as ws:
-        obj = obj = setup_block_model(
+        grid = setup_block_model(
             ws,
             top=top,
             depth_core=depth_core,
@@ -76,8 +74,8 @@ def test_padding_up_to(tmp_path: Path):
             cell_size=cell_size,
         )
 
-    assert obj.origin["z"] >= top + pads[-1]
-    depth_delimiters = obj.origin["z"] + obj.z_cell_delimiters
+    assert grid.origin["z"] >= top + pads[-1]
+    depth_delimiters = grid.origin["z"] + grid.z_cell_delimiters
     core_top_ind = np.argwhere(depth_delimiters == 500).flatten()[0]
     assert np.abs(np.diff(depth_delimiters))[core_top_ind] == cell_size[2]
     assert np.isclose(

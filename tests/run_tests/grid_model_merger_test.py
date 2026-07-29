@@ -70,7 +70,7 @@ def test_merge_block_model(tmp_path: Path):  # pylint: disable=too-many-locals
         out_grid = driver.run()
 
         merged_model = out_grid.children[0]
-        np.testing.assert_almost_equal(merged_model.values[3406], 1.5, decimal=1)
+        np.testing.assert_almost_equal(merged_model.values[3937], 1.5, decimal=1)
 
         # Repeat with a hole in the first model
         values = model_a.values
@@ -79,7 +79,7 @@ def test_merge_block_model(tmp_path: Path):  # pylint: disable=too-many-locals
 
         out_grid = driver.run()
         merged_model = out_grid.children[0]
-        np.testing.assert_almost_equal(merged_model.values[3406], 2.0, decimal=1)
+        np.testing.assert_almost_equal(merged_model.values[3937], 2.0, decimal=1)
 
 
 def test_merge_all_nan(tmp_path: Path, caplog):  # pylint: disable=too-many-locals

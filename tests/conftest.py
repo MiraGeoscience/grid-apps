@@ -11,7 +11,7 @@ from __future__ import annotations
 import numpy as np
 import pytest
 from discretize.utils import mesh_builder_xyz
-from geoh5py.objects import BlockModel, Grid2D
+from geoh5py.objects import BlockModel, Grid2D, Points
 
 from grid_apps.block_models.driver import Driver as BlockModelDriver
 
@@ -81,11 +81,11 @@ def setup_block_model(
     # far as the core hull plus the padding distances
     height = 300
     width = 1000
-    n = 3
-    x_grid, y_grid = np.meshgrid(np.arange(0, width, n), np.arange(0, height, n))
+    n = 11
+    x_grid, y_grid = np.meshgrid(np.linspace(0, width, n), np.linspace(0, height, n))
     z_grid = np.around((top / 2) * np.sin(x_grid) + (top / 2), -1)
     locs = np.c_[x_grid.ravel(), y_grid.ravel(), z_grid.ravel()]
-
+    Points.create(workspace, vertices=locs)
     mesh = BlockModelDriver.get_block_model(
         workspace, locs, cell_size, depth_core, pads, expansion_factor, name="test"
     )

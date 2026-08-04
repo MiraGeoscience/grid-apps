@@ -9,7 +9,7 @@
 
 from geoh5py import Workspace
 from geoh5py.objects import Points
-from geoh5py.ui_json import InputFile
+from geoh5py.ui_json import UIJson
 
 from grid_apps import assets_path
 from grid_apps.block_models.options import BlockModelOptions
@@ -31,13 +31,10 @@ def test_block_model_params_from_uijson(tmp_path):
         "export_as": "my block model",
     }
 
-    ifile = InputFile.read_ui_json(
-        assets_path() / "uijson/block_models.ui.json", validate=False
-    )
-    for k, v in updates.items():
-        ifile.set_data_value(k, v)
+    ifile = UIJson.read(assets_path() / "uijson/block_models.ui.json")
+    ifile.set_values(**updates)
 
-    params = BlockModelOptions.build(ifile)
+    params = BlockModelOptions.build(ifile, workspace=ws)
     assert params.geoh5 == ws
     assert params.source.objects == updates["objects"]
     assert params.creation.cell_size_x == updates["cell_size_x"]

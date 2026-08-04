@@ -315,9 +315,10 @@ def test_octree_diagonal_balance(  # pylint: disable=too-many-locals
                     "distance": 1000.0,
                 }
             ],
+            "diagonal_balance": diagonal_balance,
         }
 
-        params = OctreeOptions(**params_dict, diagonal_balance=diagonal_balance)
+        params = OctreeOptions(**params_dict)
 
         filename = "diag_balance.ui.json"
 
@@ -327,7 +328,7 @@ def test_octree_diagonal_balance(  # pylint: disable=too-many-locals
 
     with workspace.open(mode="r"):
         results = []
-        mesh_obj = workspace.get_entity("Octree Mesh")[0]
+        mesh_obj = next(obj for obj in workspace.objects if isinstance(obj, Octree))
 
         assert isinstance(mesh_obj, Octree)
 

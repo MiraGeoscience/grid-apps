@@ -37,17 +37,11 @@ class OctreeDriver(BaseDriver):
 
     _params_class = OctreeOptions
 
-    def __init__(self, params: OctreeOptions):
-        super().__init__(params)
-        self.params: OctreeOptions = params
-
     def run(self) -> Octree:
         """Create an octree mesh from input values."""
         with fetch_active_workspace(self.params.geoh5, mode="r+"):
             logger.info("Creating octree mesh from params . . .")
             octree = self.octree_from_params(self.params)
-            output = self.params.out_group or octree
-            self.update_monitoring_directory(output)
             logger.info("Done.")
 
         return octree

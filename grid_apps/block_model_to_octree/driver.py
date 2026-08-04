@@ -38,18 +38,7 @@ class Driver(BaseDriver):
 
     _params_class = BlockModel2OctreeOptions
 
-    def run(self):
-        """Create an octree mesh from input values."""
-        with fetch_active_workspace(self.params.geoh5, mode="r+"):
-            logger.info("Converting BlockModel to Octree mesh . . .")
-            octree = self.make_grid()
-            output = self.params.out_group or octree
-            self.update_monitoring_directory(output)
-            logger.info("Done.")
-
-        return octree
-
-    def make_grid(self) -> Octree:
+    def run(self) -> Octree:
         """
         Convert the block model and output the octree mesh.
 

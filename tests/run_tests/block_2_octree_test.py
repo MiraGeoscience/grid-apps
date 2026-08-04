@@ -82,7 +82,7 @@ def test_block_model_to_octree(tmp_path):
     ifile_class = UIJson.read(ifile)
     options = BlockModel2OctreeOptions.build(ifile_class)
     driver = BlockModelToOctreeDriver(options)
-    octree = driver.make_grid()
+    octree = driver.run()
 
     assert octree.n_cells == 13987
 
@@ -107,7 +107,7 @@ def test_float_refine_octree(tmp_path):
         )
 
         driver = BlockModelToOctreeDriver(params)
-        octree = driver.make_grid()
+        octree = driver.run()
 
         assert octree.n_cells == 6140
 
@@ -136,7 +136,7 @@ def test_integer_refine_octree(tmp_path):
         )
 
         driver = BlockModelToOctreeDriver(params)
-        octree = driver.make_grid()
+        octree = driver.run()
 
         assert octree.n_cells == 5223
         assert octree.parent == out_group

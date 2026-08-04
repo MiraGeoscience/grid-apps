@@ -36,17 +36,6 @@ class Driver(BaseDriver):
     _params_class = BlockModelOptions
 
     def run(self):
-        """Create an octree mesh from input values."""
-        with fetch_active_workspace(self.params.geoh5, mode="r+"):
-            logger.info("Creating BlockModel mesh from parameters . . .")
-            block = self.make_grid()
-            output = self.params.out_group or block
-            self.update_monitoring_directory(output)
-            logger.info("Done.")
-
-        return block
-
-    def make_grid(self):
         """
         Make block model object from input data.
         """

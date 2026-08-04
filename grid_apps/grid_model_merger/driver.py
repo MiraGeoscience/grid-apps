@@ -54,8 +54,6 @@ class Driver(BaseDriver):
         with fetch_active_workspace(self.params.geoh5, mode="r+"):
             self.output_grid = self.get_output_grid()
             self.interpolate_models_to_output_grid()
-            output = self.params.out_group or self.output_grid
-            self.update_monitoring_directory(output)
             logger.info("Done.")
 
         return self.output_grid

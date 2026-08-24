@@ -12,7 +12,7 @@ import numpy as np
 from geoh5py import Workspace
 from geoh5py.groups import UIJsonGroup
 from geoh5py.objects import BlockModel
-from geoh5py.ui_json import InputFile
+from geoh5py.ui_json import UIJson
 
 from grid_apps.block_model_to_octree.driver import Driver as BlockModelToOctreeDriver
 from grid_apps.block_model_to_octree.options import BlockModel2OctreeOptions
@@ -79,10 +79,10 @@ def test_block_model_to_octree(tmp_path):
 
         params.write_ui_json(ifile)
 
-    ifile_class = InputFile.read_ui_json(ifile)
+    ifile_class = UIJson.read(ifile)
     options = BlockModel2OctreeOptions.build(ifile_class)
     driver = BlockModelToOctreeDriver(options)
-    octree = driver.make_grid()
+    octree = driver.run()
 
     assert octree.n_cells == 13987
 
@@ -103,11 +103,11 @@ def test_float_refine_octree(tmp_path):
         float_data = block_model.add_data({"wave": {"values": wave.flatten()}})
 
         params = BlockModel2OctreeOptions.build(
-            **{"geoh5": workspace, "entity": block_model, "data": float_data}
+            {"geoh5": workspace, "entity": block_model, "data": float_data}
         )
 
         driver = BlockModelToOctreeDriver(params)
-        octree = driver.make_grid()
+        octree = driver.run()
 
         assert octree.n_cells == 6140
 
@@ -127,7 +127,7 @@ def test_integer_refine_octree(tmp_path):
         )
 
         params = BlockModel2OctreeOptions.build(
-            **{
+            {
                 "geoh5": workspace,
                 "entity": block_model,
                 "data": ref_data,
@@ -136,7 +136,7 @@ def test_integer_refine_octree(tmp_path):
         )
 
         driver = BlockModelToOctreeDriver(params)
-        octree = driver.make_grid()
+        octree = driver.run()
 
         assert octree.n_cells == 5223
         assert octree.parent == out_group

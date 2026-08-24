@@ -633,7 +633,7 @@ def tree_levels(mesh: Octree) -> np.ndarray | None:
 
     levels = max_level - np.log2(mesh.octree_cells["NCells"])
 
-    return levels
+    return levels.astype(int)
 
 
 def resample_locations(locations: np.ndarray, increment: float) -> np.ndarray:

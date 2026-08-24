@@ -30,6 +30,7 @@ from grid_apps.utils import (
     octree_2_treemesh,
     surface_strip,
     tensor_mesh_ordering,
+    tree_levels,
     treemesh_2_octree,
 )
 
@@ -242,7 +243,7 @@ def test_find_endpoints():
 
 
 def test_surface_strip(tmp_path):
-    with Workspace.create(tmp_path / "test.geoh5") as workspace:
+    with Workspace.create(tmp_path / f"{__name__}.geoh5") as workspace:
         line = Points.create(
             workspace, vertices=np.array([[-1, 0, 0], [0, 0, 0], [1, 0, 0]])
         )
@@ -282,7 +283,7 @@ def test_not_implemented_negative():
 
 
 def test_collocate_octrees(tmp_path: Path):
-    with Workspace.create(tmp_path / "test.geoh5") as workspace:
+    with Workspace.create(tmp_path / f"{__name__}.geoh5") as workspace:
         local_mesh1 = TreeMesh(
             [[10] * 16, [10] * 16, [10] * 16], [1000, 0, 0], diagonal_balance=True
         )
@@ -391,7 +392,7 @@ def test_create_octree_from_octrees_errors():
 
 
 def test_densify_curve(tmp_path: Path):
-    with Workspace.create(tmp_path / "test.geoh5") as workspace:
+    with Workspace.create(tmp_path / f"{__name__}.geoh5") as workspace:
         curve = Curve.create(
             workspace,
             vertices=np.vstack([[0, 0, 0], [10, 0, 0], [10, 10, 0]]),
@@ -490,8 +491,43 @@ def test_octree_2_treemesh():
         np.testing.assert_allclose(tmesh.cell_centers, mesh.cell_centers)
 
 
+def test_tree_levels(tmp_path):
+    with Workspace.create(tmp_path / f"{__name__}.geoh5") as workspace:
+        mesh = Octree.create(
+            workspace,
+            name="test",
+            origin=[0, 0, 0],
+            u_count=8,
+            v_count=8,
+            w_count=8,
+            u_cell_size=10.0,
+            v_cell_size=20.0,
+            w_cell_size=40.0,
+            octree_cells=np.array(
+                [
+                    [0, 0, 0, 2],
+                    [2, 0, 0, 2],
+                    [0, 2, 0, 2],
+                    [2, 2, 0, 2],
+                    [0, 0, 2, 2],
+                    [2, 0, 2, 2],
+                    [0, 2, 2, 2],
+                    [2, 2, 2, 2],
+                    [4, 0, 0, 4],
+                    [0, 4, 0, 4],
+                    [4, 4, 0, 4],
+                ]
+            ),
+        )
+
+        levels = tree_levels(mesh)
+        assert levels[-1] == 1  # Largest cell
+        assert levels[0] == 2  # Medium size
+        assert np.all(levels < 3)  # No highest level
+
+
 def test_roundtrip_octree_conversion(tmp_path):
-    with Workspace.create(tmp_path / "test.geoh5") as workspace:
+    with Workspace.create(tmp_path / f"{__name__}.geoh5") as workspace:
         points = np.vstack(
             [
                 [10, 10, -10],

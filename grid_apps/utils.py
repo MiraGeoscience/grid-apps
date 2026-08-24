@@ -586,7 +586,7 @@ def octree_2_treemesh(  # pylint: disable=too-many-locals
     ):
         return None
 
-    n_cell_dim, cell_sizes = [], []
+    cell_sizes = []
     for ax in "uvw":
         if (
             getattr(mesh, f"{ax}_cell_size") is None
@@ -594,14 +594,36 @@ def octree_2_treemesh(  # pylint: disable=too-many-locals
         ):
             raise ValueError(f"Cell size in {ax} direction is not defined.")
 
-        n_cell_dim.append(getattr(mesh, f"{ax}_count"))
         cell_sizes.append(
-            np.ones(getattr(mesh, f"{ax}_count")) * getattr(mesh, f"{ax}_cell_size")
+            np.full(getattr(mesh, f"{ax}_count"), getattr(mesh, f"{ax}_cell_size"))
         )
 
     if any(np.any(cell_size < 0) for cell_size in cell_sizes):
         raise NotImplementedError("Negative cell sizes not supported.")
 
+    levels = tree_levels(mesh)
+    cells = np.vstack(mesh.octree_cells.tolist())
+    indexes = cells[:, :-1] * 2 + cells[:, -1][:, None]  # convert to cpp index
+    treemesh = TreeMesh(
+        cell_sizes, x0=np.asarray(mesh.origin.tolist()), diagonal_balance=False
+    )
+    treemesh.__setstate__((indexes, levels))
+
+    return treemesh
+
+
+def tree_levels(mesh: Octree) -> np.ndarray | None:
+    """
+    Convert Octree n cell indices to Treemesh level indices.
+
+    :param mesh: Octree object with n cell index.
+
+    :returns: Array of level indices.
+    """
+    if mesh.octree_cells is None:
+        return None
+
+    n_cell_dim = [mesh.u_count, mesh.v_count, mesh.w_count]
     ls = np.log2(n_cell_dim).astype(int)
 
     if len(set(ls)) == 1:
@@ -609,15 +631,9 @@ def octree_2_treemesh(  # pylint: disable=too-many-locals
     else:
         max_level = min(ls) + 1
 
-    cells = np.vstack(mesh.octree_cells.tolist())
-    indexes = cells[:, :-1] * 2 + cells[:, -1][:, None]  # convert to cpp index
-    levels = max_level - np.log2(cells[:, -1])
-    treemesh = TreeMesh(
-        cell_sizes, x0=np.asarray(mesh.origin.tolist()), diagonal_balance=False
-    )
-    treemesh.__setstate__((indexes, levels))
+    levels = max_level - np.log2(mesh.octree_cells["NCells"])
 
-    return treemesh
+    return levels.astype(int)
 
 
 def resample_locations(locations: np.ndarray, increment: float) -> np.ndarray:

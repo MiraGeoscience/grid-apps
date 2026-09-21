@@ -37,11 +37,14 @@ def block_model_to_tensor(
 
     :return: An equivalent TensorMesh object.
     """
-    origin = [
-        entity.origin["x"] + entity.u_cells[entity.u_cells < 0].sum(),
-        entity.origin["y"] + entity.v_cells[entity.v_cells < 0].sum(),
-        entity.origin["z"] + entity.z_cells[entity.z_cells < 0].sum(),
-    ]
+    origin = (
+        entity.origin
+        + np.r_[
+            entity.u_cells[entity.u_cells < 0].sum(),
+            entity.v_cells[entity.v_cells < 0].sum(),
+            entity.z_cells[entity.z_cells < 0].sum(),
+        ]
+    )
     mesh = TensorMesh(
         [
             np.abs(entity.u_cells),
@@ -118,7 +121,7 @@ def block_model_to_treemesh(
     """
     origin = []
     octree_cells = []
-    for ii, ax in zip("xyz", "uvz", strict=True):
+    for ii, ax in enumerate("uvz"):
         cell_sizes = np.abs(getattr(entity, f"{ax}_cells"))
         h_core = cell_sizes.min()
 
@@ -537,12 +540,13 @@ def get_octree_attributes(mesh: Octree | TreeMesh) -> dict[str, list]:
     cell_size = []
     cell_count = []
     dimensions = []
+    origin = mesh.origin
     if isinstance(mesh, TreeMesh):
         for int_dim in range(3):
             cell_size.append(mesh.h[int_dim][0])
             cell_count.append(mesh.h[int_dim].size)
             dimensions.append(mesh.h[int_dim].sum())
-        origin = mesh.origin
+
     else:
         with fetch_active_workspace(mesh.workspace):
             for str_dim in "uvw":
@@ -552,7 +556,6 @@ def get_octree_attributes(mesh: Octree | TreeMesh) -> dict[str, list]:
                     getattr(mesh, f"{str_dim}_cell_size")
                     * getattr(mesh, f"{str_dim}_count")
                 )
-            origin = np.r_[mesh.origin["x"], mesh.origin["y"], mesh.origin["z"]]
 
     extent = np.r_[origin, origin + np.r_[dimensions]]
 
@@ -790,10 +793,7 @@ def grid2d_to_tensor(
             "Conversion of rotated or dipping 2D grid not supported."
         )
 
-    origin = [
-        entity.origin["x"],
-        entity.origin["y"],
-    ]
+    origin = entity.origin[:2]
     mesh = TensorMesh(
         [
             np.full(entity.u_count, entity.u_cell_size),

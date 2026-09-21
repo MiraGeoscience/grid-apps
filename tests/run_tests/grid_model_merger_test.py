@@ -124,7 +124,7 @@ def test_merge_grid2d_model(tmp_path: Path):  # pylint: disable=too-many-locals
         driver = Driver(options)
         out_grid = driver.run()
 
-        assert out_grid.origin["z"] == 30.0
+        assert out_grid.origin[2] == 30.0
         merged_model = out_grid.children[0]
         np.testing.assert_almost_equal(merged_model.values[110], 1.5, decimal=1)
 
@@ -134,7 +134,7 @@ def test_merge_octree_model(tmp_path: Path, setup_test_octree):  # pylint: disab
 
     with Workspace.create(tmp_path / f"{__name__}.geoh5") as ws:
         mesh = setup_octree(ws, locations, refinement, params_dict)
-        other = mesh.copy(origin=(-600, -600, mesh.origin["z"]))
+        other = mesh.copy(origin=(-600, -600, mesh.origin[2]))
 
         model_b = other.add_data({"values": {"values": np.full(mesh.n_cells, 2.0)}})
         model_a = mesh.add_data({"values": {"values": np.full(mesh.n_cells, 1.0)}})

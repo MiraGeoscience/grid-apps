@@ -476,6 +476,6 @@ def test_flat_grid(tmp_path: Path, setup_test_octree):  # pylint: disable=too-ma
         driver = OctreeDriver(params)
         octree = driver.run()
 
-        assert (octree.origin["z"] + octree.w_cell_size * octree.w_count) > locations[
+        assert (octree.origin[2] + octree.w_cell_size * octree.w_count) > locations[
             :, 2
         ].max()

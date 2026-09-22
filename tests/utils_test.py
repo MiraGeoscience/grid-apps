@@ -449,10 +449,7 @@ def test_get_octree_attributes_with_octree(setup_test_octree):
     workspace = Workspace()
     otree = treemesh_2_octree(workspace, treemesh)
     attributes = get_octree_attributes(otree)
-    assert np.all(
-        [otree.origin["x"], otree.origin["y"], otree.origin["z"]]
-        == attributes["origin"]
-    )
+    np.testing.assert_array_equal(otree.origin, attributes["origin"])
     assert np.all(
         [otree.u_count, otree.v_count, otree.w_count] == attributes["cell_count"]
     )

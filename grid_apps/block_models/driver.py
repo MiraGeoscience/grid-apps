@@ -61,11 +61,6 @@ class Driver(BaseDriver):
             if self.params.output.out_group is not None:
                 block_model.parent = self.params.output.out_group
 
-            # Try to recenter on nearest
-            # Find nearest cells
-            if block_model.centroids is None:
-                raise ValueError("Block model has no centroids.")
-
             neighbor_distances, neighbor_indices = tree.query(block_model.centroids)
             nearest_neighbor = np.argmin(neighbor_distances)
             source_to_nearest_neighbor = (

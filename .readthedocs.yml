@@ -13,6 +13,9 @@ sphinx:
 conda:
   environment: docs/environment.yml
 
+formats:
+  - htmlzip
+
 python:
   install:
     - method: pip

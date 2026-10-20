@@ -5,6 +5,10 @@ build:
   os: "ubuntu-22.04"
   tools:
     python: "mambaforge-22.9"
+  jobs:
+    post_build:
+      - mkdir -p $READTHEDOCS_OUTPUT/htmlzip
+      - cd $READTHEDOCS_OUTPUT/html && zip -r ../htmlzip/grid-apps-docs.zip .
 
 # Build documentation in the docs/ directory with Sphinx
 sphinx:
@@ -13,9 +17,6 @@ sphinx:
 
 conda:
   environment: docs/environment.yml
-
-formats:
-  - htmlzip
 
 python:
   install:

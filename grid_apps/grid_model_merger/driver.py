@@ -94,9 +94,9 @@ class Driver(BaseDriver):
                     [
                         cell_size,
                         np.r_[
-                            grid.u_cells.min(),
-                            grid.v_cells.min(),
-                            grid.z_cells.min(),
+                            np.abs(grid.u_cells).min(),
+                            np.abs(grid.v_cells).min(),
+                            np.abs(grid.z_cells).min(),
                         ],
                     ],
                     axis=0,

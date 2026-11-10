@@ -15,8 +15,8 @@
 version: 1
 metadata:
   content_hash:
-    win-64: 7bfb0c555eec9c53e215c07b0292303434371dc40e1f6bea7ba60c052eb94601
-    linux-64: fcd8bd8bfb67823b63b86ab5edfda4a1914851c303660e815c91dd274d98eb15
+    win-64: ce212e4080caaa5303070905022169623a11422fb0cf412ace8ef7735fc09559
+    linux-64: e12e18c50a538a121deb8cc1cfe71eb4848744fa03645621957c0dc7c00d3110
   channels:
   - url: conda-forge
     used_env_vars: []
@@ -2605,7 +2605,7 @@ package:
   category: dev
   optional: true
 - name: mkl
-  version: 2026.2.0
+  version: 2026.1.0
   manager: conda
   platform: linux-64
   dependencies:
@@ -2615,26 +2615,26 @@ package:
     libstdcxx: '>=15'
     llvm-openmp: '>=23.1.4'
     tbb: '>=2023.1.0'
-  url: https://repo.prefix.dev/conda-forge/linux-64/mkl-2026.2.0-hd2095e1_881.conda
+  url: https://repo.prefix.dev/conda-forge/linux-64/mkl-2026.1.0-hd2095e1_246.conda
   hash:
-    md5: 9d3b654cbc0f00b77ee0a9cc6ee19f91
-    sha256: 172814c644b9146c9f746bba9b9215ecb4afd003de8b8cb730ad3dc93ae0aad7
+    md5: 8e622aab0da0111a2a2380df2143f25d
+    sha256: 1bb2a3273ac300af0c05fc1d0924e02f03c428482fe36569dca4a3e0393259c3
   category: main
   optional: false
 - name: mkl
-  version: 2026.2.0
+  version: 2026.1.0
   manager: conda
   platform: win-64
   dependencies:
-    llvm-openmp: '>=23.1.4'
-    tbb: '>=2023.1.0'
+    llvm-openmp: '>=22.1.8'
+    tbb: '>=2023.0.0'
     ucrt: '>=10.0.20348.0'
     vc: '>=14.3,<15'
     vc14_runtime: '>=14.44.35208'
-  url: https://repo.prefix.dev/conda-forge/win-64/mkl-2026.2.0-hac47afa_882.conda
+  url: https://repo.prefix.dev/conda-forge/win-64/mkl-2026.1.0-hac47afa_235.conda
   hash:
-    md5: fb8f28b9ba8cf4a50e0ce10f2bc727e2
-    sha256: 012fea9803989158ef12a7b807385e3f6b16daf4900085b9cc0318552ace751e
+    md5: ace316c48c178d7faa403dee51e30c7b
+    sha256: bb8abe071f73765446df62924031e6599577e8ac9003264dc4569e78c0fea16d
   category: main
   optional: false
 - name: munkres

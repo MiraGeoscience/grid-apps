@@ -109,7 +109,7 @@ def test_float_refine_octree(tmp_path):
         driver = BlockModelToOctreeDriver(params)
         octree = driver.run()
 
-        assert octree.n_cells == 6140
+        assert octree.n_cells == 7057
 
 
 def test_integer_refine_octree(tmp_path):

@@ -394,7 +394,8 @@ def refine_by_values(
     # Refine on the value/nan interface, without boundary cells
     if any(isnan):
         horizon = get_boundary_active_cells(
-            tensor, data.values[indices] == data.nan_value
+            tensor,
+            (data.values[indices] == data.nan_value) | np.isnan(data.values[indices]),
         )
         mesh = refine_by_cell_volumes(
             mesh, entity, finalize=False, mask=horizon[np.argsort(indices)]

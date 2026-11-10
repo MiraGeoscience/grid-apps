@@ -55,9 +55,8 @@ class Driver(BaseDriver):
                 treemesh = refine_by_values(treemesh, self.params.data, finalize=True)
                 # Transfer the model
                 ind = treemesh.get_containing_cells(entity.centroids)
-                model = (
-                    np.ones(treemesh.n_cells, dtype=self.params.data.values.dtype)
-                    * self.params.data.nan_value
+                model = np.full(
+                    treemesh.n_cells, np.nan, dtype=self.params.data.values.dtype
                 )
                 model[ind] = self.params.data.values
 

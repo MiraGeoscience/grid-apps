@@ -143,6 +143,9 @@ dmypy.json
 # geoh5 locks
 *.geoh5.lock
 
+# not using poetry to lock, but pixi
+poetry.lock
+
 # tempory generated files
 pyproject-sha.toml
 

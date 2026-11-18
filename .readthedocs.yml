@@ -1,23 +1,16 @@
 version: 2
 
-# Set the version of Python and other tools you might need
 build:
-  os: "ubuntu-22.04"
+  os: "ubuntu-24.04"
   tools:
-    python: "mambaforge-22.9"
+    python: "3.14"
   jobs:
+    create_environment:
+      - curl -fsSL https://pixi.sh/install.sh | PIXI_VERSION=v0.84.2 bash
+      - '"$HOME/.pixi/bin/pixi" install --locked --environment docs'
+    build:
+      html:
+        - '"$HOME/.pixi/bin/pixi" run --frozen --environment docs build-docs html "$READTHEDOCS_OUTPUT"'
     post_build:
-      - mkdir -p $READTHEDOCS_OUTPUT/htmlzip
-      - cd $READTHEDOCS_OUTPUT/html && zip -r ../htmlzip/grid-apps-docs.zip .
-
-# Build documentation in the docs/ directory with Sphinx
-sphinx:
-  configuration: docs/source/conf.py
-
-conda:
-  environment: docs/environment.yml
-
-python:
-  install:
-    - method: pip
-      path: .
+      - mkdir -p "$READTHEDOCS_OUTPUT/htmlzip"
+      - cd "$READTHEDOCS_OUTPUT/html" && zip -r ../htmlzip/grid-apps-docs.zip .

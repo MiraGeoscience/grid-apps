@@ -93,7 +93,9 @@ lint = ["pylint"]
 docs = [
     "sphinx",
     "sphinx-autodoc-typehints",
+    "sphinx-issues",
     "sphinx-rtd-theme",
+    "sphinxcontrib-googleanalytics",
 ]
 
 [tool.poetry.requires-plugins]

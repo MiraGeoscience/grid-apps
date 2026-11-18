@@ -37,6 +37,17 @@ On Windows, run ``install_in_analyst.bat`` to install the locked runtime in Geos
 Analyst; pass ``-e`` for an editable installation.
 
 
+Building documentation
+^^^^^^^^^^^^^^^^^^^^^^
+
+The separate ``docs`` environment uses Python 3.14. Build the HTML documentation with::
+
+    pixi run --frozen --environment docs build-docs
+
+The output is written to ``docs/_build/html``. Read the Docs uses the same task and
+also creates the downloadable ``grid-apps-docs.zip`` archive.
+
+
 Updating dependencies
 ^^^^^^^^^^^^^^^^^^^^^
 

@@ -15,8 +15,8 @@
 version: 1
 metadata:
   content_hash:
-    win-64: dc35eba53fd63aca0d4f4cbeef4104c18b7fde850d581a049c4d9c6d39a35c1f
-    linux-64: dcb6a337490e4d2fa66bdac920997907152a532d55fefdf1f4b43cd6ddcb541e
+    win-64: 72c6f6c8ed931e0650f1fcfb49555aec768bfe5afcbc099a6298d0125a980f1a
+    linux-64: 723c2b4b9e0a21febe8db6acbf454eb2f7558b5be7e0ee35828fd82f179a91ed
   channels:
   - url: conda-forge
     used_env_vars: []
@@ -3956,75 +3956,97 @@ package:
     sha256: ca7daae4f218a11fab82cc2857f0ea518ec3f46acec60490485347a4c22c6b3e
   category: main
   optional: false
+- name: defusedxml
+  version: 0.7.1
+  manager: pip
+  platform: linux-64
+  dependencies: {}
+  url: https://files.pythonhosted.org/packages/07/6c/aa3f2f849e01cb6a001cd8554a88d4c77c5c1a31c95bdf1cf9301e6d9ef4/defusedxml-0.7.1-py2.py3-none-any.whl
+  hash:
+    sha256: a352e7e428770286cc899e2542b6cdaedb2b4953ff269a210103ec58f6198a61
+  category: main
+  optional: false
+- name: defusedxml
+  version: 0.7.1
+  manager: pip
+  platform: win-64
+  dependencies: {}
+  url: https://files.pythonhosted.org/packages/07/6c/aa3f2f849e01cb6a001cd8554a88d4c77c5c1a31c95bdf1cf9301e6d9ef4/defusedxml-0.7.1-py2.py3-none-any.whl
+  hash:
+    sha256: a352e7e428770286cc899e2542b6cdaedb2b4953ff269a210103ec58f6198a61
+  category: main
+  optional: false
 - name: geoapps-utils
-  version: 0.8.0a4.dev1+c80ea7f
+  version: 0.8.0a4.dev2+a9746a1
   manager: pip
   platform: linux-64
   dependencies:
-    geoh5py: 0.14.0a2.dev210+daff5919
+    geoh5py: 0.14.0b1
     matplotlib: '>=3.10.0,<3.11.0'
     numpy: '>=2.4.2,<2.5.0'
     pydantic: '>=2.12.0,<2.13.0'
     scipy: '>=1.17.0,<1.18.0'
-  url: git+https://github.com/MiraGeoscience/geoapps-utils.git@c80ea7fb49bc3275d0418643c164b8924bdb53cf
+  url: git+https://github.com/MiraGeoscience/geoapps-utils.git@a9746a148fb828bde7fd53785bce7062fbbfa744
   hash:
-    sha256: c80ea7fb49bc3275d0418643c164b8924bdb53cf
+    sha256: a9746a148fb828bde7fd53785bce7062fbbfa744
   source:
     type: url
-    url: git+https://github.com/MiraGeoscience/geoapps-utils.git@c80ea7fb49bc3275d0418643c164b8924bdb53cf
+    url: git+https://github.com/MiraGeoscience/geoapps-utils.git@a9746a148fb828bde7fd53785bce7062fbbfa744
   category: main
   optional: false
 - name: geoapps-utils
-  version: 0.8.0a4.dev1+c80ea7f
+  version: 0.8.0a4.dev2+a9746a1
   manager: pip
   platform: win-64
   dependencies:
-    geoh5py: 0.14.0a2.dev210+daff5919
+    geoh5py: 0.14.0b1
     matplotlib: '>=3.10.0,<3.11.0'
     numpy: '>=2.4.2,<2.5.0'
     pydantic: '>=2.12.0,<2.13.0'
     scipy: '>=1.17.0,<1.18.0'
-  url: git+https://github.com/MiraGeoscience/geoapps-utils.git@c80ea7fb49bc3275d0418643c164b8924bdb53cf
+  url: git+https://github.com/MiraGeoscience/geoapps-utils.git@a9746a148fb828bde7fd53785bce7062fbbfa744
   hash:
-    sha256: c80ea7fb49bc3275d0418643c164b8924bdb53cf
+    sha256: a9746a148fb828bde7fd53785bce7062fbbfa744
   source:
     type: url
-    url: git+https://github.com/MiraGeoscience/geoapps-utils.git@c80ea7fb49bc3275d0418643c164b8924bdb53cf
+    url: git+https://github.com/MiraGeoscience/geoapps-utils.git@a9746a148fb828bde7fd53785bce7062fbbfa744
   category: main
   optional: false
 - name: geoh5py
-  version: 0.14.0a2.dev210+daff5919
+  version: 0.14.0b1
   manager: pip
   platform: linux-64
   dependencies:
+    defusedxml: '>=0.7.1,<0.8.0'
     h5py: '>=3.15.0,<3.16.0'
     numpy: '>=2.4.0,<2.5.0'
     pillow: '>=13.0.0,<14.0.0'
     psutil: '>=7.2.2,<7.3.0'
     pydantic: '>=2.12.0,<2.13.0'
-  url: git+https://github.com/MiraGeoscience/geoh5py.git@daff591926309b6bf81bca72f65432ec424cd5f4
+  url: git+https://github.com/MiraGeoscience/geoh5py.git@89c3db12c9b41f26f7d7aa5b664fca62012ac2f9
   hash:
-    sha256: daff591926309b6bf81bca72f65432ec424cd5f4
+    sha256: 89c3db12c9b41f26f7d7aa5b664fca62012ac2f9
   source:
     type: url
-    url: git+https://github.com/MiraGeoscience/geoh5py.git@daff591926309b6bf81bca72f65432ec424cd5f4
+    url: git+https://github.com/MiraGeoscience/geoh5py.git@89c3db12c9b41f26f7d7aa5b664fca62012ac2f9
   category: main
   optional: false
 - name: geoh5py
-  version: 0.14.0a2.dev210+daff5919
+  version: 0.14.0b1
   manager: pip
   platform: win-64
   dependencies:
+    defusedxml: '>=0.7.1,<0.8.0'
     h5py: '>=3.15.0,<3.16.0'
     numpy: '>=2.4.0,<2.5.0'
     pillow: '>=13.0.0,<14.0.0'
     psutil: '>=7.2.2,<7.3.0'
     pydantic: '>=2.12.0,<2.13.0'
-  url: git+https://github.com/MiraGeoscience/geoh5py.git@daff591926309b6bf81bca72f65432ec424cd5f4
+  url: git+https://github.com/MiraGeoscience/geoh5py.git@89c3db12c9b41f26f7d7aa5b664fca62012ac2f9
   hash:
-    sha256: daff591926309b6bf81bca72f65432ec424cd5f4
+    sha256: 89c3db12c9b41f26f7d7aa5b664fca62012ac2f9
   source:
     type: url
-    url: git+https://github.com/MiraGeoscience/geoh5py.git@daff591926309b6bf81bca72f65432ec424cd5f4
+    url: git+https://github.com/MiraGeoscience/geoh5py.git@89c3db12c9b41f26f7d7aa5b664fca62012ac2f9
   category: main
   optional: false

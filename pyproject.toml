@@ -73,7 +73,7 @@ pillow = ">=13.0.0,<14.0"
 ## pip dependencies from Git repositories
 #----------------------------------------
 # geoh5py = { version = ">=0.14.0a, 0.14.*", source = "pypi", allow-prereleases = true }
-geoh5py = { git = "https://github.com/MiraGeoscience/geoh5py.git", rev = "GA-9681" }
+geoh5py = { git = "https://github.com/MiraGeoscience/geoh5py.git", rev = "release/ga-4.9" }
 
 # geoapps-utils = { version = ">=0.8.0a, 0.8.*", source = "pypi", allow-prereleases = true }
 geoapps-utils = { git = "https://github.com/MiraGeoscience/geoapps-utils.git", rev = "GA-9681" }

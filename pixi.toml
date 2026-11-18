@@ -1,0 +1,89 @@
+[workspace]
+name = "grid-apps"
+requires-pixi = ">=0.84.2"
+channels = ["https://repo.prefix.dev/conda-forge"]
+platforms = ["win-64", "linux-64"]
+
+[activation.env]
+PYTHONNOUSERSITE = "1"
+
+[dependencies]
+discretize = "0.12.*"
+defusedxml = ">=0.7.1,<0.8"
+h5py = ">=3.15.1,<3.16"
+matplotlib-base = "3.10.*"
+numpy = ">=2.4.2,<2.5"
+pillow = "13.*"
+psutil = ">=7.2.2,<7.3"
+pydantic = "2.12.*"
+scipy = "1.17.*"
+uv = "*"
+
+[pypi-dependencies]
+geoh5py = ">=0.14.0b1,<0.15"
+geoapps-utils = ">=0.8.0b1,<0.9"
+
+[environments]
+default = { features = ["py312", "test", "lint", "dev"], solve-group = "py312" }
+py312 = { features = ["py312", "test", "lint"], solve-group = "py312" }
+py313 = { features = ["py313", "test", "lint"], solve-group = "py313" }
+py314 = { features = ["py314", "test", "lint"], solve-group = "py314" }
+runtime = { features = ["py312"], solve-group = "py312" }
+runtime-py313 = { features = ["py313"], solve-group = "py313" }
+runtime-py314 = { features = ["py314"], solve-group = "py314" }
+docs = { features = ["py314", "docs"], no-default-feature = true }
+
+[feature.py312.dependencies]
+python = "3.12.*"
+
+[feature.py313.dependencies]
+python = "3.13.*"
+
+[feature.py314.dependencies]
+python = "3.14.*"
+
+[feature.dev.dependencies]
+pygments = "*"
+ipython = "*"
+
+[feature.dev.tasks]
+repl = "ipython"
+
+[feature.test.dependencies]
+packaging = "*"
+pytest = "*"
+pytest-cov = "*"
+pyyaml = "*"
+
+[feature.test.tasks]
+test = { cmd = "pytest --cov --cov-report=xml", description = "Run tests from the source checkout with coverage" }
+
+[feature.lint.dependencies]
+pylint = ">=4.0.9,<5"
+
+[feature.lint.tasks]
+lint = { cmd = "pylint", description = "Run pylint on the local sources" }
+
+[feature.docs.dependencies]
+packaging = "*"
+sphinx = "*"
+sphinx-autodoc-typehints = "*"
+sphinx-issues = "*"
+sphinx-rtd-theme = "*"
+sphinxcontrib-googleanalytics = "*"
+uv = "*"
+
+[feature.docs.tasks._install-no-deps]
+cmd = "uv pip install --python \"$CONDA_PREFIX\" --no-deps ."
+
+[feature.docs.tasks.build-docs]
+args = [
+    { arg = "builder", default = "html" },
+    { arg = "outputdir", default = "docs/_build" },
+]
+depends-on = ["_install-no-deps"]
+cmd = "sphinx-build -T -b {{builder}} docs/source {{outputdir}}/{{builder}}"
+
+[tasks]
+install = { cmd = "uv pip install --python \"$CONDA_PREFIX\" --no-deps --editable . && uv pip check --python \"$CONDA_PREFIX\"", description = "Install the local package in editable mode and verify dependency compatibility" }
+test-pyvers = { cmd = "pixi run --frozen -e py312 test && pixi run --frozen -e py313 test && pixi run --frozen -e py314 test", description = "Run tests across supported Python versions" }

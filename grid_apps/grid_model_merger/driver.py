@@ -18,6 +18,7 @@ from discretize.utils import mesh_utils
 from geoapps_utils.base import Driver as BaseDriver
 from geoapps_utils.utils.plotting import inv_symlog, symlog
 from geoh5py.objects import Grid2D, Octree
+from geoh5py.objects.grid_object import GridObject
 from geoh5py.shared.utils import fetch_active_workspace
 from scipy.spatial import cKDTree
 
@@ -47,7 +48,7 @@ class Driver(BaseDriver):
     def __init__(self, params: GridModelMergerOptions):
 
         super().__init__(params)
-        self.output_grid = None
+        self.output_grid: GridObject | None = None
 
     def run(self):
         """Create an octree mesh from input values."""
@@ -163,15 +164,23 @@ class Driver(BaseDriver):
         """
         Interpolate models from selections to output grid.
         """
+        output_grid = self.output_grid
+        if output_grid is None:
+            raise RuntimeError("The output grid must be created before interpolation.")
+
         with fetch_active_workspace(self.params.geoh5, mode="r+"):
-            out_model = np.full(self.output_grid.n_cells, np.nan, dtype=float)
-            weights = np.full(self.output_grid.n_cells, np.nan, dtype=float)
+            out_model = np.full(output_grid.n_cells, np.nan, dtype=float)
+            weights = np.full(output_grid.n_cells, np.nan, dtype=float)
             threshold = None
 
             for selection in self.params.selections:
                 mesh, model = selection.to_discretize()
 
-                if model is None or not np.any(~np.isnan(model)):
+                if (
+                    model is None
+                    or selection.model is None
+                    or not np.any(~np.isnan(model))
+                ):
                     continue
 
                 active = ~np.isnan(model)
@@ -179,7 +188,7 @@ class Driver(BaseDriver):
                     "Interpolating model '%s' from grid '%s' to output grid '%s' . . .",
                     selection.model.name,
                     selection.grid.name,
-                    self.output_grid.name,
+                    output_grid.name,
                 )
 
                 if self.params.scaling_type == ScalingTypeEnum.LOG:
@@ -197,25 +206,25 @@ class Driver(BaseDriver):
                 )
 
                 # Find nearest neighbors and apply weighted model
-                cell_id = containing_cell_indices(mesh, self.output_grid.centroids)
+                cell_id = containing_cell_indices(mesh, output_grid.centroids)
 
                 # Trim weights for cells outside the extent of the input mesh
-                cell_weights = np.full(self.output_grid.n_cells, np.nan, dtype=float)
+                cell_weights = np.full(output_grid.n_cells, np.nan, dtype=float)
                 cell_weights[cell_id != -1] = weight_model[cell_id][cell_id != -1]
 
                 out_model = np.nansum(
-                    [out_model, cell_weights * model[cell_id]], axis=0
+                    np.stack((out_model, cell_weights * model[cell_id])), axis=0
                 )
-                weights = np.nansum([weights, cell_weights], axis=0)
+                weights = np.nansum(np.stack((weights, cell_weights)), axis=0)
 
-            if not np.any(weights > 0):
+            if not np.any(np.greater(weights, 0.0)):
                 logger.warning(
                     "No valid model values found in any selection. No output model will be created."
                 )
                 return
 
             # Normalizes weighted sum
-            non_zero = weights > 0
+            non_zero = np.greater(weights, 0.0)
             out_model[non_zero] /= weights[non_zero]
             out_model[~non_zero] = np.nan
 
@@ -226,7 +235,7 @@ class Driver(BaseDriver):
                 out_model = inv_symlog(out_model, threshold=threshold)
 
             if np.any(~np.isnan(out_model)):
-                self.output_grid.add_data(
+                output_grid.add_data(
                     {
                         "merged_model": {
                             "values": out_model,

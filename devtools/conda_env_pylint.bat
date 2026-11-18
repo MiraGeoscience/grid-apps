@@ -1,11 +1,8 @@
 @echo off
-setlocal EnableDelayedExpansion
-
-set project_dir=%~dp0..
-call %project_dir%\get_conda_exec.bat
-if !errorlevel! neq 0 (
-  exit /B !errorlevel!
-)
-
-set env_path=%project_dir%\.conda-env
-call !MY_CONDA_EXE! run -p %env_path% pylint %*
+setlocal
+set "project_dir=%~dp0.."
+pushd "%project_dir%"
+pixi run --frozen pylint %*
+set "exit_code=%errorlevel%"
+popd
+exit /B %exit_code%

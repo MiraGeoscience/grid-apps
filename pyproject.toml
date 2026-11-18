@@ -87,12 +87,14 @@ dev = [
     { include-group = "test" },
     { include-group = "lint" },
     "Pygments",
+]
+test = ["pytest", "pytest-cov", "pyyaml", "packaging"]
+lint = ["pylint"]
+docs = [
     "sphinx",
     "sphinx-autodoc-typehints",
     "sphinx-rtd-theme",
 ]
-test = ["pytest", "pytest-cov", "pyyaml", "packaging"]
-lint = ["pylint"]
 
 [tool.poetry.requires-plugins]
 poetry-dynamic-versioning = { version = ">=1.9.1,<2.0.0", extras = ["plugin"] }
@@ -222,9 +224,6 @@ plugins = [
 [tool.coverage.run]
 branch = true
 source = ["grid_apps"]
-omit = [
-    "grid_apps/commands/hello_world.py"
-]
 
 [tool.coverage.report]
 exclude_lines = [

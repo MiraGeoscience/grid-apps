@@ -1,6 +1,6 @@
 [build-system]
 requires = [
-  "poetry-core>=1.8.0",
+  "poetry-core>=2.2.1",
   "poetry-dynamic-versioning>=1.9.1,<2.0",
   # list dependencies to work with PIP_NO_DEPS=1
   "MarkupSafe>=2.0",
@@ -21,13 +21,33 @@ license-files = [
     "LICENSE",
     "docs/source/THIRD_PARTY_SOFTWARE.rst",
 ]
-keywords = ["geology", "geophysics", "earth sciences"]
+keywords = [
+    "earth-science",
+    "geoh5",
+    "geology",
+    "geophysics",
+    "mining",
+    "open-science",
+]
 readme = "package.rst"
-dynamic = ["version", "dependencies", "classifiers"]
+dynamic = ["version", "classifiers"]
 authors = [{name = "Mira Geoscience", email = "support@mirageoscience.com"}]
 maintainers = [
     { name = "Benjamin Kary", email = "benjamink@mirageoscience.com" },
     { name = "Dominique Fournier", email = "dominiquef@mirageoscience.com" }
+]
+dependencies = [
+    # Mira packages
+    # geoh5py @ git+https://github.com/MiraGeoscience/geoh5py.git@release/ga-4.9
+    "geoh5py>=0.14.0b1,<0.15.0",
+    # geoapps-utils @ git+https://github.com/MiraGeoscience/geoapps-utils.git@release/ga-4.9
+    "geoapps-utils>=0.8.0b1,<0.9.0",
+    # other direct dependencies
+    "discretize>=0.12.0,<0.13.0",
+    "numpy>=2.4.2,<2.5.0",
+    "pydantic>=2.12.0,<2.13.0",
+    "scipy>=1.17.0,<1.18.0",
+    "pillow>=13.0.0,<14.0.0",  # Security floor (GHSA-wqgw-9xfh-qf2g).
 ]
 
 [project.urls]
@@ -36,7 +56,7 @@ documentation  = "https://mirageoscience-grid-apps.readthedocs-hosted.com/"
 homepage = "https://www.mirageoscience.com/mining-industry-software/python-integration/"
 
 [tool.poetry]
-requires-poetry = '>=2.0,<3.0'
+requires-poetry = '>=2.2.0,<3.0'
 
 classifiers = [
     "Development Status :: 2 - Pre-Alpha",
@@ -62,54 +82,21 @@ include = [
 ]
 version = "0.0.0.dev0"
 
-
-[tool.poetry.dependencies]
-discretize = "~0.13.0"
-numpy = "~2.4.2"
-pydantic = "~2.12.0"
-scipy = "~1.17.0"
-
-## pip dependencies from Git repositories
-#----------------------------------------
-# geoh5py = { version = ">=0.14.0a, 0.14.*", source = "pypi", allow-prereleases = true }
-geoh5py = { git = "https://github.com/MiraGeoscience/geoh5py.git", rev = "develop" }
-
-# geoapps-utils = { version = ">=0.8.0a, 0.8.*", source = "pypi", allow-prereleases = true }
-geoapps-utils = { git = "https://github.com/MiraGeoscience/geoapps-utils.git", rev = "develop" }
-
-## about pip dependencies
-# to be specified to work with conda-lock
-# - from PyPI: my_package = { version = "1.2.3", source = "pypi" }
-# - from URL:
-#   - for a tags:   my_package = { url = "https://github.com/ORGANISATION/REPO/archive/refs/tags/VERSION_TAG.zip#sha256=" }
-#   - for a branch: my_package = { url = "https://github.com/ORGANISATION/REPO/archive/refs/heads/BRANCH.zip#sha256=" }
-# Note - conda-lock does not support the syntax: my_package = { git = ... }
-#        while poetry2conda supports only { git = "...", tag = "..." }, and not { url = ... }
-
-[tool.poetry.group.dev.dependencies]
-Pygments = "*"
-pylint = "*"
-pytest = "*"
-pytest-cov = "*"
-pyyaml = '*'
-packaging = '*'
-sphinx = "*"
-sphinx-autodoc-typehints = "*"
-sphinx-rtd-theme = "*"
-
-[tool.conda-lock]
-platforms = ['win-64', 'linux-64']
-channels = ['conda-forge']
-
-[tool.conda-lock.dependencies]
-libblas = "*=*mkl"
-mkl = "<2026.2"
-## indirect dependencies, forcing them here for installation through Conda not pip
-#---------------------------------------------------------------------------------
-h5py = ">=3.15.1, 3.*"  # from geoh5py
-matplotlib-base = "3.10.*"  # from geoapps-utils
-pillow = ">=12.1.0, 12.*"  # from geoh5py
-psutil = ">=7.2.2, 7.2.*"  # from geoh5py
+[dependency-groups]
+dev = [
+    { include-group = "test" },
+    { include-group = "lint" },
+    "Pygments",
+]
+test = ["pytest", "pytest-cov", "pyyaml", "packaging"]
+lint = ["pylint"]
+docs = [
+    "sphinx",
+    "sphinx-autodoc-typehints",
+    "sphinx-issues",
+    "sphinx-rtd-theme",
+    "sphinxcontrib-googleanalytics",
+]
 
 [tool.poetry.requires-plugins]
 poetry-dynamic-versioning = { version = ">=1.9.1,<2.0.0", extras = ["plugin"] }
@@ -140,6 +127,50 @@ persistent-substitution = true
 initial-content = """
 { "version": "0.0.0.dev0" }
 """
+
+[tool.pylint.main]
+extension-pkg-allow-list = ["numpy", "scipy"]
+fail-on = ["F", "E", "W"]
+jobs = 0
+py-version = "3.12"
+
+[tool.pylint.basic]
+good-names = ["i", "j", "k", "x", "y", "z", "ex", "Run", "id", "_"]
+
+[tool.pylint.classes]
+defining-attr-methods = ["__init__", "__new__", "setUp", "__post_init__"]
+exclude-protected = ["_asdict", "_fields", "_replace", "_source", "_make"]
+valid-metaclass-classmethod-first-arg = "cls"
+
+[tool.pylint.design]
+max-args = 9
+max-attributes = 15
+max-bool-expr = 6
+max-branches = 13
+max-statements = 65
+
+[tool.pylint.exceptions]
+overgeneral-exceptions = ["builtins.BaseException", "builtins.Exception"]
+
+[tool.pylint.imports]
+deprecated-modules = ["optparse", "tkinter.tix"]
+
+[tool.pylint."messages control"]
+disable = [
+    "raw-checker-failed",
+    "bad-inline-option",
+    "locally-disabled",
+    "file-ignored",
+    "suppressed-message",
+    "useless-suppression",
+    "deprecated-pragma",
+    "use-symbolic-message-instead",
+    "missing-module-docstring",
+    "missing-function-docstring",
+    "missing-class-docstring",
+    "fixme",
+]
+enable = ["c-extension-no-member"]
 
 [tool.ruff]
 target-version = "py312"
@@ -195,9 +226,6 @@ plugins = [
 [tool.coverage.run]
 branch = true
 source = ["grid_apps"]
-omit = [
-    "grid_apps/commands/hello_world.py"
-]
 
 [tool.coverage.report]
 exclude_lines = [

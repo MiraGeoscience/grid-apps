@@ -212,4 +212,4 @@ def refinement_identifiers(data: dict) -> list[str]:
     """Return identifiers for active refinements (object not none)."""
     refinements = [k for k in data if "Refinement" in k]
     active = [k for k in refinements if "object" in k]
-    return np.unique([k.split(" ")[1] for k in active])
+    return sorted({k.split(" ")[1] for k in active})

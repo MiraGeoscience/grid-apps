@@ -160,4 +160,4 @@ def collect_selections_from_dict(data: dict) -> list[dict | None]:
 def input_identifiers(data: dict) -> list[str]:
     """Return identifiers for active inputs (object not none)."""
     active = [k for k in data if "_grid" in k]
-    return np.unique([k.split("_")[1] for k in active])
+    return sorted({k.split("_")[1] for k in active})

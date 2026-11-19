@@ -51,22 +51,20 @@ Installation
 ^^^^^^^^^^^^
 **grid-apps** is currently written for Python 3.12 or higher.
 
-Install Conda
--------------
+Install Pixi
+------------
 
-To install **grid-apps**, you need to install **Conda** first.
-
-We recommend to install **Conda** using `miniforge`_.
-
-.. _miniforge: https://github.com/conda-forge/miniforge
+Install `Pixi <https://pixi.sh/>`_ version 0.84.2 or newer and external
+`uv <https://docs.astral.sh/uv/>`_, with both commands available on ``PATH``.
 
 Quick installation
 -------------------
 
-To install (or re-install) a conda environment to run **grid-apps**, simply execute the **install.bat** file.
+From a checkout of **grid-apps**, install the locked runtime and the local package with::
 
-To install in editable mode, so that changes in the source code are immediately reflected in the
-running application, execute with the ``-e`` option: ``install.bat -e``.
+    pixi run --frozen --environment runtime install
+
+The package is installed in editable mode, so source changes are immediately reflected at runtime.
 
 .. warning::
 
@@ -78,29 +76,30 @@ Manual installation
 
 You should not install the package directly with ``pip``, as the app requires conda packages to run.
 
-First create a Conda environment with all the required dependencies,
+First create a Pixi environment with all the required dependencies,
 then activate it and install the package in this environment using
 ``pip install --no-deps ...``
 
 See instructions below for more details and options.
 
-Prepare a Conda environment with dependencies
+Prepare a Pixi environment with dependencies
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-You can create a Conda environment with all the required dependencies ``conda`` and the ``.lock``
-files from a conda prompt::
+Create the runtime environment from ``pixi.lock``::
 
-    $ conda env create --solver libmamba -n my-env -f environments/[the_desired_env].lock.yml
+    pixi install --frozen --environment runtime
 
 .. note::
 
-    The package itself is not install yet in the Conda environment. See following instructions.
+    The package itself is not installed yet in the Pixi environment. See following instructions.
 
 .. warning::
 
-    All the following ``pip`` commands are meant to be executed in the Conda environment you just created.
+    All the following ``pip`` commands are meant to be executed in the Pixi environment you just created.
     Activate it with::
 
-    $ conda activate my-env
+        pixi shell --frozen --environment runtime
+
+    Use ``uv pip`` in place of ``pip`` if pip is not installed in the environment.
 
 From PyPI
 ~~~~~~~~~
@@ -129,7 +128,7 @@ Or to install the latest changes available on a given Git branch::
     on not merely reinstall the same version.
 
     The option ``--no-deps`` is used to avoid installing the dependencies with pip,
-    as they have dependencies are already installed within the **Conda environment**.
+    as the dependencies are already installed within the **Pixi environment**.
 
 From a local copy of the sources
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

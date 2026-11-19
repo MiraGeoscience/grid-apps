@@ -44,7 +44,6 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.autosummary",
     "sphinx.ext.intersphinx",
-    "sphinx.ext.todo",
     "sphinx.ext.viewcode",
     "sphinx_issues",
     "sphinxcontrib.googleanalytics",
@@ -57,7 +56,6 @@ intersphinx_mapping = {
 
 templates_path = ["_templates"]
 exclude_patterns = []
-todo_include_todos = True
 
 googleanalytics_id = os.environ.get("GOOGLE_ANALYTICS_ID", "")
 googleanalytics_enabled = bool(googleanalytics_id)

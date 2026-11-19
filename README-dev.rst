@@ -22,8 +22,9 @@ After you have cloned the Git repository, you will need to:
 Install the Pixi environment
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Install `Pixi`_ version 0.84.2 or newer. From the project root, install the default
-development environment with::
+Install `Pixi`_ version 0.84.2 or newer and external `uv <https://docs.astral.sh/uv/>`_.
+Keep both commands on ``PATH``; uv is not installed by Pixi. From the project root,
+install the default development environment with::
 
     pixi install
 

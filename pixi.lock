@@ -88,7 +88,6 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/linux-64/scipy-1.17.1-py312h54fa4ab_1.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/tk-8.6.13-noxft_h1df4ec4_4.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/unicodedata2-18.0.0-py312h5cc1888_1.conda
-      - conda: https://repo.prefix.dev/conda-forge/linux-64/uv-0.13.9-h779873d_0.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/wcwidth-0.9.4-py311hd139983_0.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/xorg-libxau-1.0.12-h7cc23a3_2.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/xorg-libxdmcp-1.1.5-h7cc23a3_2.conda
@@ -259,7 +258,6 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/win-64/tk-8.6.13-h967ab96_4.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/ucrt-10.0.26100.0-h57928b3_0.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/unicodedata2-18.0.0-py312he06e257_1.conda
-      - conda: https://repo.prefix.dev/conda-forge/win-64/uv-0.13.9-hfe9f6e1_0.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/vc-14.5-hda273ae_44.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/vc14_runtime-14.51.36247-hb06f545_44.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/vcomp14-14.51.36247-h1c3f1cb_44.conda
@@ -460,7 +458,6 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/linux-64/scipy-1.17.1-py312h54fa4ab_1.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/tk-8.6.13-noxft_h1df4ec4_4.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/unicodedata2-18.0.0-py312h5cc1888_1.conda
-      - conda: https://repo.prefix.dev/conda-forge/linux-64/uv-0.13.9-h779873d_0.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/xorg-libxau-1.0.12-h7cc23a3_2.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/xorg-libxdmcp-1.1.5-h7cc23a3_2.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/yaml-0.2.5-hebe6cf0_3.conda
@@ -598,7 +595,6 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/win-64/tk-8.6.13-h967ab96_4.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/ucrt-10.0.26100.0-h57928b3_0.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/unicodedata2-18.0.0-py312he06e257_1.conda
-      - conda: https://repo.prefix.dev/conda-forge/win-64/uv-0.13.9-hfe9f6e1_0.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/vc-14.5-hda273ae_44.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/vc14_runtime-14.51.36247-hb06f545_44.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/vcomp14-14.51.36247-h1c3f1cb_44.conda
@@ -683,7 +679,6 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/linux-64/readline-8.3-hd6e31c0_1.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/scipy-1.17.1-py313h4b8bb8b_1.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/tk-8.6.13-noxft_h1df4ec4_4.conda
-      - conda: https://repo.prefix.dev/conda-forge/linux-64/uv-0.13.9-h779873d_0.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/xorg-libxau-1.0.12-h7cc23a3_2.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/xorg-libxdmcp-1.1.5-h7cc23a3_2.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/yaml-0.2.5-hebe6cf0_3.conda
@@ -821,7 +816,6 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/win-64/tbb-2023.1.0-h272cf33_4.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/tk-8.6.13-h967ab96_4.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/ucrt-10.0.26100.0-h57928b3_0.conda
-      - conda: https://repo.prefix.dev/conda-forge/win-64/uv-0.13.9-hfe9f6e1_0.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/vc-14.5-hda273ae_44.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/vc14_runtime-14.51.36247-hb06f545_44.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/vcomp14-14.51.36247-h1c3f1cb_44.conda
@@ -906,7 +900,6 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/linux-64/readline-8.3-hd6e31c0_1.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/scipy-1.17.1-py314hf07bd8e_1.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/tk-8.6.13-noxft_h1df4ec4_4.conda
-      - conda: https://repo.prefix.dev/conda-forge/linux-64/uv-0.13.9-h779873d_0.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/xorg-libxau-1.0.12-h7cc23a3_2.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/xorg-libxdmcp-1.1.5-h7cc23a3_2.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/yaml-0.2.5-hebe6cf0_3.conda
@@ -1044,7 +1037,6 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/win-64/tbb-2023.1.0-h272cf33_4.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/tk-8.6.13-h967ab96_4.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/ucrt-10.0.26100.0-h57928b3_0.conda
-      - conda: https://repo.prefix.dev/conda-forge/win-64/uv-0.13.9-hfe9f6e1_0.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/vc-14.5-hda273ae_44.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/vc14_runtime-14.51.36247-hb06f545_44.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/vcomp14-14.51.36247-h1c3f1cb_44.conda
@@ -1128,7 +1120,6 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/linux-64/scipy-1.17.1-py312h54fa4ab_1.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/tk-8.6.13-noxft_h1df4ec4_4.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/unicodedata2-18.0.0-py312h5cc1888_1.conda
-      - conda: https://repo.prefix.dev/conda-forge/linux-64/uv-0.13.9-h779873d_0.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/xorg-libxau-1.0.12-h7cc23a3_2.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/xorg-libxdmcp-1.1.5-h7cc23a3_2.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/zlib-ng-2.3.3-hce19668_1.conda
@@ -1228,7 +1219,6 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/win-64/tk-8.6.13-h967ab96_4.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/ucrt-10.0.26100.0-h57928b3_0.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/unicodedata2-18.0.0-py312he06e257_1.conda
-      - conda: https://repo.prefix.dev/conda-forge/win-64/uv-0.13.9-hfe9f6e1_0.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/vc-14.5-hda273ae_44.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/vc14_runtime-14.51.36247-hb06f545_44.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/vcomp14-14.51.36247-h1c3f1cb_44.conda
@@ -1309,7 +1299,6 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/linux-64/readline-8.3-hd6e31c0_1.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/scipy-1.17.1-py313h4b8bb8b_1.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/tk-8.6.13-noxft_h1df4ec4_4.conda
-      - conda: https://repo.prefix.dev/conda-forge/linux-64/uv-0.13.9-h779873d_0.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/xorg-libxau-1.0.12-h7cc23a3_2.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/xorg-libxdmcp-1.1.5-h7cc23a3_2.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/zlib-ng-2.3.3-hce19668_1.conda
@@ -1409,7 +1398,6 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/win-64/tbb-2023.1.0-h272cf33_4.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/tk-8.6.13-h967ab96_4.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/ucrt-10.0.26100.0-h57928b3_0.conda
-      - conda: https://repo.prefix.dev/conda-forge/win-64/uv-0.13.9-hfe9f6e1_0.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/vc-14.5-hda273ae_44.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/vc14_runtime-14.51.36247-hb06f545_44.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/vcomp14-14.51.36247-h1c3f1cb_44.conda
@@ -1490,7 +1478,6 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/linux-64/readline-8.3-hd6e31c0_1.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/scipy-1.17.1-py314hf07bd8e_1.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/tk-8.6.13-noxft_h1df4ec4_4.conda
-      - conda: https://repo.prefix.dev/conda-forge/linux-64/uv-0.13.9-h779873d_0.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/xorg-libxau-1.0.12-h7cc23a3_2.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/xorg-libxdmcp-1.1.5-h7cc23a3_2.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/zlib-ng-2.3.3-hce19668_1.conda
@@ -1590,7 +1577,6 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/win-64/tbb-2023.1.0-h272cf33_4.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/tk-8.6.13-h967ab96_4.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/ucrt-10.0.26100.0-h57928b3_0.conda
-      - conda: https://repo.prefix.dev/conda-forge/win-64/uv-0.13.9-hfe9f6e1_0.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/vc-14.5-hda273ae_44.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/vc14_runtime-14.51.36247-hb06f545_44.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/vcomp14-14.51.36247-h1c3f1cb_44.conda
@@ -3403,21 +3389,6 @@ packages:
   run_exports: {}
   size: 421939
   timestamp: 1794862176274
-- conda: https://repo.prefix.dev/conda-forge/linux-64/uv-0.13.9-h779873d_0.conda
-  sha256: f241f055533168af3445edece0a9de68498830b26a9efc7784ab015e24758640
-  md5: 29f42ed4b59daa19d0d894dcc0a21f6e
-  depends:
-  - libgcc >=15
-  - libstdcxx >=15
-  - __glibc >=2.17,<3.0.a0
-  - zstd >=1.5.7,<1.6.0a0
-  constrains:
-  - __glibc >=2.17
-  license: Apache-2.0 OR MIT
-  purls: []
-  run_exports: {}
-  size: 15055448
-  timestamp: 1794940237431
 - conda: https://repo.prefix.dev/conda-forge/linux-64/wcwidth-0.9.4-py311hd139983_0.conda
   noarch: python
   sha256: 60fdf9b2819993a285fd5b217e179efbb1e2e63d9464c642a2519fc98c546317
@@ -6256,19 +6227,6 @@ packages:
   run_exports: {}
   size: 415926
   timestamp: 1794862314719
-- conda: https://repo.prefix.dev/conda-forge/win-64/uv-0.13.9-hfe9f6e1_0.conda
-  sha256: 9a6b6046a76142e29b67472fd2abf389245318294f9799307d57539f3102e713
-  md5: 29a2d2476375b3196f09471943fde352
-  depends:
-  - vc >=14.3,<15
-  - vc14_runtime >=14.44.35208
-  - ucrt >=10.0.20348.0
-  - zstd >=1.5.7,<1.6.0a0
-  license: Apache-2.0 OR MIT
-  purls: []
-  run_exports: {}
-  size: 13525396
-  timestamp: 1794940266437
 - conda: https://repo.prefix.dev/conda-forge/win-64/vc-14.5-hda273ae_44.conda
   sha256: 2db82e4c8848e34728776539e0cd40b1eea12858c6135e92326b8e083f204fe4
   md5: 19a8e2bcc6ec599c4ba2e0dc0fb3475b

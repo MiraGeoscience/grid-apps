@@ -3,8 +3,9 @@
 Getting Started
 ===============
 
-Install `Pixi <https://pixi.sh/>`_ version 0.84.2 or newer, then clone the
-`grid-apps repository <https://github.com/MiraGeoscience/grid-apps>`_.
+Install `Pixi <https://pixi.sh/>`_ version 0.84.2 or newer and external
+`uv <https://docs.astral.sh/uv/>`_, with both commands available on ``PATH``.
+Then clone the `grid-apps repository <https://github.com/MiraGeoscience/grid-apps>`_.
 
 From the project directory, install the locked runtime and the local package::
 

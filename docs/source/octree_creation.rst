@@ -251,7 +251,8 @@ Refine by points
 
 This method refines an octree mesh radially from the vertices of an object. It relies on the ``refine_tree_from_points`` method
 
-.. automethod:: octree_creation_app.driver.OctreeDriver.refine_tree_from_points
+.. automethod:: grid_apps.octree_creation.driver.OctreeDriver.refine_tree_from_points
+   :no-index:
 
 
 Example
@@ -275,7 +276,8 @@ Refine by curves
 
 This method refines an octree mesh along the segments of a ``Curve`` object, adding cells as concentric cylinders (tubes).
 
-.. automethod:: octree_creation_app.driver.OctreeDriver.refine_tree_from_curve
+.. automethod:: grid_apps.octree_creation.driver.OctreeDriver.refine_tree_from_curve
+   :no-index:
 
 Example
 #######
@@ -299,7 +301,8 @@ The function is used to refine an octree mesh on a triangulated surface in 3D. I
 especially useful for refining meshes along geological features, such as faults and geological contacts.
 
 
-.. automethod:: octree_creation_app.driver.OctreeDriver.refine_tree_from_triangulation
+.. automethod:: grid_apps.octree_creation.driver.OctreeDriver.refine_tree_from_triangulation
+   :no-index:
 
 Example
 #######
@@ -326,7 +329,8 @@ This strategy is useful for refining the mesh on data collected along topography
 such as gravity surveys. The additional parameter ``max_distance`` allows to limit the extent of refinement and avoid
 over-refinement in regions where the input points are sparse.
 
-.. automethod:: octree_creation_app.driver.OctreeDriver.refine_tree_from_surface
+.. automethod:: grid_apps.octree_creation.driver.OctreeDriver.refine_tree_from_surface
+   :no-index:
 
 
 Example

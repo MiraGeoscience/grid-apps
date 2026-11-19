@@ -14,14 +14,6 @@ Subpackages
 Submodules
 ----------
 
-grid\_apps.driver module
-------------------------
-
-.. automodule:: grid_apps.driver
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 grid\_apps.utils module
 -----------------------
 

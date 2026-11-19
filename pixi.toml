@@ -30,7 +30,7 @@ py314 = { features = ["py314", "test", "lint"], solve-group = "py314" }
 runtime = { features = ["py312"], solve-group = "py312" }
 runtime-py313 = { features = ["py313"], solve-group = "py313" }
 runtime-py314 = { features = ["py314"], solve-group = "py314" }
-docs = { features = ["py314", "docs"], no-default-feature = true }
+docs = { features = ["py314", "docs"], solve-group = "py314" }
 
 [feature.py312.dependencies]
 python = "3.12.*"
@@ -80,7 +80,7 @@ args = [
     { arg = "outputdir", default = "docs/_build" },
 ]
 depends-on = ["_install-no-deps"]
-cmd = "sphinx-build -T -b {{builder}} docs/source {{outputdir}}/{{builder}}"
+cmd = "sphinx-build -T -nW -b {{builder}} docs/source {{outputdir}}/{{builder}}"
 
 [tasks]
 install = { cmd = "uv pip install --python \"$CONDA_PREFIX\" --no-deps --editable . && uv pip check --python \"$CONDA_PREFIX\"", description = "Install the local package in editable mode and verify dependency compatibility" }

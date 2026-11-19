@@ -287,7 +287,6 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/linux-64/libmpdec-4.0.0-hb03c661_2.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/libpython-3.14.10-hd51c5da_100_cp314.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/libsqlite-3.54.1-h0737f62_101.conda
-      - conda: https://repo.prefix.dev/conda-forge/linux-64/libstdcxx-16.2.0-h934c35e_7.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/libuuid-2.42.4-hcfc3c73_1.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/libzlib-1.3.2-h25fd6f3_3.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/markupsafe-3.0.4-py314h93e9acf_5.conda
@@ -296,7 +295,6 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/linux-64/python-3.14.10-hcd007b5_100_cp314.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/readline-8.3-hd6e31c0_1.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/tk-8.6.13-noxft_h1df4ec4_4.conda
-      - conda: https://repo.prefix.dev/conda-forge/linux-64/uv-0.13.9-h779873d_0.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/zstd-1.5.7-hb78ec9c_7.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/_python_abi3_support-1.0-hd8ed1ab_3.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/alabaster-1.0.0-pyhd8ed1ab_1.conda
@@ -381,7 +379,6 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/win-64/python-3.14.10-h53f6dd8_100_cp314.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/tk-8.6.13-h967ab96_4.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/ucrt-10.0.26100.0-h57928b3_0.conda
-      - conda: https://repo.prefix.dev/conda-forge/win-64/uv-0.13.9-hfe9f6e1_0.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/vc-14.5-hda273ae_44.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/vc14_runtime-14.51.36247-hb06f545_44.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/vcomp14-14.51.36247-h1c3f1cb_44.conda

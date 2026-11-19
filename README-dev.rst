@@ -40,6 +40,9 @@ Analyst; pass ``-e`` for an editable installation.
 Building documentation
 ^^^^^^^^^^^^^^^^^^^^^^
 
+Install `uv <https://docs.astral.sh/uv/>`_ alongside Pixi and keep both commands
+available on ``PATH``. Read the Docs installs uv 0.13.8 separately.
+
 The separate ``docs`` environment uses Python 3.14. Build the HTML documentation with::
 
     pixi run --frozen --environment docs build-docs

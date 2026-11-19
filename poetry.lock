@@ -511,76 +511,52 @@ profile = ["gprof2dot (>=2022.7.29)"]
 
 [[package]]
 name = "discretize"
-version = "0.12.0"
+version = "0.13.0"
 description = "Discretization tools for finite volume and inverse problems"
 optional = false
-python-versions = ">=3.11"
+python-versions = ">=3.12"
 groups = ["main"]
 files = [
-    {file = "discretize-0.12.0-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:f1e18d98ef3fd40b9c1f88dd266e62f7fda82839c93e06a9a2c0c7a457309f9c"},
-    {file = "discretize-0.12.0-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:f8b156c1f8d26f1a0b3f2ce725e48e2abe786ee8cf70bb87dafd3f52a0390b9a"},
-    {file = "discretize-0.12.0-cp311-cp311-manylinux_2_24_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:18d853236ab7ac322ccc4b5a1dcab3c855121833e9d23a1a4ea73c6fbbf8fca6"},
-    {file = "discretize-0.12.0-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:688e909b3a05e305389a561c343145e96b96f03539735c742058b294fccab94d"},
-    {file = "discretize-0.12.0-cp311-cp311-musllinux_1_2_aarch64.whl", hash = "sha256:60b9381c38d4de1f4c66aa00f10ac6356b43c1254bdfb3dd6641529ede6b6bd7"},
-    {file = "discretize-0.12.0-cp311-cp311-musllinux_1_2_x86_64.whl", hash = "sha256:c4dd86e37f45a8989bf890af8f36af48a7851a612580718968b670df3615bfef"},
-    {file = "discretize-0.12.0-cp311-cp311-win_amd64.whl", hash = "sha256:20ff6802abe250a8688ca57bafe561b7692eea9f40187dccbab9e7d011602f38"},
-    {file = "discretize-0.12.0-cp311-cp311-win_arm64.whl", hash = "sha256:9e78afc17a7fd3405233a8833ab47aed7432fd77b4046609699facdd408e3e68"},
-    {file = "discretize-0.12.0-cp312-cp312-macosx_10_13_x86_64.whl", hash = "sha256:304f91a4b22ae59eed41c2e04a195f52c5db2a1d10bba42214d015c5c851eef2"},
-    {file = "discretize-0.12.0-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:b29f2063582f22595c168d8486d7706a2fd75e46b1f51bda2fc81ebfb233f405"},
-    {file = "discretize-0.12.0-cp312-cp312-manylinux_2_24_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:04b692c7858e4fb2cb414d9f4cf66b414adb6c616b50a53205c121eda6708cf3"},
-    {file = "discretize-0.12.0-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:bf104e6c219a05635bd2a8dad880b33fe9ed931f3de9a91b909a1d2d14ad8d64"},
-    {file = "discretize-0.12.0-cp312-cp312-musllinux_1_2_aarch64.whl", hash = "sha256:2853c3546a90f22353a24bd3e40c075fcae60d927439d1fc821b2dc495fdd62b"},
-    {file = "discretize-0.12.0-cp312-cp312-musllinux_1_2_x86_64.whl", hash = "sha256:4e8939367af9f305f1dd249e291466714b7a895e9100d5254f2ee078a10f5e8e"},
-    {file = "discretize-0.12.0-cp312-cp312-win_amd64.whl", hash = "sha256:58d27b9822d27055fb0db68914ce075592412f6cdc2d5e4fa7c201c11d66eb32"},
-    {file = "discretize-0.12.0-cp312-cp312-win_arm64.whl", hash = "sha256:a5e4d9a313527b115a2a36d306d8c513cf47d9bfb31d46bbd04048c0458b090d"},
-    {file = "discretize-0.12.0-cp313-cp313-macosx_10_13_x86_64.whl", hash = "sha256:302f8caca9930f4a9fee015c5acacd72bada10860a04980d8afdb0bb37decca0"},
-    {file = "discretize-0.12.0-cp313-cp313-macosx_11_0_arm64.whl", hash = "sha256:866b1e7c5735bc72a0f0f8cda0fd6fee77b1cd58f890314bfa397c63aa0715a2"},
-    {file = "discretize-0.12.0-cp313-cp313-manylinux_2_24_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:e2fa90b665d01f4d0b2f0495a6cffae398c192abe236f85107965954190eba83"},
-    {file = "discretize-0.12.0-cp313-cp313-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:ff500dcfb87d523d155ca66f598767851cd78d752e4ff8dc28b5bd9f2433d112"},
-    {file = "discretize-0.12.0-cp313-cp313-musllinux_1_2_aarch64.whl", hash = "sha256:9e437e9f36d9c1f58f8056b67cc6f5e26eee0840b39b242cfd8f526357586f71"},
-    {file = "discretize-0.12.0-cp313-cp313-musllinux_1_2_x86_64.whl", hash = "sha256:3933cf35ff906a13399308db132ae5e7fa7b0f90f5572a90b8d0c64c2a7484c4"},
-    {file = "discretize-0.12.0-cp313-cp313-win_amd64.whl", hash = "sha256:7f07926159929c67a8d5925ce852fc45062efb655c146a805e19e19759c50743"},
-    {file = "discretize-0.12.0-cp313-cp313-win_arm64.whl", hash = "sha256:7cc8391428573f7207447172835bcdc7c2243af5082171cd579148de8f61df21"},
-    {file = "discretize-0.12.0-cp313-cp313t-macosx_10_13_x86_64.whl", hash = "sha256:bcd9db103536872c813227bfd00367eabc95f5e72e833cefec0e05b8e4cdffe9"},
-    {file = "discretize-0.12.0-cp313-cp313t-macosx_11_0_arm64.whl", hash = "sha256:f5a61dcea3d5e502eaab3ca303a6e610f3951ee189bbd16a174b4b578f4f31c7"},
-    {file = "discretize-0.12.0-cp313-cp313t-manylinux_2_24_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:3635b7d92c859771f5078c24c3cac35cbeafb1c9919e32dca5c7313439f8fef3"},
-    {file = "discretize-0.12.0-cp313-cp313t-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:f9d6c59e762270a39822d99cd00057748eb009d9cb7b2355dc37e9a4f9167bd5"},
-    {file = "discretize-0.12.0-cp313-cp313t-musllinux_1_2_aarch64.whl", hash = "sha256:066e5b6b911fbdbe924add97f4a80a98f2f142a692c85ec6895f858a529a17ae"},
-    {file = "discretize-0.12.0-cp313-cp313t-musllinux_1_2_x86_64.whl", hash = "sha256:5f15d2687bccdaa223f3178a9042fca6058ff5abf1c37d3ed23fed7a0dc8392a"},
-    {file = "discretize-0.12.0-cp313-cp313t-win_amd64.whl", hash = "sha256:0e9ee2777956705e602025f1a226b3c814086afc81aae6f17341a7e2cdd30867"},
-    {file = "discretize-0.12.0-cp313-cp313t-win_arm64.whl", hash = "sha256:8da64575097f5f93ea31579b0d04d3d47e4b345aad34318c933b6f9c6c6f6498"},
-    {file = "discretize-0.12.0-cp314-cp314-macosx_10_13_x86_64.whl", hash = "sha256:58100805c6e79779f9d976b8244ae3a1014c3ac8f30b40d5ef9c403b4f0e5c0e"},
-    {file = "discretize-0.12.0-cp314-cp314-macosx_11_0_arm64.whl", hash = "sha256:300f1319cbdb5a542c68de027c5274a61551eb6e35d5a43dcfc82a3941f45202"},
-    {file = "discretize-0.12.0-cp314-cp314-manylinux_2_24_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:8bdf4c6bbe98690555de924dbd942de1464780ba06d6c2ded9e0b66fcbdd8141"},
-    {file = "discretize-0.12.0-cp314-cp314-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:506c89d36ecd8eeb59e7d9607be76a006f2f1bd5c6e4e63cb41a9e57613c86bd"},
-    {file = "discretize-0.12.0-cp314-cp314-musllinux_1_2_aarch64.whl", hash = "sha256:57a8c2363b861c453384b28f016454d37c94263ab7295d22f5dbc07cce8ad741"},
-    {file = "discretize-0.12.0-cp314-cp314-musllinux_1_2_x86_64.whl", hash = "sha256:ea19a741b7ba76697d1924f14af62e84e654f8aed82503773e411dd4ac1ec028"},
-    {file = "discretize-0.12.0-cp314-cp314-win_amd64.whl", hash = "sha256:294ad2f2fd07b87aaad7ae3724a8b06afa701cf6960589439298bfd059fb8009"},
-    {file = "discretize-0.12.0-cp314-cp314-win_arm64.whl", hash = "sha256:f83251f5f940b803b7df8281da1d76bd9ccc018460b16217b7088566b94f8217"},
-    {file = "discretize-0.12.0-cp314-cp314t-macosx_10_13_x86_64.whl", hash = "sha256:5a319e0b813acac3ab82f044de7c8b5ca497f32383e70b63718fed364ef32a86"},
-    {file = "discretize-0.12.0-cp314-cp314t-macosx_11_0_arm64.whl", hash = "sha256:23c355eab5cdc4904be6306e723b1b85db5bd9068a646e597a40c75c2accc47f"},
-    {file = "discretize-0.12.0-cp314-cp314t-manylinux_2_24_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:e6ce168464a0267b9b2f143e30201f750da89370a7c2a9d41ca620eed9fc46f8"},
-    {file = "discretize-0.12.0-cp314-cp314t-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:f4ba135bec96ba09c0587e43dc7a37a3ab1a84bc85ed0739b6c7f568d02f7280"},
-    {file = "discretize-0.12.0-cp314-cp314t-musllinux_1_2_aarch64.whl", hash = "sha256:6b446890cdd4e72d40909655a8c2792d4fbff105b77cd6013a632cd35fe5922c"},
-    {file = "discretize-0.12.0-cp314-cp314t-musllinux_1_2_x86_64.whl", hash = "sha256:0685c23772f38fc82b3f7e21f4a2ceb73abe7b8ef2194c5ad06e9265c4fe5757"},
-    {file = "discretize-0.12.0-cp314-cp314t-win_amd64.whl", hash = "sha256:06f9539dce1581a2a67119df9dd2100618c923b675fb343c7530c609cd41d80d"},
-    {file = "discretize-0.12.0-cp314-cp314t-win_arm64.whl", hash = "sha256:39fdb9b13d5f898229aec9ad5318bc8bd4282269abe9a58de9c04a37a9eb6034"},
-    {file = "discretize-0.12.0.tar.gz", hash = "sha256:5b6fce19bd9e7a1d82db4ba7de41a95d178fc504a9169f6009bc2e3a386a8b44"},
+    {file = "discretize-0.13.0-cp312-abi3-macosx_10_13_x86_64.whl", hash = "sha256:096c402b9ee8d7cb2d9445f3eed93979757986ed51bd05b2b95a1a4c8193d214"},
+    {file = "discretize-0.13.0-cp312-abi3-macosx_11_0_arm64.whl", hash = "sha256:fc52e8d2031db1b9e04953991a61dd05c0bdd20ab90d227ac2e34ca047181a2d"},
+    {file = "discretize-0.13.0-cp312-abi3-manylinux_2_24_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:16c6164ff843a56a357d51de18f77502c7a2262a1efdcc5597d8b00fe9580c0c"},
+    {file = "discretize-0.13.0-cp312-abi3-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:0ef8e2c26e949f9ad2a650b1f1554e9a68f7ce5b855ebb17a2bb25d1cf6c59d7"},
+    {file = "discretize-0.13.0-cp312-abi3-musllinux_1_2_aarch64.whl", hash = "sha256:7a7598e9011c3a54f8a3bf8cb7152017fcdadd49ea1dde0b4fff44b0298580f5"},
+    {file = "discretize-0.13.0-cp312-abi3-musllinux_1_2_x86_64.whl", hash = "sha256:35d963d44ea9cce3a7f49f6b24e285e092e1b4975a8ac0f8e7d7b09009becfad"},
+    {file = "discretize-0.13.0-cp312-abi3-win_amd64.whl", hash = "sha256:34415bac515f7cf8e7f2f55a6f926dfa1ab0ac15b12b272ce8f3a9b0273a5f3e"},
+    {file = "discretize-0.13.0-cp312-abi3-win_arm64.whl", hash = "sha256:e28711f1fbae34a4fa8c3408f8336ca90be983c51633e5abd5b36fe37698ee58"},
+    {file = "discretize-0.13.0-cp314-cp314t-macosx_10_15_x86_64.whl", hash = "sha256:49b1fff9b7f65f11da7391c0226b48d41b192e543a2b77d2f234fc0666463ae9"},
+    {file = "discretize-0.13.0-cp314-cp314t-macosx_11_0_arm64.whl", hash = "sha256:2d4187b529f75ba3d5d78d9dd99219f66b6cfde164257f6c77c46c347533a922"},
+    {file = "discretize-0.13.0-cp314-cp314t-manylinux_2_24_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:215bbb4542ebab7f84908e1ac00b0c87be1cca2c50f3426c93ba50d31ab79dff"},
+    {file = "discretize-0.13.0-cp314-cp314t-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:af82c65118704e748c1400506897a65d2abd707b514defc545b884fe6c059dda"},
+    {file = "discretize-0.13.0-cp314-cp314t-musllinux_1_2_aarch64.whl", hash = "sha256:8785fcac5de4aa6e990e0b32601da9e8f11f6c45050ea181267534117f6a96cb"},
+    {file = "discretize-0.13.0-cp314-cp314t-musllinux_1_2_x86_64.whl", hash = "sha256:e5b48139931b9374fe0997e95df8035f0815e62823ac21d2a3ce8ba857b3b34b"},
+    {file = "discretize-0.13.0-cp314-cp314t-win_amd64.whl", hash = "sha256:ef73226d43da0ee2954f9f3fa33f06e20b287c49736641e1f566c626df43648f"},
+    {file = "discretize-0.13.0-cp314-cp314t-win_arm64.whl", hash = "sha256:b52af0119ae3ea648393535a5193e6989607778ea894bb3cfc10d1b55e409d71"},
+    {file = "discretize-0.13.0-cp315-cp315t-macosx_10_15_x86_64.whl", hash = "sha256:ed22ee09e82e93df599bf934790270e3772215f03fa2b5a4fe5223a4fb51eb8a"},
+    {file = "discretize-0.13.0-cp315-cp315t-macosx_11_0_arm64.whl", hash = "sha256:a44971a6e86144d52853abdf25e9c50e800af9c518eaff3fa57d3a930831c1e7"},
+    {file = "discretize-0.13.0-cp315-cp315t-manylinux_2_24_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:448cffa123cb0aba5269b9ba1a492cec84a624797234c4e15cb3fe274a3622f8"},
+    {file = "discretize-0.13.0-cp315-cp315t-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:60abde75e704d806267e83ea98431f8ddc457056cb9cf74acafecb1814bcc8d2"},
+    {file = "discretize-0.13.0-cp315-cp315t-musllinux_1_2_aarch64.whl", hash = "sha256:69175dd5d18c3de2cde8c3450537c85d11d56490de2e2ed42c7345d228488b92"},
+    {file = "discretize-0.13.0-cp315-cp315t-musllinux_1_2_x86_64.whl", hash = "sha256:0b08037251245025d068136c06d659e571ab0fa2604e593b2abceb409ec73618"},
+    {file = "discretize-0.13.0-cp315-cp315t-win_amd64.whl", hash = "sha256:e37a235af01199dc27cd6c193a37c6666d473849cc9c6f3550ed6f9e222d3f53"},
+    {file = "discretize-0.13.0-cp315-cp315t-win_arm64.whl", hash = "sha256:7b0ce02ba5f7a395c050aad6900084817c88529f76fc7dcc2f831c5ff8cef7f6"},
+    {file = "discretize-0.13.0.tar.gz", hash = "sha256:eeb2ca7cf2c43b86842ed517a3e31281eaf464a97098b5c0b3f64a789f197fc0"},
 ]
 
 [package.dependencies]
-numpy = ">=1.22.4"
+numpy = ">=1.26.0"
 scipy = ">=1.12"
 
 [package.extras]
 all = ["discretize[omf,plot,viz]"]
-build = ["cython (>=3.1.0)", "meson", "meson-python (>=0.15.0)", "ninja", "numpy (>=2.0.0rc1)", "setuptools_scm"]
-doc = ["discretize[all]", "graphviz", "jupyter", "numpydoc (==1.9.0)", "pillow", "pooch", "pydata-sphinx-theme (==0.16.1)", "sphinx (==8.1.3)", "sphinx-gallery (==0.19.0)"]
+build = ["cython (>=3.1.0)", "meson", "meson-python (>=0.21.0)", "ninja", "numpy (>=2.0.0rc1)", "setuptools_scm"]
+doc = ["discretize[all]", "graphviz", "jupyter", "numpydoc (==1.10.0)", "pillow", "pooch", "pydata-sphinx-theme (==0.21.0)", "sphinx (==9.1)", "sphinx-gallery (==0.21.0)"]
 omf = ["omf"]
 plot = ["matplotlib"]
-style = ["black (==24.3.0)", "flake8 (==7.0.0)", "flake8-bugbear (==23.12.2)", "flake8-builtins (==2.2.0)", "flake8-docstrings (==1.7.0)", "flake8-mutable (==1.2.0)", "flake8-pyproject (==1.2.3)", "flake8-rst-docstrings (==0.3.0)"]
-test = ["discretize[all,doc]", "pytest", "pytest-cov", "sympy"]
-viz = ["pyvista", "vtk (>=6)"]
+style = ["black (==26.5.1)", "flake8 (==7.3.0)", "flake8-bugbear (==25.11.29)", "flake8-builtins (==3.1.0)", "flake8-docstrings (==1.7.0)", "flake8-mutable (==1.2.0)", "flake8-pyproject (==1.2.4)", "flake8-rst-docstrings (==0.4.0)"]
+test = ["pytest", "pytest-cov", "sympy"]
+viz = ["pyvista", "vtk (>=9)"]
 
 [[package]]
 name = "docutils"
@@ -2299,4 +2275,4 @@ zstd = ["backports-zstd (>=1.0.0) ; python_version < \"3.14\""]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.12,<3.15"
-content-hash = "adfbeb972fba9354691ac3dadfe1b4b799b4f1b427c583fc24afb5855bc674ed"
+content-hash = "ca5cbe691a0ad7ae7b2c29730c9d3f540b223a259221309ad10aa0dbe9cddd42"

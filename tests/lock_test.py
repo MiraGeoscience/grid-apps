@@ -27,7 +27,10 @@ def test_locked_pypi_names_with_git_source():
     assert locked_pypi_names([{"pypi": url}], {url: "geoh5py"}) == {"geoh5py"}
 
 
-def test_locked_pypi_sources_match_mira_feature():
+# pylint: disable=line-too-long
+def test_locked_pypi_sources():
+    """Test that the only packages resolved from PyPI are the ones specified in the mira-pypi feature."""
+
     package_root = Path(__file__).resolve().parents[1]
     pixi = tomllib.loads((package_root / "pixi.toml").read_text())
     mira_sources = {
@@ -40,7 +43,6 @@ def test_locked_pypi_sources_match_mira_feature():
         for package in lock["packages"]
         if "pypi" in package
     }
-
     for environment, data in lock["environments"].items():
         if environment == "docs":
             continue

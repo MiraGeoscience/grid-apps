@@ -6,36 +6,30 @@ Setup for development
    :local:
    :depth: 2
 
-After you have cloned the Git repository, you will need to:
-
-#. install the Pixi environments for the project
-#. execute the tests
-#. setup Git LFS if needed
-#. configure the prek hooks for static code analysis and auto-formatting
-#. configure the Python IDE (PyCharm)
-
-
 .. _Pixi: https://pixi.sh/
 .. _prek: https://prek.j178.dev/
 
 
-Install the Pixi environment
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Install and test
+^^^^^^^^^^^^^^^^
 
 Install `Pixi`_ version 0.84.2 or newer and external `uv <https://docs.astral.sh/uv/>`_.
-Keep both commands on ``PATH``; uv is not installed by Pixi. From the project root,
-install the default development environment with::
+Keep both commands on ``PATH``; uv is not installed by Pixi. Clone the repository,
+then install and test the locked Python 3.12 environment::
 
-    pixi install
+    pixi install --locked -e py312
+    pixi run --frozen -e py312 install
+    pixi run --frozen -e py312 test
 
-The default environment includes the test and lint tools. Run the tests with::
+The shared lock covers Windows and Linux with Python 3.12, 3.13 and 3.14.
+Use ``py313`` or ``py314`` to test another supported version, or run
+``pixi run --frozen test-pyvers`` to test all three. The ``runtime`` environments
+omit development tools. The ``install`` task installs this checkout in editable
+mode without changing the locked dependencies, then checks compatibility with
+``uv pip check``. Tests and linting use the source checkout directly.
 
-    pixi run test
-
-The project also provides ``py312``, ``py313`` and ``py314`` test environments,
-plus ``runtime`` environments for application use.
-On Windows, run ``install_in_analyst.bat`` to install the locked runtime in Geoscience
-Analyst; pass ``-e`` for an editable installation.
+On Windows, run ``install_in_analyst.bat`` to install the locked runtime in
+Geoscience Analyst; pass ``-e`` for an editable installation.
 
 
 Building documentation
@@ -55,24 +49,35 @@ also creates the downloadable ``grid-apps-docs.zip`` archive.
 Updating dependencies
 ^^^^^^^^^^^^^^^^^^^^^
 
-Runtime dependency constraints are maintained in ``pyproject.toml`` and ``pixi.toml``.
-After changing either file, refresh the resolved environment with::
+Keep published package requirements in ``pyproject.toml`` and their Conda/PyPI
+environment equivalents in ``pixi.toml`` aligned. Update the recipe's matching
+runtime requirements when a dependency constraint changes.
 
-    pixi update
+Refresh and validate the lock after editing requirements::
 
-The ``mira-pypi`` feature lists Mira packages resolved from the public PyPI
-index. Development Git references for ``release/ga-4.9`` are kept as comments
-beside their published package constraints in ``pixi.toml``. The lock source
-test derives the allowed packages from this feature and checks every locked
-environment and platform, using ``pixi.lock`` package metadata to identify Git
-sources as well as published wheels.
+    pixi lock
+    pixi install --locked -e py312
+    pixi run --frozen -e py312 install
+    pixi run --frozen -e py312 test
+
+Commit ``pixi.lock`` with the manifest changes. The ``mira-pypi`` feature lists
+Mira packages resolved from the public PyPI index; no private-index
+authentication is needed. Development Git references for ``release/ga-4.9``
+are kept as comments beside their published package constraints in
+``pixi.toml``.
+
+The lock source test derives the allowed PyPI package names from the
+``mira-pypi`` feature and checks every locked environment and platform except
+the docs-only environment. Package names are read from ``pixi.lock`` metadata,
+including for Git sources. Keep compatible bounds on indirect Conda
+dependencies: Pixi solves Conda before PyPI and does not backtrack between them.
 
 
 Adding a dependency
 -------------------
 Add runtime requirements to both the PEP 621 dependency list in ``pyproject.toml``
 and the matching Pixi package requirements in ``pixi.toml``. Put development-only
-tools in the appropriate Pixi feature. Run ``pixi update`` after changing them.
+tools in the appropriate Pixi feature. Run ``pixi lock`` after changing them.
 
 
 Configure prek hooks

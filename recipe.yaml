@@ -39,7 +39,8 @@ requirements:
     - numpy 2.4.*
     - pydantic 2.12.*
     - scipy 1.17.*
-    - pillow 13.*  # Security floor (GHSA-wqgw-9xfh-qf2g).
+  run_constraints:
+    - pillow >=13.0.0  # Security floor (GHSA-wqgw-9xfh-qf2g).
 
 tests:
   - python:

@@ -32,8 +32,8 @@ requirements:
   run:
     - python >=${{ python_min }}
     # Mira packages
-    - geoh5py >=0.14.0b1, <0.15.0
-    - geoapps-utils >=0.8.0b1, <0.9.0
+    - geoh5py >=0.14.0b1, 0.14.*
+    - geoapps-utils >=0.8.0b1, 0.8.*
     # other direct dependencies
     - discretize 0.12.*
     - numpy 2.4.*

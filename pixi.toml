@@ -20,12 +20,11 @@ matplotlib-base = "3.10.*"
 pillow = "13.*"
 psutil = ">=7.2.2,<7.3"
 
-[constraints]
-pillow = ">=13.0.0"  # Security floor (GHSA-wqgw-9xfh-qf2g).
-
 [feature.mira-pypi.pypi-dependencies]
-geoh5py = ">=0.14.0b1,<0.15"
-geoapps-utils = ">=0.8.0b1,<0.9"
+geoh5py = ">=0.14.0b1,==0.14.*"
+# geoh5py = { git = "https://github.com/MiraGeoscience/geoh5py.git", rev = "release/ga-4.9" }
+geoapps-utils = ">=0.8.0b1,==0.8.*"
+# geoapps-utils = { git = "https://github.com/MiraGeoscience/geoapps-utils.git", rev = "release/ga-4.9" }
 
 [environments]
 default = { features = ["mira-pypi", "py312", "test", "lint", "dev"], solve-group = "py312" }

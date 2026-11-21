@@ -60,6 +60,13 @@ After changing either file, refresh the resolved environment with::
 
     pixi update
 
+The ``mira-pypi`` feature lists Mira packages resolved from the public PyPI
+index. Development Git references for ``release/ga-4.9`` are kept as comments
+beside their published package constraints in ``pixi.toml``. The lock source
+test derives the allowed packages from this feature and checks every locked
+environment and platform, using ``pixi.lock`` package metadata to identify Git
+sources as well as published wheels.
+
 
 Adding a dependency
 -------------------

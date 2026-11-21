@@ -12,12 +12,13 @@ discretize = "0.12.*"
 numpy = ">=2.4.2,<2.5"
 pydantic = "2.12.*"
 scipy = "1.17.*"
-# Keep Mira packages' indirect dependencies in Conda, not PyPI.
-defusedxml = "*"
-h5py = "*"
-matplotlib-base = "*"
-pillow = "*"
-psutil = "*"
+# Keep Mira packages' indirect dependencies in Conda and compatible with PyPI metadata.
+# Pixi solves Conda first, without backtracking from the PyPI solve.
+defusedxml = ">=0.7.1,<0.8"
+h5py = ">=3.15.1,<3.16"
+matplotlib-base = "3.10.*"
+pillow = "13.*"
+psutil = ">=7.2.2,<7.3"
 
 [constraints]
 pillow = ">=13.0.0"  # Security floor (GHSA-wqgw-9xfh-qf2g).

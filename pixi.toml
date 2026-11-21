@@ -9,27 +9,31 @@ PYTHONNOUSERSITE = "1"
 
 [dependencies]
 discretize = "0.12.*"
-defusedxml = ">=0.7.1,<0.8"
-h5py = ">=3.15.1,<3.16"
-matplotlib-base = "3.10.*"
-numpy = ">=2.4.2,<2.5"
-pillow = "13.*"  # Security floor (GHSA-wqgw-9xfh-qf2g).
-psutil = ">=7.2.2,<7.3"
+numpy = ">=2.4.2,2.4.*"
 pydantic = "2.12.*"
 scipy = "1.17.*"
+# Keep Mira packages' indirect dependencies in Conda and compatible with PyPI metadata.
+# Pixi solves Conda first, without backtracking from the PyPI solve.
+defusedxml = ">=0.7.1,0.7.*"
+h5py = ">=3.15.1,3.15.*"
+matplotlib-base = "3.10.*"
+pillow = "13.*"
+psutil = ">=7.2.2,7.2.*"
 
-[pypi-dependencies]
-geoh5py = ">=0.14.0b1,<0.15"
-geoapps-utils = ">=0.8.0b1,<0.9"
+[feature.mira-pypi.pypi-dependencies]
+geoh5py = ">=0.14.0b1,==0.14.*"
+# geoh5py = { git = "https://github.com/MiraGeoscience/geoh5py.git", rev = "release/ga-4.9" }
+geoapps-utils = ">=0.8.0b1,==0.8.*"
+# geoapps-utils = { git = "https://github.com/MiraGeoscience/geoapps-utils.git", rev = "release/ga-4.9" }
 
 [environments]
-default = { features = ["py312", "test", "lint", "dev"], solve-group = "py312" }
-py312 = { features = ["py312", "test", "lint"], solve-group = "py312" }
-py313 = { features = ["py313", "test", "lint"], solve-group = "py313" }
-py314 = { features = ["py314", "test", "lint"], solve-group = "py314" }
-runtime = { features = ["py312"], solve-group = "py312" }
-runtime-py313 = { features = ["py313"], solve-group = "py313" }
-runtime-py314 = { features = ["py314"], solve-group = "py314" }
+default = { features = ["mira-pypi", "py312", "test", "lint", "dev"], solve-group = "py312" }
+py312 = { features = ["mira-pypi", "py312", "test", "lint"], solve-group = "py312" }
+py313 = { features = ["mira-pypi", "py313", "test", "lint"], solve-group = "py313" }
+py314 = { features = ["mira-pypi", "py314", "test", "lint"], solve-group = "py314" }
+runtime = { features = ["mira-pypi", "py312"], solve-group = "py312" }
+runtime-py313 = { features = ["mira-pypi", "py313"], solve-group = "py313" }
+runtime-py314 = { features = ["mira-pypi", "py314"], solve-group = "py314" }
 docs = { features = ["py314", "docs"], no-default-feature = true }
 
 [feature.py312.dependencies]
@@ -44,6 +48,7 @@ python = "3.14.*"
 [feature.dev.dependencies]
 pygments = "*"
 ipython = "*"
+pixi-pycharm = ">=0.0.12,<0.0.13"
 
 [feature.dev.tasks]
 repl = "ipython"
@@ -58,7 +63,7 @@ pyyaml = "*"
 test = { cmd = "pytest --cov --cov-report=xml", description = "Run tests from the source checkout with coverage" }
 
 [feature.lint.dependencies]
-pylint = ">=4.0.9,<5"
+pylint = ">=4.0.9,4.*"
 
 [feature.lint.tasks]
 lint = { cmd = "pylint", description = "Run pylint on the local sources" }

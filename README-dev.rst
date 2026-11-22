@@ -20,12 +20,21 @@ Prerequisites
   ``.pixi/envs/default`` and exclude ``.pixi`` from source indexing.
   For **PyCharm**, follow Pixi's `JetBrains integration guide
   <https://pixi.prefix.dev/latest/integration/editor/jetbrains/>`_.
-* **JFrog authentication:** authenticate with Mira  Artifactory using your
-  own credentials::
-
-      pixi auth login mirageoscienceltd.jfrog.io
-
+* **JFrog authentication:** Pixi uses uv's PyPI authentication, which is
+  separate from ``pixi auth login``. Configure a protected ``.netrc`` file
+  (``%HOME%\_netrc`` on Windows) with your Artifactory machine, login, and
+  password or access token, as described in `Pixi's authentication guide
+  <https://pixi.prefix.dev/latest/deployment/authentication/#netrc-file>`_.
   Never add credentials to ``pixi.toml`` or ``pixi.lock``.
+
+.. note:: External contributors using Pixi
+
+   If you do not have Mira Artifactory credentials, comment out ``index-url``
+   under ``[feature.mira-pypi.pypi-options]`` in ``pixi.toml``, then run
+   ``pixi lock``. Packages configured with version references will resolve from
+   public PyPI if the required versions are available there; packages configured
+   with Git references will resolve from Git.
+   Keep these local ``pixi.toml`` and ``pixi.lock`` changes uncommitted.
 
 Install and test
 ^^^^^^^^^^^^^^^^
@@ -44,49 +53,30 @@ The ``runtime`` environment omits test and lint tools.
 On Windows, install the locked runtime into Geoscience Analyst with::
 
     install_in_analyst.bat
-    install_in_analyst.bat -e --name simpeg-drivers-dev
+    install_in_analyst.bat -e --name mirageo-dev
+
+Possibly, replace ``mirageo-dev`` with a dedicated environment name of your choice.
 
 The script exports the locked ``win-64`` runtime, installs its dependencies
 through Analyst, and installs this checkout without resolving dependencies
 again. Pass ``-e`` first for editable mode; optional ``--conda`` and ``--name``
-arguments are forwarded to Analyst. A valid ``pixi.lock`` is required.
-
-Working with local sibling checkouts
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-For a one-off test run, ``test-local`` installs the sibling checkouts as
-editable dependencies and then runs the tests::
-
-    pixi run -e py312 test-local
-
-For ongoing development or IDE debugging, install editable sibling checkouts
-into the default environment (the IDE environment) with::
-
-    pixi run use-local-deps
-
-Pixi syncs the environment from the manifest and lock file before running the
-task; the task then installs the local checkouts. A subsequent ``pixi run``
-without ``--as-is`` syncs again and replaces those editable installs with the
-locked packages. An IDE configured to launch the ``default`` environment's
-Python interpreter directly does not run ``pixi`` before each launch, so the
-editable installs remain in effect.
+arguments are forwarded to Analyst. A valid ``pixi.lock`` is required. When the
+lock points to JFrog, Analyst's pip installation also needs access, for example
+through the same ``.netrc`` credentials.
 
 Building documentation
 ^^^^^^^^^^^^^^^^^^^^^^
 
-Read the Docs installs uv 0.13.8 separately.
-
-The separate ``docs`` environment uses Python 3.14 and Jupyter Book 1.
-Fetch the Git LFS documentation images, then build HTML with::
+The separate ``docs`` environment uses Python 3.14 and Sphinx. Read the Docs
+installs uv 0.13.8 separately. Fetch the Git LFS documentation images, then
+build HTML with::
 
     git lfs pull
     pixi run --frozen --environment docs build-docs
 
-The task installs the local package without dependencies, generates ``docs/conf.py``
-from ``docs/_config.yml``, and builds the existing book into ``docs/_build/html``.
-The generated Sphinx configuration is ignored; edit ``docs/_config.yml`` or
-``docs/_ext/dynamic_config.py`` instead. Read the Docs uses the same task.
-
+The task installs the local package without dependencies, uses the checked-in
+configuration ``docs/source/conf.py``, and builds the documentation from
+``docs/source`` into ``docs/_build/html``. Read the Docs uses the same task.
 
 Updating dependencies
 ^^^^^^^^^^^^^^^^^^^^^
@@ -125,16 +115,6 @@ Test layout
 
 Tests live under ``tests`` and use the ``_test.py`` filename suffix.
 
-Repository-specific notes
-^^^^^^^^^^^^^^^^^^^^^^^^^
-
-This repository's ``mira-pypi`` feature resolves ``geoh5py`` and
-``geoapps-utils`` from the public PyPI index; no private-index authentication is
-required. ``install_in_analyst.bat`` is available and supports ``-e`` for an
-editable install. The ``test-local`` and ``use-local-deps`` tasks described
-above are not defined in this repository. Its ``build-docs`` task builds the
-Sphinx sources under ``docs/source`` into ``docs/_build/<builder>``; it does
-not generate ``docs/conf.py`` from ``docs/_config.yml``.
 ---------
 
 *Copyright (c) 2023-2026 Mira Geoscience Ltd.*

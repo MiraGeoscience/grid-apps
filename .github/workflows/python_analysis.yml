@@ -35,6 +35,9 @@ jobs:
       app-name: 'grid_apps'
       python-version: '3.12'
       pixi-version: 'v0.84.2'
+    secrets:
+      JFROG_ARTIFACTORY_URL: ${{ secrets.JFROG_ARTIFACTORY_URL }}
+      JFROG_ARTIFACTORY_TOKEN: ${{ secrets.JFROG_ARTIFACTORY_TOKEN }}
   call-workflow-pytest:
     name: Pytest
     uses: MiraGeoscience/CI-tools/.github/workflows/reusable-python-pytest.yml@4a000ba323d8818b874c907dd7cfb3b29960cba4 # v4.1.0
@@ -51,4 +54,6 @@ jobs:
       codecov-reference-python-version: '3.12'
       codecov-reference-os: '["windows-latest"]'
     secrets:
+      JFROG_ARTIFACTORY_URL: ${{ secrets.JFROG_ARTIFACTORY_URL }}
+      JFROG_ARTIFACTORY_TOKEN: ${{ secrets.JFROG_ARTIFACTORY_TOKEN }}
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

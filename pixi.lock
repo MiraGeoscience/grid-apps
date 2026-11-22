@@ -15,7 +15,7 @@ environments:
     channels:
     - url: https://repo.prefix.dev/conda-forge/
     indexes:
-    - https://pypi.org/simple
+    - https://mirageoscienceltd.jfrog.io/artifactory/api/pypi/public-pypi-dev/simple
     packages:
       linux-64:
       - conda: https://repo.prefix.dev/conda-forge/linux-64/_openmp_mutex-4.5-20_gnu.conda
@@ -146,8 +146,8 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/noarch/typing_extensions-4.16.0-pyhcf101f3_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/tzdata-2026e-h5d301ff_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/zipp-4.1.2-pyh5ded981_0.conda
-      - pypi: https://files.pythonhosted.org/packages/50/a3/474e2769a66716e629829a234adea681df96f7bc153567c3ec818a7dadc8/geoh5py-0.14.0b1-py3-none-any.whl
-      - pypi: https://files.pythonhosted.org/packages/fd/56/9a7d2fb5a53b943bbef1fa0944e2d91245c4b403eaa4dd0a14b36c20a356/geoapps_utils-0.8.0b1-py3-none-any.whl
+      - pypi: https://mirageoscienceltd.jfrog.io/artifactory/api/pypi/public-pypi-dev/packages/packages/50/a3/474e2769a66716e629829a234adea681df96f7bc153567c3ec818a7dadc8/geoh5py-0.14.0b1-py3-none-any.whl
+      - pypi: https://mirageoscienceltd.jfrog.io/artifactory/api/pypi/public-pypi-dev/packages/packages/fd/56/9a7d2fb5a53b943bbef1fa0944e2d91245c4b403eaa4dd0a14b36c20a356/geoapps_utils-0.8.0b1-py3-none-any.whl
       win-64:
       - conda: https://repo.prefix.dev/conda-forge/noarch/_python_abi3_support-1.0-hd8ed1ab_3.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/annotated-types-0.8.0-pyhd8ed1ab_0.conda
@@ -268,8 +268,8 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/win-64/zlib-1.3.2-hfd05255_3.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/zlib-ng-2.3.3-h0261ad2_1.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/zstd-1.5.7-h534d264_7.conda
-      - pypi: https://files.pythonhosted.org/packages/50/a3/474e2769a66716e629829a234adea681df96f7bc153567c3ec818a7dadc8/geoh5py-0.14.0b1-py3-none-any.whl
-      - pypi: https://files.pythonhosted.org/packages/fd/56/9a7d2fb5a53b943bbef1fa0944e2d91245c4b403eaa4dd0a14b36c20a356/geoapps_utils-0.8.0b1-py3-none-any.whl
+      - pypi: https://mirageoscienceltd.jfrog.io/artifactory/api/pypi/public-pypi-dev/packages/packages/50/a3/474e2769a66716e629829a234adea681df96f7bc153567c3ec818a7dadc8/geoh5py-0.14.0b1-py3-none-any.whl
+      - pypi: https://mirageoscienceltd.jfrog.io/artifactory/api/pypi/public-pypi-dev/packages/packages/fd/56/9a7d2fb5a53b943bbef1fa0944e2d91245c4b403eaa4dd0a14b36c20a356/geoapps_utils-0.8.0b1-py3-none-any.whl
   docs:
     channels:
     - url: https://repo.prefix.dev/conda-forge/
@@ -387,7 +387,7 @@ environments:
     channels:
     - url: https://repo.prefix.dev/conda-forge/
     indexes:
-    - https://pypi.org/simple
+    - https://mirageoscienceltd.jfrog.io/artifactory/api/pypi/public-pypi-dev/simple
     packages:
       linux-64:
       - conda: https://repo.prefix.dev/conda-forge/linux-64/_openmp_mutex-4.5-20_gnu.conda
@@ -499,8 +499,8 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/noarch/typing_extensions-4.16.0-pyhcf101f3_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/tzdata-2026e-h5d301ff_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/zipp-4.1.2-pyh5ded981_0.conda
-      - pypi: https://files.pythonhosted.org/packages/50/a3/474e2769a66716e629829a234adea681df96f7bc153567c3ec818a7dadc8/geoh5py-0.14.0b1-py3-none-any.whl
-      - pypi: https://files.pythonhosted.org/packages/fd/56/9a7d2fb5a53b943bbef1fa0944e2d91245c4b403eaa4dd0a14b36c20a356/geoapps_utils-0.8.0b1-py3-none-any.whl
+      - pypi: https://mirageoscienceltd.jfrog.io/artifactory/api/pypi/public-pypi-dev/packages/packages/50/a3/474e2769a66716e629829a234adea681df96f7bc153567c3ec818a7dadc8/geoh5py-0.14.0b1-py3-none-any.whl
+      - pypi: https://mirageoscienceltd.jfrog.io/artifactory/api/pypi/public-pypi-dev/packages/packages/fd/56/9a7d2fb5a53b943bbef1fa0944e2d91245c4b403eaa4dd0a14b36c20a356/geoapps_utils-0.8.0b1-py3-none-any.whl
       win-64:
       - conda: https://repo.prefix.dev/conda-forge/noarch/annotated-types-0.8.0-pyhd8ed1ab_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/ca-certificates-2026.10.23-h4c7d964_0.conda
@@ -604,13 +604,13 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/win-64/zlib-1.3.2-hfd05255_3.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/zlib-ng-2.3.3-h0261ad2_1.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/zstd-1.5.7-h534d264_7.conda
-      - pypi: https://files.pythonhosted.org/packages/50/a3/474e2769a66716e629829a234adea681df96f7bc153567c3ec818a7dadc8/geoh5py-0.14.0b1-py3-none-any.whl
-      - pypi: https://files.pythonhosted.org/packages/fd/56/9a7d2fb5a53b943bbef1fa0944e2d91245c4b403eaa4dd0a14b36c20a356/geoapps_utils-0.8.0b1-py3-none-any.whl
+      - pypi: https://mirageoscienceltd.jfrog.io/artifactory/api/pypi/public-pypi-dev/packages/packages/50/a3/474e2769a66716e629829a234adea681df96f7bc153567c3ec818a7dadc8/geoh5py-0.14.0b1-py3-none-any.whl
+      - pypi: https://mirageoscienceltd.jfrog.io/artifactory/api/pypi/public-pypi-dev/packages/packages/fd/56/9a7d2fb5a53b943bbef1fa0944e2d91245c4b403eaa4dd0a14b36c20a356/geoapps_utils-0.8.0b1-py3-none-any.whl
   py313:
     channels:
     - url: https://repo.prefix.dev/conda-forge/
     indexes:
-    - https://pypi.org/simple
+    - https://mirageoscienceltd.jfrog.io/artifactory/api/pypi/public-pypi-dev/simple
     packages:
       linux-64:
       - conda: https://repo.prefix.dev/conda-forge/linux-64/_openmp_mutex-4.5-20_gnu.conda
@@ -720,8 +720,8 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/noarch/typing_extensions-4.16.0-pyhcf101f3_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/tzdata-2026e-h5d301ff_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/zipp-4.1.2-pyh5ded981_0.conda
-      - pypi: https://files.pythonhosted.org/packages/50/a3/474e2769a66716e629829a234adea681df96f7bc153567c3ec818a7dadc8/geoh5py-0.14.0b1-py3-none-any.whl
-      - pypi: https://files.pythonhosted.org/packages/fd/56/9a7d2fb5a53b943bbef1fa0944e2d91245c4b403eaa4dd0a14b36c20a356/geoapps_utils-0.8.0b1-py3-none-any.whl
+      - pypi: https://mirageoscienceltd.jfrog.io/artifactory/api/pypi/public-pypi-dev/packages/packages/50/a3/474e2769a66716e629829a234adea681df96f7bc153567c3ec818a7dadc8/geoh5py-0.14.0b1-py3-none-any.whl
+      - pypi: https://mirageoscienceltd.jfrog.io/artifactory/api/pypi/public-pypi-dev/packages/packages/fd/56/9a7d2fb5a53b943bbef1fa0944e2d91245c4b403eaa4dd0a14b36c20a356/geoapps_utils-0.8.0b1-py3-none-any.whl
       win-64:
       - conda: https://repo.prefix.dev/conda-forge/noarch/annotated-types-0.8.0-pyhd8ed1ab_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/ca-certificates-2026.10.23-h4c7d964_0.conda
@@ -825,13 +825,13 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/win-64/zlib-1.3.2-hfd05255_3.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/zlib-ng-2.3.3-h0261ad2_1.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/zstd-1.5.7-h534d264_7.conda
-      - pypi: https://files.pythonhosted.org/packages/50/a3/474e2769a66716e629829a234adea681df96f7bc153567c3ec818a7dadc8/geoh5py-0.14.0b1-py3-none-any.whl
-      - pypi: https://files.pythonhosted.org/packages/fd/56/9a7d2fb5a53b943bbef1fa0944e2d91245c4b403eaa4dd0a14b36c20a356/geoapps_utils-0.8.0b1-py3-none-any.whl
+      - pypi: https://mirageoscienceltd.jfrog.io/artifactory/api/pypi/public-pypi-dev/packages/packages/50/a3/474e2769a66716e629829a234adea681df96f7bc153567c3ec818a7dadc8/geoh5py-0.14.0b1-py3-none-any.whl
+      - pypi: https://mirageoscienceltd.jfrog.io/artifactory/api/pypi/public-pypi-dev/packages/packages/fd/56/9a7d2fb5a53b943bbef1fa0944e2d91245c4b403eaa4dd0a14b36c20a356/geoapps_utils-0.8.0b1-py3-none-any.whl
   py314:
     channels:
     - url: https://repo.prefix.dev/conda-forge/
     indexes:
-    - https://pypi.org/simple
+    - https://mirageoscienceltd.jfrog.io/artifactory/api/pypi/public-pypi-dev/simple
     packages:
       linux-64:
       - conda: https://repo.prefix.dev/conda-forge/linux-64/_openmp_mutex-4.5-20_gnu.conda
@@ -941,8 +941,8 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/noarch/typing_extensions-4.16.0-pyhcf101f3_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/tzdata-2026e-h5d301ff_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/zipp-4.1.2-pyh5ded981_0.conda
-      - pypi: https://files.pythonhosted.org/packages/50/a3/474e2769a66716e629829a234adea681df96f7bc153567c3ec818a7dadc8/geoh5py-0.14.0b1-py3-none-any.whl
-      - pypi: https://files.pythonhosted.org/packages/fd/56/9a7d2fb5a53b943bbef1fa0944e2d91245c4b403eaa4dd0a14b36c20a356/geoapps_utils-0.8.0b1-py3-none-any.whl
+      - pypi: https://mirageoscienceltd.jfrog.io/artifactory/api/pypi/public-pypi-dev/packages/packages/50/a3/474e2769a66716e629829a234adea681df96f7bc153567c3ec818a7dadc8/geoh5py-0.14.0b1-py3-none-any.whl
+      - pypi: https://mirageoscienceltd.jfrog.io/artifactory/api/pypi/public-pypi-dev/packages/packages/fd/56/9a7d2fb5a53b943bbef1fa0944e2d91245c4b403eaa4dd0a14b36c20a356/geoapps_utils-0.8.0b1-py3-none-any.whl
       win-64:
       - conda: https://repo.prefix.dev/conda-forge/noarch/annotated-types-0.8.0-pyhd8ed1ab_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/ca-certificates-2026.10.23-h4c7d964_0.conda
@@ -1046,13 +1046,13 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/win-64/zlib-1.3.2-hfd05255_3.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/zlib-ng-2.3.3-h0261ad2_1.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/zstd-1.5.7-h534d264_7.conda
-      - pypi: https://files.pythonhosted.org/packages/50/a3/474e2769a66716e629829a234adea681df96f7bc153567c3ec818a7dadc8/geoh5py-0.14.0b1-py3-none-any.whl
-      - pypi: https://files.pythonhosted.org/packages/fd/56/9a7d2fb5a53b943bbef1fa0944e2d91245c4b403eaa4dd0a14b36c20a356/geoapps_utils-0.8.0b1-py3-none-any.whl
+      - pypi: https://mirageoscienceltd.jfrog.io/artifactory/api/pypi/public-pypi-dev/packages/packages/50/a3/474e2769a66716e629829a234adea681df96f7bc153567c3ec818a7dadc8/geoh5py-0.14.0b1-py3-none-any.whl
+      - pypi: https://mirageoscienceltd.jfrog.io/artifactory/api/pypi/public-pypi-dev/packages/packages/fd/56/9a7d2fb5a53b943bbef1fa0944e2d91245c4b403eaa4dd0a14b36c20a356/geoapps_utils-0.8.0b1-py3-none-any.whl
   runtime:
     channels:
     - url: https://repo.prefix.dev/conda-forge/
     indexes:
-    - https://pypi.org/simple
+    - https://mirageoscienceltd.jfrog.io/artifactory/api/pypi/public-pypi-dev/simple
     packages:
       linux-64:
       - conda: https://repo.prefix.dev/conda-forge/linux-64/_openmp_mutex-4.5-20_gnu.conda
@@ -1143,8 +1143,8 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/noarch/typing-inspection-0.4.5-pyh5ded981_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/typing_extensions-4.16.0-pyhcf101f3_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/tzdata-2026e-h5d301ff_0.conda
-      - pypi: https://files.pythonhosted.org/packages/50/a3/474e2769a66716e629829a234adea681df96f7bc153567c3ec818a7dadc8/geoh5py-0.14.0b1-py3-none-any.whl
-      - pypi: https://files.pythonhosted.org/packages/fd/56/9a7d2fb5a53b943bbef1fa0944e2d91245c4b403eaa4dd0a14b36c20a356/geoapps_utils-0.8.0b1-py3-none-any.whl
+      - pypi: https://mirageoscienceltd.jfrog.io/artifactory/api/pypi/public-pypi-dev/packages/packages/50/a3/474e2769a66716e629829a234adea681df96f7bc153567c3ec818a7dadc8/geoh5py-0.14.0b1-py3-none-any.whl
+      - pypi: https://mirageoscienceltd.jfrog.io/artifactory/api/pypi/public-pypi-dev/packages/packages/fd/56/9a7d2fb5a53b943bbef1fa0944e2d91245c4b403eaa4dd0a14b36c20a356/geoapps_utils-0.8.0b1-py3-none-any.whl
       win-64:
       - conda: https://repo.prefix.dev/conda-forge/noarch/annotated-types-0.8.0-pyhd8ed1ab_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/ca-certificates-2026.10.23-h4c7d964_0.conda
@@ -1227,13 +1227,13 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/win-64/zlib-1.3.2-hfd05255_3.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/zlib-ng-2.3.3-h0261ad2_1.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/zstd-1.5.7-h534d264_7.conda
-      - pypi: https://files.pythonhosted.org/packages/50/a3/474e2769a66716e629829a234adea681df96f7bc153567c3ec818a7dadc8/geoh5py-0.14.0b1-py3-none-any.whl
-      - pypi: https://files.pythonhosted.org/packages/fd/56/9a7d2fb5a53b943bbef1fa0944e2d91245c4b403eaa4dd0a14b36c20a356/geoapps_utils-0.8.0b1-py3-none-any.whl
+      - pypi: https://mirageoscienceltd.jfrog.io/artifactory/api/pypi/public-pypi-dev/packages/packages/50/a3/474e2769a66716e629829a234adea681df96f7bc153567c3ec818a7dadc8/geoh5py-0.14.0b1-py3-none-any.whl
+      - pypi: https://mirageoscienceltd.jfrog.io/artifactory/api/pypi/public-pypi-dev/packages/packages/fd/56/9a7d2fb5a53b943bbef1fa0944e2d91245c4b403eaa4dd0a14b36c20a356/geoapps_utils-0.8.0b1-py3-none-any.whl
   runtime-py313:
     channels:
     - url: https://repo.prefix.dev/conda-forge/
     indexes:
-    - https://pypi.org/simple
+    - https://mirageoscienceltd.jfrog.io/artifactory/api/pypi/public-pypi-dev/simple
     packages:
       linux-64:
       - conda: https://repo.prefix.dev/conda-forge/linux-64/_openmp_mutex-4.5-20_gnu.conda
@@ -1322,8 +1322,8 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/noarch/typing-inspection-0.4.5-pyh5ded981_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/typing_extensions-4.16.0-pyhcf101f3_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/tzdata-2026e-h5d301ff_0.conda
-      - pypi: https://files.pythonhosted.org/packages/50/a3/474e2769a66716e629829a234adea681df96f7bc153567c3ec818a7dadc8/geoh5py-0.14.0b1-py3-none-any.whl
-      - pypi: https://files.pythonhosted.org/packages/fd/56/9a7d2fb5a53b943bbef1fa0944e2d91245c4b403eaa4dd0a14b36c20a356/geoapps_utils-0.8.0b1-py3-none-any.whl
+      - pypi: https://mirageoscienceltd.jfrog.io/artifactory/api/pypi/public-pypi-dev/packages/packages/50/a3/474e2769a66716e629829a234adea681df96f7bc153567c3ec818a7dadc8/geoh5py-0.14.0b1-py3-none-any.whl
+      - pypi: https://mirageoscienceltd.jfrog.io/artifactory/api/pypi/public-pypi-dev/packages/packages/fd/56/9a7d2fb5a53b943bbef1fa0944e2d91245c4b403eaa4dd0a14b36c20a356/geoapps_utils-0.8.0b1-py3-none-any.whl
       win-64:
       - conda: https://repo.prefix.dev/conda-forge/noarch/annotated-types-0.8.0-pyhd8ed1ab_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/ca-certificates-2026.10.23-h4c7d964_0.conda
@@ -1406,13 +1406,13 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/win-64/zlib-1.3.2-hfd05255_3.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/zlib-ng-2.3.3-h0261ad2_1.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/zstd-1.5.7-h534d264_7.conda
-      - pypi: https://files.pythonhosted.org/packages/50/a3/474e2769a66716e629829a234adea681df96f7bc153567c3ec818a7dadc8/geoh5py-0.14.0b1-py3-none-any.whl
-      - pypi: https://files.pythonhosted.org/packages/fd/56/9a7d2fb5a53b943bbef1fa0944e2d91245c4b403eaa4dd0a14b36c20a356/geoapps_utils-0.8.0b1-py3-none-any.whl
+      - pypi: https://mirageoscienceltd.jfrog.io/artifactory/api/pypi/public-pypi-dev/packages/packages/50/a3/474e2769a66716e629829a234adea681df96f7bc153567c3ec818a7dadc8/geoh5py-0.14.0b1-py3-none-any.whl
+      - pypi: https://mirageoscienceltd.jfrog.io/artifactory/api/pypi/public-pypi-dev/packages/packages/fd/56/9a7d2fb5a53b943bbef1fa0944e2d91245c4b403eaa4dd0a14b36c20a356/geoapps_utils-0.8.0b1-py3-none-any.whl
   runtime-py314:
     channels:
     - url: https://repo.prefix.dev/conda-forge/
     indexes:
-    - https://pypi.org/simple
+    - https://mirageoscienceltd.jfrog.io/artifactory/api/pypi/public-pypi-dev/simple
     packages:
       linux-64:
       - conda: https://repo.prefix.dev/conda-forge/linux-64/_openmp_mutex-4.5-20_gnu.conda
@@ -1501,8 +1501,8 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/noarch/typing-inspection-0.4.5-pyh5ded981_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/typing_extensions-4.16.0-pyhcf101f3_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/tzdata-2026e-h5d301ff_0.conda
-      - pypi: https://files.pythonhosted.org/packages/50/a3/474e2769a66716e629829a234adea681df96f7bc153567c3ec818a7dadc8/geoh5py-0.14.0b1-py3-none-any.whl
-      - pypi: https://files.pythonhosted.org/packages/fd/56/9a7d2fb5a53b943bbef1fa0944e2d91245c4b403eaa4dd0a14b36c20a356/geoapps_utils-0.8.0b1-py3-none-any.whl
+      - pypi: https://mirageoscienceltd.jfrog.io/artifactory/api/pypi/public-pypi-dev/packages/packages/50/a3/474e2769a66716e629829a234adea681df96f7bc153567c3ec818a7dadc8/geoh5py-0.14.0b1-py3-none-any.whl
+      - pypi: https://mirageoscienceltd.jfrog.io/artifactory/api/pypi/public-pypi-dev/packages/packages/fd/56/9a7d2fb5a53b943bbef1fa0944e2d91245c4b403eaa4dd0a14b36c20a356/geoapps_utils-0.8.0b1-py3-none-any.whl
       win-64:
       - conda: https://repo.prefix.dev/conda-forge/noarch/annotated-types-0.8.0-pyhd8ed1ab_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/ca-certificates-2026.10.23-h4c7d964_0.conda
@@ -1585,8 +1585,8 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/win-64/zlib-1.3.2-hfd05255_3.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/zlib-ng-2.3.3-h0261ad2_1.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/zstd-1.5.7-h534d264_7.conda
-      - pypi: https://files.pythonhosted.org/packages/50/a3/474e2769a66716e629829a234adea681df96f7bc153567c3ec818a7dadc8/geoh5py-0.14.0b1-py3-none-any.whl
-      - pypi: https://files.pythonhosted.org/packages/fd/56/9a7d2fb5a53b943bbef1fa0944e2d91245c4b403eaa4dd0a14b36c20a356/geoapps_utils-0.8.0b1-py3-none-any.whl
+      - pypi: https://mirageoscienceltd.jfrog.io/artifactory/api/pypi/public-pypi-dev/packages/packages/50/a3/474e2769a66716e629829a234adea681df96f7bc153567c3ec818a7dadc8/geoh5py-0.14.0b1-py3-none-any.whl
+      - pypi: https://mirageoscienceltd.jfrog.io/artifactory/api/pypi/public-pypi-dev/packages/packages/fd/56/9a7d2fb5a53b943bbef1fa0944e2d91245c4b403eaa4dd0a14b36c20a356/geoapps_utils-0.8.0b1-py3-none-any.whl
 packages:
 - conda: https://repo.prefix.dev/conda-forge/linux-64/_openmp_mutex-4.5-20_gnu.conda
   build_number: 20
@@ -6375,10 +6375,11 @@ packages:
     - zstd >=1.5.7,<1.6.0a0
   size: 387535
   timestamp: 1786599623274
-- pypi: https://files.pythonhosted.org/packages/50/a3/474e2769a66716e629829a234adea681df96f7bc153567c3ec818a7dadc8/geoh5py-0.14.0b1-py3-none-any.whl
+- pypi: https://mirageoscienceltd.jfrog.io/artifactory/api/pypi/public-pypi-dev/packages/packages/50/a3/474e2769a66716e629829a234adea681df96f7bc153567c3ec818a7dadc8/geoh5py-0.14.0b1-py3-none-any.whl
   name: geoh5py
   version: 0.14.0b1
   sha256: e6f57dc47305ed69825c1dafc9899c78072c00e86fa04bcf02e6cced260aa871
+  index: https://mirageoscienceltd.jfrog.io/artifactory/api/pypi/public-pypi-dev/simple
   requires_dist:
   - pillow>=13.0.0,<14.0.0
   - defusedxml>=0.7.1,<0.8.0
@@ -6387,10 +6388,11 @@ packages:
   - psutil>=7.2.2,<7.3.0
   - pydantic>=2.12.0,<2.13.0
   requires_python: '>=3.12,<3.15'
-- pypi: https://files.pythonhosted.org/packages/fd/56/9a7d2fb5a53b943bbef1fa0944e2d91245c4b403eaa4dd0a14b36c20a356/geoapps_utils-0.8.0b1-py3-none-any.whl
+- pypi: https://mirageoscienceltd.jfrog.io/artifactory/api/pypi/public-pypi-dev/packages/packages/fd/56/9a7d2fb5a53b943bbef1fa0944e2d91245c4b403eaa4dd0a14b36c20a356/geoapps_utils-0.8.0b1-py3-none-any.whl
   name: geoapps-utils
   version: 0.8.0b1
   sha256: 1ff1bbd9cb9d8d909027fd4ac2f7f7248cf1251579401a34dcc2a750743c45c1
+  index: https://mirageoscienceltd.jfrog.io/artifactory/api/pypi/public-pypi-dev/simple
   requires_dist:
   - geoh5py>=0.14.0b1,<0.15.0
   - matplotlib>=3.10.0,<3.11.0

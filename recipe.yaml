@@ -28,7 +28,7 @@ requirements:
     - python ${{ python_min }}.*
     - pip
     - poetry-core >=2.2.1
-    - poetry-dynamic-versioning >=1.9, <2.0.dev
+    - poetry-dynamic-versioning >=1.9, 1.*
   run:
     - python >=${{ python_min }}
     # Mira packages
@@ -40,7 +40,8 @@ requirements:
     - pydantic 2.12.*
     - scipy 1.17.*
   run_constraints:
-    - pillow >=13.0.0  # Security floor (GHSA-wqgw-9xfh-qf2g).
+    # Security floors for transitive dependencies:
+    - pillow >=13.0.0  # GHSA-wqgw-9xfh-qf2g
 
 tests:
   - python:

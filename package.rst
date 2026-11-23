@@ -28,7 +28,7 @@ License
 ^^^^^^^
 MIT License
 
-Copyright (c) 2024-2025 Mira Geoscience
+Copyright (c) 2024-2026 Mira Geoscience
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -57,7 +57,3 @@ Third Party Software notices and/or additional terms and conditions are located 
 `THIRD_PARTY_SOFTWARE.rst`_ file.
 
 .. _THIRD_PARTY_SOFTWARE.rst: docs/source/THIRD_PARTY_SOFTWARE.rst
-
-Copyright
-^^^^^^^^^
-Copyright (c) 2024-2026 Mira Geoscience Ltd.

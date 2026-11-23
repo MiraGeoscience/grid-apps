@@ -157,7 +157,7 @@ License
 ^^^^^^^
 MIT License
 
-Copyright (c) 2026 Mira Geoscience Ltd.
+Copyright (c) 2024-2026 Mira Geoscience Ltd.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -191,7 +191,3 @@ Third Party Software notices and/or additional terms and conditions are located 
 Trademarks
 ^^^^^^^^^^
 "Python" and the Python logos are trademarks or registered trademarks of the Python Software Foundation.
-
-Copyright
-^^^^^^^^^
-Copyright (c) 2026 Mira Geoscience Ltd.

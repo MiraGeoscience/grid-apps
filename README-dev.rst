@@ -68,7 +68,7 @@ Building documentation
 ^^^^^^^^^^^^^^^^^^^^^^
 
 The separate ``docs`` environment uses Python 3.14 and Sphinx. Read the Docs
-installs uv 0.13.8 separately. Fetch the Git LFS documentation images, then
+installs uv separately. Fetch the Git LFS documentation images, then
 build HTML with::
 
     git lfs pull
@@ -95,7 +95,7 @@ Commit ``pixi.lock`` with the manifest changes. In ``pixi.toml``, the
 - On a development branch, comment out published versions and use git sources.
 - When preparing a release, use published versions and comment out git sources.
 
-The lock file is checked by ``tests/lock_test.py``: it ensures all dependencies
+The lock file is checked by ``tests/pixi_lock_test.py``: it ensures all dependencies
 are resolved from Conda, except for the Mira packages listed under the
 ``mira-pypi`` feature. Keep compatibility bounds on indirect Conda dependencies:
 Pixi solves Conda before PyPI and does not backtrack between them.

@@ -115,6 +115,7 @@ Test layout
 
 Tests live under ``tests`` and use the ``_test.py`` filename suffix.
 
+
 ---------
 
-*Copyright (c) 2023-2026 Mira Geoscience Ltd.*
+*Copyright (c) 2026 Mira Geoscience Ltd.*

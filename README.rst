@@ -38,10 +38,6 @@ grid-apps
 =========
 The **grid-apps** library offers tools for the creation and manipulation of grid objects (Octree, BlockModel, Grid2D, DrapeModel) using various Python libraries and `geoh5py <https://mirageoscience-geoh5py.readthedocs-hosted.com/>`_.
 
-.. contents:: Table of Contents
-   :local:
-   :depth: 3
-
 Documentation
 ^^^^^^^^^^^^^
 `Online documentation <https://mirageoscience-grid-apps.readthedocs-hosted.com/en/latest/>`_
@@ -49,103 +45,16 @@ Documentation
 
 Installation
 ^^^^^^^^^^^^
-**grid-apps** is currently written for Python 3.12 or higher.
+**grid-apps** is a Python package published on PyPI and conda-forge.
 
-Install Pixi
-------------
+It can be installed in the usual way with ``pip``, ``uv``, or ``conda``::
 
-Install `Pixi <https://pixi.sh/>`_ version 0.84.2 or newer and external
-`uv <https://docs.astral.sh/uv/>`_, with both commands available on ``PATH``.
+    pip install grid-apps
+    uv pip install grid-apps
+    conda install -c conda-forge grid-apps
 
-Quick installation
--------------------
-
-From a checkout of **grid-apps**, install the locked runtime and the local package with::
-
-    pixi run --frozen --environment runtime install
-
-The package is installed in editable mode, so source changes are immediately reflected at runtime.
-
-.. warning::
-
-    In editable mode, the source folder must not be moved or deleted after installation.
-
-
-Manual installation
--------------------
-
-You should not install the package directly with ``pip``, as the app requires conda packages to run.
-
-First create a Pixi environment with all the required dependencies,
-then activate it and install the package in this environment using
-``pip install --no-deps ...``
-
-See instructions below for more details and options.
-
-Prepare a Pixi environment with dependencies
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Create the runtime environment from ``pixi.lock``::
-
-    pixi install --frozen --environment runtime
-
-.. note::
-
-    The package itself is not installed yet in the Pixi environment. See following instructions.
-
-.. warning::
-
-    All the following ``pip`` commands are meant to be executed in the Pixi environment you just created.
-    Activate it with::
-
-        pixi shell --frozen --environment runtime
-
-    Use ``uv pip`` in place of ``pip`` if pip is not installed in the environment.
-
-From PyPI
-~~~~~~~~~
-
-To install the **grid-apps** package published on PyPI::
-
-    $ pip install --no-deps -U grid-apps
-
-From a Git tag or branch
-~~~~~~~~~~~~~~~~~~~~~~~~
-If the revision of the package is not on PyPI yet, you can install it from a Git tag::
-
-    $ pip install --no-deps -U --force-reinstall https://github.com/MiraGeoscience/grid-apps/archive/refs/tags/TAG.zip
-
-Or to install the latest changes available on a given Git branch::
-
-    $ pip install --no-deps -U --force-reinstall https://github.com/MiraGeoscience/grid-apps/archive/refs/heads/BRANCH.zip
-
-.. note::
-
-    The ``--force-reinstall`` option is used to make sure the updated version
-    of the sources is installed, and not the cached version, even if the version number
-    did not change.
-
-    The ``-U`` or ``--upgrade`` option is used to make sure to get the latest version,
-    on not merely reinstall the same version.
-
-    The option ``--no-deps`` is used to avoid installing the dependencies with pip,
-    as the dependencies are already installed within the **Pixi environment**.
-
-From a local copy of the sources
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-If you have a git clone of the package sources locally, you can install **grid-apps** from the
-local copy of the sources. At the root of the sources, you will find a ``pyproject.toml`` file.
-
-Change directory to the root of the sources::
-
-    $ cd path/to/project_folder_with_pyproject_toml
-
-Then run::
-
-    $ pip install --no-deps -U --force-reinstall .
-
-Or in **editable mode**, so that you can edit the sources and see the effect immediately at runtime::
-
-    $ pip install --no-deps -U --force-reinstall -e .
+It can also be installed with ``pip`` or ``uv`` by pointing either to a local source directory
+or to a Git reference (branch or tag). See the pip or uv documentation for details.
 
 Setup for development
 ^^^^^^^^^^^^^^^^^^^^^

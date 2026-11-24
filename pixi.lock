@@ -256,7 +256,7 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/win-64/pyyaml-6.0.3-py312hcc83f31_3.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/qhull-2020.2-h47c9fd8_6.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/scipy-1.17.1-py312h9b3c559_1.conda
-      - conda: https://repo.prefix.dev/conda-forge/win-64/tbb-2023.1.0-h272cf33_3.conda
+      - conda: https://repo.prefix.dev/conda-forge/win-64/tbb-2023.1.0-h272cf33_4.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/tk-8.6.13-h967ab96_4.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/ucrt-10.0.26100.0-h57928b3_0.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/unicodedata2-18.0.0-py312he06e257_0.conda
@@ -593,7 +593,7 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/win-64/pyyaml-6.0.3-py312hcc83f31_3.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/qhull-2020.2-h47c9fd8_6.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/scipy-1.17.1-py312h9b3c559_1.conda
-      - conda: https://repo.prefix.dev/conda-forge/win-64/tbb-2023.1.0-h272cf33_3.conda
+      - conda: https://repo.prefix.dev/conda-forge/win-64/tbb-2023.1.0-h272cf33_4.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/tk-8.6.13-h967ab96_4.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/ucrt-10.0.26100.0-h57928b3_0.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/unicodedata2-18.0.0-py312he06e257_0.conda
@@ -815,7 +815,7 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/win-64/pyyaml-6.0.3-py313h0da0902_3.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/qhull-2020.2-h47c9fd8_6.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/scipy-1.17.1-py313he51e9a2_1.conda
-      - conda: https://repo.prefix.dev/conda-forge/win-64/tbb-2023.1.0-h272cf33_3.conda
+      - conda: https://repo.prefix.dev/conda-forge/win-64/tbb-2023.1.0-h272cf33_4.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/tk-8.6.13-h967ab96_4.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/ucrt-10.0.26100.0-h57928b3_0.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/vc-14.5-hda273ae_44.conda
@@ -1036,7 +1036,7 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/win-64/pyyaml-6.0.3-py314hdf0bfb5_3.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/qhull-2020.2-h47c9fd8_6.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/scipy-1.17.1-py314h221f224_1.conda
-      - conda: https://repo.prefix.dev/conda-forge/win-64/tbb-2023.1.0-h272cf33_3.conda
+      - conda: https://repo.prefix.dev/conda-forge/win-64/tbb-2023.1.0-h272cf33_4.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/tk-8.6.13-h967ab96_4.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/ucrt-10.0.26100.0-h57928b3_0.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/vc-14.5-hda273ae_44.conda
@@ -1217,7 +1217,7 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/win-64/python-3.12.16-hb12b558_0_cpython.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/qhull-2020.2-h47c9fd8_6.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/scipy-1.17.1-py312h9b3c559_1.conda
-      - conda: https://repo.prefix.dev/conda-forge/win-64/tbb-2023.1.0-h272cf33_3.conda
+      - conda: https://repo.prefix.dev/conda-forge/win-64/tbb-2023.1.0-h272cf33_4.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/tk-8.6.13-h967ab96_4.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/ucrt-10.0.26100.0-h57928b3_0.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/unicodedata2-18.0.0-py312he06e257_0.conda
@@ -1397,7 +1397,7 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/win-64/python-3.13.18-h254dcb4_100_cp313.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/qhull-2020.2-h47c9fd8_6.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/scipy-1.17.1-py313he51e9a2_1.conda
-      - conda: https://repo.prefix.dev/conda-forge/win-64/tbb-2023.1.0-h272cf33_3.conda
+      - conda: https://repo.prefix.dev/conda-forge/win-64/tbb-2023.1.0-h272cf33_4.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/tk-8.6.13-h967ab96_4.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/ucrt-10.0.26100.0-h57928b3_0.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/vc-14.5-hda273ae_44.conda
@@ -1576,7 +1576,7 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/win-64/python-3.14.10-h53f6dd8_100_cp314.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/qhull-2020.2-h47c9fd8_6.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/scipy-1.17.1-py314h221f224_1.conda
-      - conda: https://repo.prefix.dev/conda-forge/win-64/tbb-2023.1.0-h272cf33_3.conda
+      - conda: https://repo.prefix.dev/conda-forge/win-64/tbb-2023.1.0-h272cf33_4.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/tk-8.6.13-h967ab96_4.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/ucrt-10.0.26100.0-h57928b3_0.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/vc-14.5-hda273ae_44.conda
@@ -1901,7 +1901,7 @@ packages:
   license: MIT
   license_family: MIT
   purls:
-  - pkg:pypi/fonttools?source=hash-mapping
+  - pkg:pypi/fonttools?source=compressed-mapping
   run_exports: {}
   size: 3255588
   timestamp: 1793164612909
@@ -6227,9 +6227,9 @@ packages:
   run_exports: {}
   size: 15229740
   timestamp: 1779876154782
-- conda: https://repo.prefix.dev/conda-forge/win-64/tbb-2023.1.0-h272cf33_3.conda
-  sha256: 8f19de6c6e47ac13648d6240c8aa84a7850f1167ecdd161b5a117ffca45dc6ca
-  md5: 54ad178fe02d375ead94515236e17b0d
+- conda: https://repo.prefix.dev/conda-forge/win-64/tbb-2023.1.0-h272cf33_4.conda
+  sha256: ba93b1584a334875b9cbc6eead80176914aa7a4487c0c83b66a86e938e395043
+  md5: ba956f80b2f30f8b6307a8ac2bd94d1a
   depends:
   - libhwloc >=2.15.0,<2.15.1.0a0
   - ucrt >=10.0.20348.0
@@ -6239,8 +6239,8 @@ packages:
   license_family: APACHE
   purls: []
   run_exports: {}
-  size: 157721
-  timestamp: 1794676472701
+  size: 157384
+  timestamp: 1794795939733
 - conda: https://repo.prefix.dev/conda-forge/win-64/tk-8.6.13-h967ab96_4.conda
   sha256: f19618a3a82cc483dacf1c70a30367ee7b0c7e71b90f1f80e14feff44fbd3688
   md5: dd9eb33c99d352b6356f86964d6040f7

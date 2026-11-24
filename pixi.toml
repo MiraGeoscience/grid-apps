@@ -84,6 +84,14 @@ pyyaml = "*"
 [feature.test.tasks]
 test = { cmd = "pytest --cov --cov-report=xml", description = "Run tests from the source checkout with coverage" }
 
+[feature.test.tasks.test-local]
+description = "Run tests with editable dependencies from sibling checkouts"
+args = [{ arg = "packages", default = "geoh5py geoapps-utils" }]
+depends-on = [
+    { task = "use-local-deps", args = ["{{ packages }}"] },
+]
+cmd = "uv pip show --python \"$CONDA_PREFIX\" {{ packages }} && pytest --cov --cov-report=xml"
+
 [feature.lint.dependencies]
 pylint = ">=4.0.9,4.*"
 
@@ -109,6 +117,28 @@ args = [
 depends-on = ["_install-no-deps"]
 cmd = "sphinx-build -T -b {{builder}} docs/source {{outputdir}}/{{builder}}"
 
-[tasks]
-install = { cmd = "uv pip install --python \"$CONDA_PREFIX\" --no-deps --editable . && uv pip check --python \"$CONDA_PREFIX\"", description = "Install the local package in editable mode and verify dependency compatibility" }
-test-pyvers = { cmd = "pixi run --frozen -e py312 test && pixi run --frozen -e py313 test && pixi run --frozen -e py314 test", description = "Run tests across supported Python versions" }
+[tasks.install]
+description = "Install the local package in editable mode and verify dependency compatibility"
+cmd = "uv pip install --python \"$CONDA_PREFIX\" --no-deps --editable . && uv pip check --python \"$CONDA_PREFIX\""
+
+[tasks.test-pyvers]
+description = "Run tests across supported Python versions"
+depends-on = [
+    {task = "test", environment = "py312"},
+    {task = "test", environment = "py313"},
+    {task = "test", environment = "py314"},
+]
+
+[tasks.show-pip-source]
+description = "Display installed package metadata and source"
+args = [{ arg = "packages", default = "geoh5py geoapps-utils" }]
+cmd = "uv pip show --python \"$CONDA_PREFIX\" {{ packages }}"
+
+[tasks.use-local-deps]
+description = "Install editable dependencies from sibling checkouts without changing Conda packages"
+args = [{ arg = "packages", default = "geoh5py geoapps-utils" }]
+cmd = """
+uv pip install --python "$CONDA_PREFIX" --no-deps --force-reinstall \
+{% for package in packages | split %} -e ../{{ package | trim }}{% endfor %} \
+&& uv pip check --python "$CONDA_PREFIX"
+"""

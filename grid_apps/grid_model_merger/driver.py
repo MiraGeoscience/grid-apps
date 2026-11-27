@@ -17,7 +17,7 @@ import numpy as np
 from discretize.utils import mesh_utils
 from geoapps_utils.base import Driver as BaseDriver
 from geoapps_utils.utils.plotting import inv_symlog, symlog
-from geoh5py.objects import Grid2D, Octree
+from geoh5py.objects import BlockModel, Grid2D, Octree
 from geoh5py.objects.grid_object import GridObject
 from geoh5py.shared.utils import fetch_active_workspace
 from scipy.spatial import cKDTree
@@ -105,7 +105,7 @@ class Driver(BaseDriver):
 
         return extent, np.abs(cell_size)
 
-    def get_output_grid(self):
+    def get_output_grid(self) -> Octree | BlockModel | Grid2D:
         """
         Make block model object from input data.
         """
@@ -137,6 +137,7 @@ class Driver(BaseDriver):
                 mesh_type="tree" if mesh_type is Octree else "tensor",
                 tree_diagonal_balance=True,
             )
+            output_grid: Octree | BlockModel | Grid2D
 
             if mesh_type is Octree:
                 for selection in self.params.selections:

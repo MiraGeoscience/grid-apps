@@ -9,3 +9,4 @@ The ``Grid Apps`` package provides several modules for creating and manipulating
    octree_creation
    block_model_to_octree
    block_model
+   grid_model_merger

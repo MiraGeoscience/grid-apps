@@ -4,11 +4,13 @@ Grid Model Merger
 =================
 
 The ``Grid Model Merger`` module combines models from multiple grid objects into
-a single output grid. It supports ``BlockModel``, ``Octree``, and ``Grid2D``
-objects, including inputs with different grid types.
+a single output grid. The application supports the merging of different grid types: ``BlockModel``, ``Octree``, and ``Grid2D``
+objects.
 
 .. figure:: /images/grid_model_merger.png
     :width: 800
+
+    Example showing the merging of two different grid types into a single output grid.
 
 
 User Interface
@@ -30,7 +32,7 @@ The user interface allows the selection of an output grid, scaling type, and up 
   applies a symmetric-log transform before blending and reverses the transform
   on the result, which can reduce the influence of extreme values.
 
-- **Input A-F**: Select the input grid and model to transfer. The input grid can be a
+- **Input A to F**: Select the input grid and model to transfer. The input grid can be a
   ``BlockModel``, ``Octree``, or ``Grid2D`` object. The model is optional; if
   no model is selected, the input grid will still contribute to the output
   grid geometry.
@@ -40,9 +42,15 @@ Methodology
 -----------
 
 Models are transferred to the output grid and blended where their coverage
-overlaps. The application tapers each model's contribution near its active
-boundary, then normalizes the weighted values. Cells without valid model values
-remain empty unless another input provides a value there.
+overlaps. The operation is performed using a weighted average of the input models,
+
+.. math::
+
+    \mathbf{m}_{out} = \frac{\sum_{i=1}^{N} w_i \mathbf{m}_i}{\sum_{i=1}^{N} w_i}
+
+where the weights are determined by the distance to the nearest active cell in each input grid.
 
 .. figure:: /images/grid_model_merger_weights.png
     :width: 800
+
+A cosine function is used to smoothly transition the weights from 1 at the center of the input grid to 0 at the edge of its coverage.

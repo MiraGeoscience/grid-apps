@@ -34,7 +34,7 @@ scipy = "1.17.*"
 # geoh5py = ">=0.14.0b2,==0.14.*"
 geoh5py = { git = "https://github.com/MiraGeoscience/geoh5py.git", rev = "release/ga-4.9" }
 # geoapps-utils = ">=0.8.0b2,==0.8.*"
-geoapps-utils = { git = "https://github.com/MiraGeoscience/geoapps-utils.git", rev = "GA-9778" }
+geoapps-utils = { git = "https://github.com/MiraGeoscience/geoapps-utils.git", rev = "release/ga-4.9" }
 
 [feature.mira-pypi.pypi-options]
 # Authenticate for this private PyPI index first; see README-dev.rst.

@@ -38,7 +38,7 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/linux-64/lcms2-2.20-h9073bf1_0.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/ld_impl_linux-64-2.46.1-default_hbd61a6d_103.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/lerc-4.3.0-he78707d_0.conda
-      - conda: https://repo.prefix.dev/conda-forge/linux-64/libaec-1.1.8-h659bb9a_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/linux-64/libaec-1.1.8-h659bb9a_1.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/libblas-3.11.0-12_h4a7cf45_openblas.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/libbrotlicommon-1.2.1-h39a168f_1.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/libbrotlidec-1.2.1-ha411449_1.conda
@@ -122,7 +122,7 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/noarch/parso-0.8.7-pyhcf101f3_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/pexpect-4.9.0-pyhd8ed1ab_1.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/pixi-pycharm-0.0.12-unix_hf108a03_0.conda
-      - conda: https://repo.prefix.dev/conda-forge/noarch/platformdirs-4.14.5-pyh5ded981_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/noarch/platformdirs-4.14.7-pyh5ded981_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/pluggy-1.7.0-pyh5ded981_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/prompt-toolkit-3.0.53-pyha770c72_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/ptyprocess-0.7.0-pyhd8ed1ab_1.conda
@@ -147,8 +147,8 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/noarch/typing_extensions-4.16.0-pyhcf101f3_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/tzdata-2026e-h5d301ff_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/zipp-4.1.2-pyh5ded981_0.conda
-      - pypi: git+https://github.com/MiraGeoscience/geoapps-utils.git?rev=GA-9778#6267d8e3e038bf25a191d49155cb09a25f3b744a
-      - pypi: git+https://github.com/MiraGeoscience/geoh5py.git?rev=release%2Fga-4.9#5c3fa9df0e006d7544e5d985a9276c74c873e168
+      - pypi: git+https://github.com/MiraGeoscience/geoapps-utils.git?rev=release%2Fga-4.9#f4678415fe33457126a375334238ce220eb1bc41
+      - pypi: git+https://github.com/MiraGeoscience/geoh5py.git?rev=release%2Fga-4.9#063d09c2582efe21bb2c19c3b8a995ea503f1639
       win-64:
       - conda: https://repo.prefix.dev/conda-forge/noarch/_python_abi3_support-1.0-hd8ed1ab_3.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/annotated-types-0.8.0-pyhd8ed1ab_0.conda
@@ -176,7 +176,7 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/noarch/packaging-26.3-pyhc364b38_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/parso-0.8.7-pyhcf101f3_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/pixi-pycharm-0.0.12-win_hba80fca_0.conda
-      - conda: https://repo.prefix.dev/conda-forge/noarch/platformdirs-4.14.5-pyh5ded981_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/noarch/platformdirs-4.14.7-pyh5ded981_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/pluggy-1.7.0-pyh5ded981_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/prompt-toolkit-3.0.53-pyha770c72_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/pure_eval-0.2.4-pyhd8ed1ab_0.conda
@@ -216,7 +216,7 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/win-64/krb5-1.22.2-h719d79b_2.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/lcms2-2.20-hf2c6c5f_0.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/lerc-4.3.0-hd936e49_0.conda
-      - conda: https://repo.prefix.dev/conda-forge/win-64/libaec-1.1.8-haf901d7_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/win-64/libaec-1.1.8-h78347af_1.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/libblas-3.11.0-12_h8455456_mkl.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/libbrotlicommon-1.2.1-hf02afa3_1.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/libbrotlidec-1.2.1-h84f9c24_1.conda
@@ -244,7 +244,7 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/win-64/libxml2-16-2.15.4-h3cfd58e_1.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/libxml2-2.15.4-he095d88_1.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/libzlib-1.3.2-hfd05255_3.conda
-      - conda: https://repo.prefix.dev/conda-forge/win-64/llvm-openmp-23.1.5-h49e36cd_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/win-64/llvm-openmp-23.1.6-ha52be66_0.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/matplotlib-base-3.10.9-py312h0ebf65c_0.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/mkl-2026.1.0-hac47afa_235.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/numpy-2.4.6-py312ha3f287d_0.conda
@@ -269,8 +269,8 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/win-64/zlib-1.3.2-hfd05255_3.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/zlib-ng-2.3.3-h0261ad2_1.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/zstd-1.5.7-h534d264_7.conda
-      - pypi: git+https://github.com/MiraGeoscience/geoapps-utils.git?rev=GA-9778#6267d8e3e038bf25a191d49155cb09a25f3b744a
-      - pypi: git+https://github.com/MiraGeoscience/geoh5py.git?rev=release%2Fga-4.9#5c3fa9df0e006d7544e5d985a9276c74c873e168
+      - pypi: git+https://github.com/MiraGeoscience/geoapps-utils.git?rev=release%2Fga-4.9#f4678415fe33457126a375334238ce220eb1bc41
+      - pypi: git+https://github.com/MiraGeoscience/geoh5py.git?rev=release%2Fga-4.9#063d09c2582efe21bb2c19c3b8a995ea503f1639
   docs:
     channels:
     - url: https://repo.prefix.dev/conda-forge/
@@ -316,7 +316,7 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/noarch/roman-numerals-4.1.0-pyhd8ed1ab_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/snowballstemmer-3.1.1-pyhd8ed1ab_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/sphinx-9.2.0-pyhc364b38_0.conda
-      - conda: https://repo.prefix.dev/conda-forge/noarch/sphinx-autodoc-typehints-3.17.5-pyhc364b38_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/noarch/sphinx-autodoc-typehints-3.17.6-pyhc364b38_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/sphinx-issues-6.0.0-pyhd8ed1ab_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/sphinx-rtd-theme-3.1.0-h9eada29_2.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/sphinx_rtd_theme-3.1.0-pyhcf101f3_2.conda
@@ -351,7 +351,7 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/noarch/roman-numerals-4.1.0-pyhd8ed1ab_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/snowballstemmer-3.1.1-pyhd8ed1ab_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/sphinx-9.2.0-pyhc364b38_0.conda
-      - conda: https://repo.prefix.dev/conda-forge/noarch/sphinx-autodoc-typehints-3.17.5-pyhc364b38_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/noarch/sphinx-autodoc-typehints-3.17.6-pyhc364b38_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/sphinx-issues-6.0.0-pyhd8ed1ab_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/sphinx-rtd-theme-3.1.0-h9eada29_2.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/sphinx_rtd_theme-3.1.0-pyhcf101f3_2.conda
@@ -411,7 +411,7 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/linux-64/lcms2-2.20-h9073bf1_0.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/ld_impl_linux-64-2.46.1-default_hbd61a6d_103.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/lerc-4.3.0-he78707d_0.conda
-      - conda: https://repo.prefix.dev/conda-forge/linux-64/libaec-1.1.8-h659bb9a_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/linux-64/libaec-1.1.8-h659bb9a_1.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/libblas-3.11.0-12_h4a7cf45_openblas.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/libbrotlicommon-1.2.1-h39a168f_1.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/libbrotlidec-1.2.1-ha411449_1.conda
@@ -483,7 +483,7 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/noarch/munkres-1.1.4-pyhd8ed1ab_1.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/mypy_extensions-1.1.0-pyha770c72_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/packaging-26.3-pyhc364b38_0.conda
-      - conda: https://repo.prefix.dev/conda-forge/noarch/platformdirs-4.14.5-pyh5ded981_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/noarch/platformdirs-4.14.7-pyh5ded981_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/pluggy-1.7.0-pyh5ded981_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/pydantic-2.12.5-pyhcf101f3_1.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/pygments-2.21.0-pyhcf101f3_0.conda
@@ -501,8 +501,8 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/noarch/typing_extensions-4.16.0-pyhcf101f3_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/tzdata-2026e-h5d301ff_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/zipp-4.1.2-pyh5ded981_0.conda
-      - pypi: git+https://github.com/MiraGeoscience/geoapps-utils.git?rev=GA-9778#6267d8e3e038bf25a191d49155cb09a25f3b744a
-      - pypi: git+https://github.com/MiraGeoscience/geoh5py.git?rev=release%2Fga-4.9#5c3fa9df0e006d7544e5d985a9276c74c873e168
+      - pypi: git+https://github.com/MiraGeoscience/geoapps-utils.git?rev=release%2Fga-4.9#f4678415fe33457126a375334238ce220eb1bc41
+      - pypi: git+https://github.com/MiraGeoscience/geoh5py.git?rev=release%2Fga-4.9#063d09c2582efe21bb2c19c3b8a995ea503f1639
       win-64:
       - conda: https://repo.prefix.dev/conda-forge/noarch/annotated-types-0.8.0-pyhd8ed1ab_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/ca-certificates-2026.10.23-h4c7d964_0.conda
@@ -520,7 +520,7 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/noarch/munkres-1.1.4-pyhd8ed1ab_1.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/mypy_extensions-1.1.0-pyha770c72_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/packaging-26.3-pyhc364b38_0.conda
-      - conda: https://repo.prefix.dev/conda-forge/noarch/platformdirs-4.14.5-pyh5ded981_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/noarch/platformdirs-4.14.7-pyh5ded981_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/pluggy-1.7.0-pyh5ded981_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/pydantic-2.12.5-pyhcf101f3_1.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/pygments-2.21.0-pyhcf101f3_0.conda
@@ -554,7 +554,7 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/win-64/krb5-1.22.2-h719d79b_2.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/lcms2-2.20-hf2c6c5f_0.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/lerc-4.3.0-hd936e49_0.conda
-      - conda: https://repo.prefix.dev/conda-forge/win-64/libaec-1.1.8-haf901d7_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/win-64/libaec-1.1.8-h78347af_1.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/libblas-3.11.0-12_h8455456_mkl.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/libbrotlicommon-1.2.1-hf02afa3_1.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/libbrotlidec-1.2.1-h84f9c24_1.conda
@@ -582,7 +582,7 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/win-64/libxml2-16-2.15.4-h3cfd58e_1.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/libxml2-2.15.4-he095d88_1.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/libzlib-1.3.2-hfd05255_3.conda
-      - conda: https://repo.prefix.dev/conda-forge/win-64/llvm-openmp-23.1.5-h49e36cd_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/win-64/llvm-openmp-23.1.6-ha52be66_0.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/matplotlib-base-3.10.9-py312h0ebf65c_0.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/mkl-2026.1.0-hac47afa_235.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/numpy-2.4.6-py312ha3f287d_0.conda
@@ -606,8 +606,8 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/win-64/zlib-1.3.2-hfd05255_3.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/zlib-ng-2.3.3-h0261ad2_1.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/zstd-1.5.7-h534d264_7.conda
-      - pypi: git+https://github.com/MiraGeoscience/geoapps-utils.git?rev=GA-9778#6267d8e3e038bf25a191d49155cb09a25f3b744a
-      - pypi: git+https://github.com/MiraGeoscience/geoh5py.git?rev=release%2Fga-4.9#5c3fa9df0e006d7544e5d985a9276c74c873e168
+      - pypi: git+https://github.com/MiraGeoscience/geoapps-utils.git?rev=release%2Fga-4.9#f4678415fe33457126a375334238ce220eb1bc41
+      - pypi: git+https://github.com/MiraGeoscience/geoh5py.git?rev=release%2Fga-4.9#063d09c2582efe21bb2c19c3b8a995ea503f1639
   py313:
     channels:
     - url: https://repo.prefix.dev/conda-forge/
@@ -635,7 +635,7 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/linux-64/lcms2-2.20-h9073bf1_0.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/ld_impl_linux-64-2.46.1-default_hbd61a6d_103.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/lerc-4.3.0-he78707d_0.conda
-      - conda: https://repo.prefix.dev/conda-forge/linux-64/libaec-1.1.8-h659bb9a_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/linux-64/libaec-1.1.8-h659bb9a_1.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/libblas-3.11.0-12_h4a7cf45_openblas.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/libbrotlicommon-1.2.1-h39a168f_1.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/libbrotlidec-1.2.1-ha411449_1.conda
@@ -705,7 +705,7 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/noarch/munkres-1.1.4-pyhd8ed1ab_1.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/mypy_extensions-1.1.0-pyha770c72_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/packaging-26.3-pyhc364b38_0.conda
-      - conda: https://repo.prefix.dev/conda-forge/noarch/platformdirs-4.14.5-pyh5ded981_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/noarch/platformdirs-4.14.7-pyh5ded981_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/pluggy-1.7.0-pyh5ded981_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/pydantic-2.12.5-pyhcf101f3_1.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/pygments-2.21.0-pyhcf101f3_0.conda
@@ -723,8 +723,8 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/noarch/typing_extensions-4.16.0-pyhcf101f3_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/tzdata-2026e-h5d301ff_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/zipp-4.1.2-pyh5ded981_0.conda
-      - pypi: git+https://github.com/MiraGeoscience/geoapps-utils.git?rev=GA-9778#6267d8e3e038bf25a191d49155cb09a25f3b744a
-      - pypi: git+https://github.com/MiraGeoscience/geoh5py.git?rev=release%2Fga-4.9#5c3fa9df0e006d7544e5d985a9276c74c873e168
+      - pypi: git+https://github.com/MiraGeoscience/geoapps-utils.git?rev=release%2Fga-4.9#f4678415fe33457126a375334238ce220eb1bc41
+      - pypi: git+https://github.com/MiraGeoscience/geoh5py.git?rev=release%2Fga-4.9#063d09c2582efe21bb2c19c3b8a995ea503f1639
       win-64:
       - conda: https://repo.prefix.dev/conda-forge/noarch/annotated-types-0.8.0-pyhd8ed1ab_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/ca-certificates-2026.10.23-h4c7d964_0.conda
@@ -742,7 +742,7 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/noarch/munkres-1.1.4-pyhd8ed1ab_1.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/mypy_extensions-1.1.0-pyha770c72_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/packaging-26.3-pyhc364b38_0.conda
-      - conda: https://repo.prefix.dev/conda-forge/noarch/platformdirs-4.14.5-pyh5ded981_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/noarch/platformdirs-4.14.7-pyh5ded981_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/pluggy-1.7.0-pyh5ded981_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/pydantic-2.12.5-pyhcf101f3_1.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/pygments-2.21.0-pyhcf101f3_0.conda
@@ -776,7 +776,7 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/win-64/krb5-1.22.2-h719d79b_2.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/lcms2-2.20-hf2c6c5f_0.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/lerc-4.3.0-hd936e49_0.conda
-      - conda: https://repo.prefix.dev/conda-forge/win-64/libaec-1.1.8-haf901d7_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/win-64/libaec-1.1.8-h78347af_1.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/libblas-3.11.0-12_h8455456_mkl.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/libbrotlicommon-1.2.1-hf02afa3_1.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/libbrotlidec-1.2.1-h84f9c24_1.conda
@@ -805,7 +805,7 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/win-64/libxml2-16-2.15.4-h3cfd58e_1.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/libxml2-2.15.4-he095d88_1.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/libzlib-1.3.2-hfd05255_3.conda
-      - conda: https://repo.prefix.dev/conda-forge/win-64/llvm-openmp-23.1.5-h49e36cd_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/win-64/llvm-openmp-23.1.6-ha52be66_0.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/matplotlib-base-3.10.9-py313he1ded55_0.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/mkl-2026.1.0-hac47afa_235.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/numpy-2.4.6-py313ha8dc839_0.conda
@@ -828,8 +828,8 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/win-64/zlib-1.3.2-hfd05255_3.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/zlib-ng-2.3.3-h0261ad2_1.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/zstd-1.5.7-h534d264_7.conda
-      - pypi: git+https://github.com/MiraGeoscience/geoapps-utils.git?rev=GA-9778#6267d8e3e038bf25a191d49155cb09a25f3b744a
-      - pypi: git+https://github.com/MiraGeoscience/geoh5py.git?rev=release%2Fga-4.9#5c3fa9df0e006d7544e5d985a9276c74c873e168
+      - pypi: git+https://github.com/MiraGeoscience/geoapps-utils.git?rev=release%2Fga-4.9#f4678415fe33457126a375334238ce220eb1bc41
+      - pypi: git+https://github.com/MiraGeoscience/geoh5py.git?rev=release%2Fga-4.9#063d09c2582efe21bb2c19c3b8a995ea503f1639
   py314:
     channels:
     - url: https://repo.prefix.dev/conda-forge/
@@ -857,7 +857,7 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/linux-64/lcms2-2.20-h9073bf1_0.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/ld_impl_linux-64-2.46.1-default_hbd61a6d_103.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/lerc-4.3.0-he78707d_0.conda
-      - conda: https://repo.prefix.dev/conda-forge/linux-64/libaec-1.1.8-h659bb9a_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/linux-64/libaec-1.1.8-h659bb9a_1.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/libblas-3.11.0-12_h4a7cf45_openblas.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/libbrotlicommon-1.2.1-h39a168f_1.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/libbrotlidec-1.2.1-ha411449_1.conda
@@ -927,7 +927,7 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/noarch/munkres-1.1.4-pyhd8ed1ab_1.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/mypy_extensions-1.1.0-pyha770c72_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/packaging-26.3-pyhc364b38_0.conda
-      - conda: https://repo.prefix.dev/conda-forge/noarch/platformdirs-4.14.5-pyh5ded981_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/noarch/platformdirs-4.14.7-pyh5ded981_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/pluggy-1.7.0-pyh5ded981_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/pydantic-2.12.5-pyhcf101f3_1.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/pygments-2.21.0-pyhcf101f3_0.conda
@@ -945,8 +945,8 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/noarch/typing_extensions-4.16.0-pyhcf101f3_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/tzdata-2026e-h5d301ff_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/zipp-4.1.2-pyh5ded981_0.conda
-      - pypi: git+https://github.com/MiraGeoscience/geoapps-utils.git?rev=GA-9778#6267d8e3e038bf25a191d49155cb09a25f3b744a
-      - pypi: git+https://github.com/MiraGeoscience/geoh5py.git?rev=release%2Fga-4.9#5c3fa9df0e006d7544e5d985a9276c74c873e168
+      - pypi: git+https://github.com/MiraGeoscience/geoapps-utils.git?rev=release%2Fga-4.9#f4678415fe33457126a375334238ce220eb1bc41
+      - pypi: git+https://github.com/MiraGeoscience/geoh5py.git?rev=release%2Fga-4.9#063d09c2582efe21bb2c19c3b8a995ea503f1639
       win-64:
       - conda: https://repo.prefix.dev/conda-forge/noarch/annotated-types-0.8.0-pyhd8ed1ab_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/ca-certificates-2026.10.23-h4c7d964_0.conda
@@ -964,7 +964,7 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/noarch/munkres-1.1.4-pyhd8ed1ab_1.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/mypy_extensions-1.1.0-pyha770c72_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/packaging-26.3-pyhc364b38_0.conda
-      - conda: https://repo.prefix.dev/conda-forge/noarch/platformdirs-4.14.5-pyh5ded981_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/noarch/platformdirs-4.14.7-pyh5ded981_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/pluggy-1.7.0-pyh5ded981_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/pydantic-2.12.5-pyhcf101f3_1.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/pygments-2.21.0-pyhcf101f3_0.conda
@@ -998,7 +998,7 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/win-64/krb5-1.22.2-h719d79b_2.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/lcms2-2.20-hf2c6c5f_0.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/lerc-4.3.0-hd936e49_0.conda
-      - conda: https://repo.prefix.dev/conda-forge/win-64/libaec-1.1.8-haf901d7_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/win-64/libaec-1.1.8-h78347af_1.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/libblas-3.11.0-12_h8455456_mkl.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/libbrotlicommon-1.2.1-hf02afa3_1.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/libbrotlidec-1.2.1-h84f9c24_1.conda
@@ -1027,7 +1027,7 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/win-64/libxml2-16-2.15.4-h3cfd58e_1.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/libxml2-2.15.4-he095d88_1.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/libzlib-1.3.2-hfd05255_3.conda
-      - conda: https://repo.prefix.dev/conda-forge/win-64/llvm-openmp-23.1.5-h49e36cd_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/win-64/llvm-openmp-23.1.6-ha52be66_0.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/matplotlib-base-3.10.9-py314hfa45d96_0.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/mkl-2026.1.0-hac47afa_235.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/numpy-2.4.6-py314h02f10f6_0.conda
@@ -1050,8 +1050,8 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/win-64/zlib-1.3.2-hfd05255_3.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/zlib-ng-2.3.3-h0261ad2_1.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/zstd-1.5.7-h534d264_7.conda
-      - pypi: git+https://github.com/MiraGeoscience/geoapps-utils.git?rev=GA-9778#6267d8e3e038bf25a191d49155cb09a25f3b744a
-      - pypi: git+https://github.com/MiraGeoscience/geoh5py.git?rev=release%2Fga-4.9#5c3fa9df0e006d7544e5d985a9276c74c873e168
+      - pypi: git+https://github.com/MiraGeoscience/geoapps-utils.git?rev=release%2Fga-4.9#f4678415fe33457126a375334238ce220eb1bc41
+      - pypi: git+https://github.com/MiraGeoscience/geoh5py.git?rev=release%2Fga-4.9#063d09c2582efe21bb2c19c3b8a995ea503f1639
   runtime:
     channels:
     - url: https://repo.prefix.dev/conda-forge/
@@ -1077,7 +1077,7 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/linux-64/lcms2-2.20-h9073bf1_0.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/ld_impl_linux-64-2.46.1-default_hbd61a6d_103.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/lerc-4.3.0-he78707d_0.conda
-      - conda: https://repo.prefix.dev/conda-forge/linux-64/libaec-1.1.8-h659bb9a_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/linux-64/libaec-1.1.8-h659bb9a_1.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/libblas-3.11.0-12_h4a7cf45_openblas.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/libbrotlicommon-1.2.1-h39a168f_1.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/libbrotlidec-1.2.1-ha411449_1.conda
@@ -1148,8 +1148,8 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/noarch/typing-inspection-0.4.5-pyh5ded981_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/typing_extensions-4.16.0-pyhcf101f3_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/tzdata-2026e-h5d301ff_0.conda
-      - pypi: git+https://github.com/MiraGeoscience/geoapps-utils.git?rev=GA-9778#6267d8e3e038bf25a191d49155cb09a25f3b744a
-      - pypi: git+https://github.com/MiraGeoscience/geoh5py.git?rev=release%2Fga-4.9#5c3fa9df0e006d7544e5d985a9276c74c873e168
+      - pypi: git+https://github.com/MiraGeoscience/geoapps-utils.git?rev=release%2Fga-4.9#f4678415fe33457126a375334238ce220eb1bc41
+      - pypi: git+https://github.com/MiraGeoscience/geoh5py.git?rev=release%2Fga-4.9#063d09c2582efe21bb2c19c3b8a995ea503f1639
       win-64:
       - conda: https://repo.prefix.dev/conda-forge/noarch/annotated-types-0.8.0-pyhd8ed1ab_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/ca-certificates-2026.10.23-h4c7d964_0.conda
@@ -1182,7 +1182,7 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/win-64/krb5-1.22.2-h719d79b_2.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/lcms2-2.20-hf2c6c5f_0.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/lerc-4.3.0-hd936e49_0.conda
-      - conda: https://repo.prefix.dev/conda-forge/win-64/libaec-1.1.8-haf901d7_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/win-64/libaec-1.1.8-h78347af_1.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/libblas-3.11.0-12_h8455456_mkl.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/libbrotlicommon-1.2.1-hf02afa3_1.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/libbrotlidec-1.2.1-h84f9c24_1.conda
@@ -1210,7 +1210,7 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/win-64/libxml2-16-2.15.4-h3cfd58e_1.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/libxml2-2.15.4-he095d88_1.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/libzlib-1.3.2-hfd05255_3.conda
-      - conda: https://repo.prefix.dev/conda-forge/win-64/llvm-openmp-23.1.5-h49e36cd_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/win-64/llvm-openmp-23.1.6-ha52be66_0.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/matplotlib-base-3.10.9-py312h0ebf65c_0.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/mkl-2026.1.0-hac47afa_235.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/numpy-2.4.6-py312ha3f287d_0.conda
@@ -1232,8 +1232,8 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/win-64/zlib-1.3.2-hfd05255_3.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/zlib-ng-2.3.3-h0261ad2_1.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/zstd-1.5.7-h534d264_7.conda
-      - pypi: git+https://github.com/MiraGeoscience/geoapps-utils.git?rev=GA-9778#6267d8e3e038bf25a191d49155cb09a25f3b744a
-      - pypi: git+https://github.com/MiraGeoscience/geoh5py.git?rev=release%2Fga-4.9#5c3fa9df0e006d7544e5d985a9276c74c873e168
+      - pypi: git+https://github.com/MiraGeoscience/geoapps-utils.git?rev=release%2Fga-4.9#f4678415fe33457126a375334238ce220eb1bc41
+      - pypi: git+https://github.com/MiraGeoscience/geoh5py.git?rev=release%2Fga-4.9#063d09c2582efe21bb2c19c3b8a995ea503f1639
   runtime-py313:
     channels:
     - url: https://repo.prefix.dev/conda-forge/
@@ -1259,7 +1259,7 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/linux-64/lcms2-2.20-h9073bf1_0.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/ld_impl_linux-64-2.46.1-default_hbd61a6d_103.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/lerc-4.3.0-he78707d_0.conda
-      - conda: https://repo.prefix.dev/conda-forge/linux-64/libaec-1.1.8-h659bb9a_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/linux-64/libaec-1.1.8-h659bb9a_1.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/libblas-3.11.0-12_h4a7cf45_openblas.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/libbrotlicommon-1.2.1-h39a168f_1.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/libbrotlidec-1.2.1-ha411449_1.conda
@@ -1328,8 +1328,8 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/noarch/typing-inspection-0.4.5-pyh5ded981_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/typing_extensions-4.16.0-pyhcf101f3_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/tzdata-2026e-h5d301ff_0.conda
-      - pypi: git+https://github.com/MiraGeoscience/geoapps-utils.git?rev=GA-9778#6267d8e3e038bf25a191d49155cb09a25f3b744a
-      - pypi: git+https://github.com/MiraGeoscience/geoh5py.git?rev=release%2Fga-4.9#5c3fa9df0e006d7544e5d985a9276c74c873e168
+      - pypi: git+https://github.com/MiraGeoscience/geoapps-utils.git?rev=release%2Fga-4.9#f4678415fe33457126a375334238ce220eb1bc41
+      - pypi: git+https://github.com/MiraGeoscience/geoh5py.git?rev=release%2Fga-4.9#063d09c2582efe21bb2c19c3b8a995ea503f1639
       win-64:
       - conda: https://repo.prefix.dev/conda-forge/noarch/annotated-types-0.8.0-pyhd8ed1ab_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/ca-certificates-2026.10.23-h4c7d964_0.conda
@@ -1362,7 +1362,7 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/win-64/krb5-1.22.2-h719d79b_2.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/lcms2-2.20-hf2c6c5f_0.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/lerc-4.3.0-hd936e49_0.conda
-      - conda: https://repo.prefix.dev/conda-forge/win-64/libaec-1.1.8-haf901d7_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/win-64/libaec-1.1.8-h78347af_1.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/libblas-3.11.0-12_h8455456_mkl.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/libbrotlicommon-1.2.1-hf02afa3_1.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/libbrotlidec-1.2.1-h84f9c24_1.conda
@@ -1391,7 +1391,7 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/win-64/libxml2-16-2.15.4-h3cfd58e_1.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/libxml2-2.15.4-he095d88_1.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/libzlib-1.3.2-hfd05255_3.conda
-      - conda: https://repo.prefix.dev/conda-forge/win-64/llvm-openmp-23.1.5-h49e36cd_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/win-64/llvm-openmp-23.1.6-ha52be66_0.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/matplotlib-base-3.10.9-py313he1ded55_0.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/mkl-2026.1.0-hac47afa_235.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/numpy-2.4.6-py313ha8dc839_0.conda
@@ -1412,8 +1412,8 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/win-64/zlib-1.3.2-hfd05255_3.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/zlib-ng-2.3.3-h0261ad2_1.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/zstd-1.5.7-h534d264_7.conda
-      - pypi: git+https://github.com/MiraGeoscience/geoapps-utils.git?rev=GA-9778#6267d8e3e038bf25a191d49155cb09a25f3b744a
-      - pypi: git+https://github.com/MiraGeoscience/geoh5py.git?rev=release%2Fga-4.9#5c3fa9df0e006d7544e5d985a9276c74c873e168
+      - pypi: git+https://github.com/MiraGeoscience/geoapps-utils.git?rev=release%2Fga-4.9#f4678415fe33457126a375334238ce220eb1bc41
+      - pypi: git+https://github.com/MiraGeoscience/geoh5py.git?rev=release%2Fga-4.9#063d09c2582efe21bb2c19c3b8a995ea503f1639
   runtime-py314:
     channels:
     - url: https://repo.prefix.dev/conda-forge/
@@ -1439,7 +1439,7 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/linux-64/lcms2-2.20-h9073bf1_0.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/ld_impl_linux-64-2.46.1-default_hbd61a6d_103.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/lerc-4.3.0-he78707d_0.conda
-      - conda: https://repo.prefix.dev/conda-forge/linux-64/libaec-1.1.8-h659bb9a_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/linux-64/libaec-1.1.8-h659bb9a_1.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/libblas-3.11.0-12_h4a7cf45_openblas.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/libbrotlicommon-1.2.1-h39a168f_1.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/libbrotlidec-1.2.1-ha411449_1.conda
@@ -1508,8 +1508,8 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/noarch/typing-inspection-0.4.5-pyh5ded981_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/typing_extensions-4.16.0-pyhcf101f3_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/tzdata-2026e-h5d301ff_0.conda
-      - pypi: git+https://github.com/MiraGeoscience/geoapps-utils.git?rev=GA-9778#6267d8e3e038bf25a191d49155cb09a25f3b744a
-      - pypi: git+https://github.com/MiraGeoscience/geoh5py.git?rev=release%2Fga-4.9#5c3fa9df0e006d7544e5d985a9276c74c873e168
+      - pypi: git+https://github.com/MiraGeoscience/geoapps-utils.git?rev=release%2Fga-4.9#f4678415fe33457126a375334238ce220eb1bc41
+      - pypi: git+https://github.com/MiraGeoscience/geoh5py.git?rev=release%2Fga-4.9#063d09c2582efe21bb2c19c3b8a995ea503f1639
       win-64:
       - conda: https://repo.prefix.dev/conda-forge/noarch/annotated-types-0.8.0-pyhd8ed1ab_0.conda
       - conda: https://repo.prefix.dev/conda-forge/noarch/ca-certificates-2026.10.23-h4c7d964_0.conda
@@ -1542,7 +1542,7 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/win-64/krb5-1.22.2-h719d79b_2.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/lcms2-2.20-hf2c6c5f_0.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/lerc-4.3.0-hd936e49_0.conda
-      - conda: https://repo.prefix.dev/conda-forge/win-64/libaec-1.1.8-haf901d7_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/win-64/libaec-1.1.8-h78347af_1.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/libblas-3.11.0-12_h8455456_mkl.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/libbrotlicommon-1.2.1-hf02afa3_1.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/libbrotlidec-1.2.1-h84f9c24_1.conda
@@ -1571,7 +1571,7 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/win-64/libxml2-16-2.15.4-h3cfd58e_1.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/libxml2-2.15.4-he095d88_1.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/libzlib-1.3.2-hfd05255_3.conda
-      - conda: https://repo.prefix.dev/conda-forge/win-64/llvm-openmp-23.1.5-h49e36cd_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/win-64/llvm-openmp-23.1.6-ha52be66_0.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/matplotlib-base-3.10.9-py314hfa45d96_0.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/mkl-2026.1.0-hac47afa_235.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/numpy-2.4.6-py314h02f10f6_0.conda
@@ -1592,8 +1592,8 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/win-64/zlib-1.3.2-hfd05255_3.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/zlib-ng-2.3.3-h0261ad2_1.conda
       - conda: https://repo.prefix.dev/conda-forge/win-64/zstd-1.5.7-h534d264_7.conda
-      - pypi: git+https://github.com/MiraGeoscience/geoapps-utils.git?rev=GA-9778#6267d8e3e038bf25a191d49155cb09a25f3b744a
-      - pypi: git+https://github.com/MiraGeoscience/geoh5py.git?rev=release%2Fga-4.9#5c3fa9df0e006d7544e5d985a9276c74c873e168
+      - pypi: git+https://github.com/MiraGeoscience/geoapps-utils.git?rev=release%2Fga-4.9#f4678415fe33457126a375334238ce220eb1bc41
+      - pypi: git+https://github.com/MiraGeoscience/geoh5py.git?rev=release%2Fga-4.9#063d09c2582efe21bb2c19c3b8a995ea503f1639
 packages:
 - conda: https://repo.prefix.dev/conda-forge/linux-64/_openmp_mutex-4.5-20_gnu.conda
   build_number: 20
@@ -2143,9 +2143,9 @@ packages:
     - lerc >=4.3.0,<5.0a0
   size: 269911
   timestamp: 1793411350746
-- conda: https://repo.prefix.dev/conda-forge/linux-64/libaec-1.1.8-h659bb9a_0.conda
-  sha256: 8713c688139eda3987985cc38e26a048e2df5a19559d3fa54653e3dd1b7af8b1
-  md5: e7260631cc8fec309a7f740a2ef1d1f6
+- conda: https://repo.prefix.dev/conda-forge/linux-64/libaec-1.1.8-h659bb9a_1.conda
+  sha256: 6cee548d679064388e179f43e1745eca9eff788d77cc09e27ef89ef73395cc5d
+  md5: 8085dc935558907b03953f480b8772d4
   depends:
   - __glibc >=2.17,<3.0.a0
   - libgcc >=15
@@ -2156,8 +2156,8 @@ packages:
   run_exports:
     weak:
     - libaec >=1.1.8,<2.0a0
-  size: 38007
-  timestamp: 1794452473771
+  size: 38269
+  timestamp: 1795003593852
 - conda: https://repo.prefix.dev/conda-forge/linux-64/libblas-3.11.0-12_h4a7cf45_openblas.conda
   build_number: 12
   sha256: 6a6263c3d4a484dbac4ae7a8191be5f868c0574bbc7faa42b258bb59dc6d5fa2
@@ -3982,9 +3982,9 @@ packages:
   run_exports: {}
   size: 7188
   timestamp: 1783850402995
-- conda: https://repo.prefix.dev/conda-forge/noarch/platformdirs-4.14.5-pyh5ded981_0.conda
-  sha256: 8bbb25f131001457e5fd19385000e9d6a8047223a35f4c507d92113eb68d42f9
-  md5: 07cf1805b475a26f12362b1a65b62d48
+- conda: https://repo.prefix.dev/conda-forge/noarch/platformdirs-4.14.7-pyh5ded981_0.conda
+  sha256: 961bf26704dc91e4c90e04d73b4553237a3f8fd3e28c1602375da4b5162f8319
+  md5: f5ead77823454e222b1e7c4d8266f6c3
   depends:
   - python >=3.11
   - python
@@ -3993,8 +3993,8 @@ packages:
   purls:
   - pkg:pypi/platformdirs?source=compressed-mapping
   run_exports: {}
-  size: 35917
-  timestamp: 1793824703254
+  size: 90635
+  timestamp: 1795010150063
 - conda: https://repo.prefix.dev/conda-forge/noarch/pluggy-1.7.0-pyh5ded981_0.conda
   sha256: 34c40106bc3172b3a47656e84837e13a5d4829d413d65f30fb214e7568a09cea
   md5: 50c6bcd41b7ceaaeeea8852e3198663e
@@ -4328,19 +4328,21 @@ packages:
   run_exports: {}
   size: 1588783
   timestamp: 1792587728747
-- conda: https://repo.prefix.dev/conda-forge/noarch/sphinx-autodoc-typehints-3.17.5-pyhc364b38_0.conda
-  sha256: 2d4c4406ae0245f7f698b759c06fe34f4e53bfd0c25f6ef9f13119d6782badf9
-  md5: dad03a028c8524b4e21076854919872f
+- conda: https://repo.prefix.dev/conda-forge/noarch/sphinx-autodoc-typehints-3.17.6-pyhc364b38_0.conda
+  sha256: e80c784ac36a5d9ffbd572a716a06df6d10f26147e63d93e6cc478807695889b
+  md5: 29f43c803be4e3a50287c8d103eb4e0b
   depends:
   - python >=3.12
   - sphinx >=9.1
   - typing_extensions >=4.16
+  - pygments >=2.17
+  - docutils >=0.21
   - python
   license: MIT
   license_family: MIT
   run_exports: {}
-  size: 100187
-  timestamp: 1793791946915
+  size: 155402
+  timestamp: 1795013197045
 - conda: https://repo.prefix.dev/conda-forge/noarch/sphinx-issues-6.0.0-pyhd8ed1ab_0.conda
   sha256: 5003011c5275f4a939910b9a0305e5d667cf415422fcfacda1230bc7dd1963fa
   md5: f95d2277015b395fee827586ff6add8d
@@ -5103,9 +5105,9 @@ packages:
     - lerc >=4.3.0,<5.0a0
   size: 174409
   timestamp: 1793411347584
-- conda: https://repo.prefix.dev/conda-forge/win-64/libaec-1.1.8-haf901d7_0.conda
-  sha256: 4f69afc35cf39c83c908fb2767d38c5204e9f31003ac35e5aaa58d9d85deb796
-  md5: 4b8d2f3802a66a9044b7620c22d8593a
+- conda: https://repo.prefix.dev/conda-forge/win-64/libaec-1.1.8-h78347af_1.conda
+  sha256: c76b2d4a96206123d9656be5bc849dcdc23f684ff615e45030a4f89d8502e0c5
+  md5: 3ecabab30bc3d0d17364de737f39074a
   depends:
   - ucrt >=10.0.20348.0
   - vc >=14.3,<15
@@ -5116,8 +5118,8 @@ packages:
   run_exports:
     weak:
     - libaec >=1.1.8,<2.0a0
-  size: 35837
-  timestamp: 1794452476636
+  size: 35752
+  timestamp: 1795003576039
 - conda: https://repo.prefix.dev/conda-forge/win-64/libblas-3.11.0-12_h8455456_mkl.conda
   build_number: 12
   sha256: a117e7309c4f2875bb26030fddea63fd13274c8bc6c21a69594edc3b6818911d
@@ -5593,24 +5595,20 @@ packages:
     - libzlib >=1.3.2,<2.0a0
   size: 58529
   timestamp: 1785276664143
-- conda: https://repo.prefix.dev/conda-forge/win-64/llvm-openmp-23.1.5-h49e36cd_0.conda
-  sha256: f7b5e57c99568c23d97759820b9bb2eeae47dff5ba024ddc9dcdc08780da527d
-  md5: a5214fc108716578f1e920567309fcc3
-  depends:
-  - ucrt >=10.0.20348.0
-  - vc >=14.3,<15
-  - vc14_runtime >=14.44.35208
+- conda: https://repo.prefix.dev/conda-forge/win-64/llvm-openmp-23.1.6-ha52be66_0.conda
+  sha256: 3b5aeda26c74ed70b42503a7c3a407eec772df0b265c821a2bcda399a8589c8e
+  md5: e0c499c8655924f238a57a8ea0a73845
   constrains:
   - intel-openmp <0.0a0
-  - openmp 23.1.5|23.1.5.*
+  - openmp 23.1.6|23.1.6.*
   license: Apache-2.0 WITH LLVM-exception
   license_family: APACHE
   purls: []
   run_exports:
     strong:
-    - llvm-openmp >=23.1.5
-  size: 344024
-  timestamp: 1793827999834
+    - llvm-openmp >=23.1.6
+  size: 343612
+  timestamp: 1795042294536
 - conda: https://repo.prefix.dev/conda-forge/win-64/markupsafe-3.0.4-py314h9aa99d3_5.conda
   sha256: 7e51112f08ed3efdc3de143eb76ae914d2610ea3e53c4036caacf6e05e26f932
   md5: d64bba6dd2870a65ac3bc3851d2211ee
@@ -6416,9 +6414,9 @@ packages:
     - zstd >=1.5.7,<1.6.0a0
   size: 387535
   timestamp: 1786599623274
-- pypi: git+https://github.com/MiraGeoscience/geoapps-utils.git?rev=GA-9778#6267d8e3e038bf25a191d49155cb09a25f3b744a
+- pypi: git+https://github.com/MiraGeoscience/geoapps-utils.git?rev=release%2Fga-4.9#f4678415fe33457126a375334238ce220eb1bc41
   name: geoapps-utils
-  version: 0.8.0b2.dev39+6267d8e
+  version: 0.8.0b2.dev41+f467841
   requires_dist:
   - geoh5py>=0.14.0b1,<0.15
   - matplotlib==3.10.*
@@ -6426,9 +6424,9 @@ packages:
   - pydantic==2.12.*
   - scipy==1.17.*
   requires_python: '>=3.12,<3.15'
-- pypi: git+https://github.com/MiraGeoscience/geoh5py.git?rev=release%2Fga-4.9#5c3fa9df0e006d7544e5d985a9276c74c873e168
+- pypi: git+https://github.com/MiraGeoscience/geoh5py.git?rev=release%2Fga-4.9#063d09c2582efe21bb2c19c3b8a995ea503f1639
   name: geoh5py
-  version: 0.14.0b2.dev61+5c3fa9df
+  version: 0.14.0b2.dev68+063d09c2
   requires_dist:
   - pillow==13.*
   - defusedxml>=0.7.1,<0.8
